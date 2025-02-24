@@ -25,6 +25,7 @@
       "alt-tab"
       "autodesk-fusion"
       "balenaetcher"
+      "bettermouse"
       "bitwarden"
       "brave-browser"
       "discord"
