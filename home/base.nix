@@ -73,7 +73,7 @@
     watch
     wcurl
     wget
-    xsv
+    xan # active fork of xsv
     xz
     yt-dlp
     zstd

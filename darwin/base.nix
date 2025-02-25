@@ -41,7 +41,7 @@
     remapCapsLockToControl = true;
   };
 
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   security.sudo.extraConfig = ''
     %admin ALL=(ALL:ALL) NOPASSWD: ${config.system.build.darwin-rebuild}/bin/darwin-rebuild
