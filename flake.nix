@@ -6,9 +6,19 @@
       home-manager,
       nix-darwin,
     }:
+    let
+      myPackages = (
+        final: prev: {
+          litra-autotoggle = prev.callPackage ./pkgs/litra-autotoggle.nix { };
+        }
+      );
+    in
     {
       homeConfigurations."bbennett@strongbad-wsl" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          overlays = [ myPackages ];
+        };
         modules = [
           {
             targets.genericLinux.enable = true;
@@ -24,21 +34,22 @@
       darwinConfigurations.bbennett-MacBookPro = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
+          { nixpkgs.overlays = [ myPackages ]; }
           ./darwin/base.nix
+          ./darwin/bluecore.nix
           home-manager.darwinModules.home-manager
           {
             users.users.bbennett.home = "/Users/bbennett";
 
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.bbennett =
-              { ... }:
-              {
-                imports = [
-                  ./home/base.nix
-                  ./home/bluecore.nix
-                ];
-              };
+            home-manager.users.bbennett = {
+              imports = [
+                ./home/base.nix
+                ./home/bluecore.nix
+                ./home/darwin.nix
+              ];
+            };
           }
         ];
       };

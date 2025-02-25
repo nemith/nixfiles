@@ -1,4 +1,8 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 
 {
   home.shell.enableZshIntegration = true;
@@ -21,6 +25,8 @@
   home.sessionVariables = {
     COLORTERM = "truecolor";
     LESS = "--quit-if-one-screen";
+    PAGER = "most";
+    MANROFFOPT = "-c";
   };
 
   home.packages = with pkgs; [
@@ -33,6 +39,7 @@
     curlie
     delta
     duf
+    fastfetch
     file
     gnumake
     gnutar
@@ -50,8 +57,9 @@
     most
     mtr
     ncdu
-    neofetch
+    nh
     nixfmt-rfc-style
+    nvd
     nmap
     procs
     protobuf
@@ -63,6 +71,7 @@
     trurl
     unzip
     watch
+    wcurl
     wget
     xsv
     xz
@@ -87,14 +96,24 @@
 
     elixir
     gleam
-    gofumpt
-    golangci-lint
     nodePackages.prettier
     nodejs_23
     python313
     rustup
     uv
+
+    lldb
+
+    gopls
+    gofumpt
+    golangci-lint
+    golangci-lint-langserver
+    delve
+
+    nil # language server for nix
+
     zig
+    zls
   ];
 
   programs.bat = {
@@ -154,7 +173,21 @@
 
     maintenance.enable = true;
 
-    delta.enable = true;
+    delta = {
+      enable = true;
+      options = {
+        file-style- = "bright-yellow";
+        hunk-header-style = "bold syntax";
+        minus-style = "bold red";
+        minus-non-emph-style = "bold red";
+        minus-emph-style = "bold red 52";
+        zero-style = "normal";
+        plus-style = "bold green";
+        plus-non-emph-style = "bold green";
+        plus-emph-style = "bold green 22";
+        line-numbers = true;
+      };
+    };
 
     extraConfig = {
       init = {
@@ -186,6 +219,19 @@
   programs.helix = {
     enable = true;
     defaultEditor = true;
+
+    settings = {
+      theme = "adwaita-dark";
+
+      editor.end-of-line-diagnostics = "hint";
+      editor.inline-diagnostics.cursor-line = "warning";
+    };
+
+    languages = {
+      language-server.gopls.config = {
+        gofumpt = true;
+      };
+    };
   };
 
   programs.jq = {
