@@ -8,6 +8,7 @@
   home.shell.enableZshIntegration = true;
 
   home.shellAliases = {
+    cd = "z";
     e = "\${EDITOR:-nvim}";
     egrep = "egrep --color=auto";
     fgrep = "fgrep --color=auto";
@@ -86,7 +87,7 @@
     bazel-buildtools
     bazelisk
     buildkite-cli
-    ent
+    ent-go
     google-cloud-sdk
     kubernetes-helm
     kubectl
