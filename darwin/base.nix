@@ -59,36 +59,26 @@
       cleanup = "zap";
     };
 
-    brews = [
-      "mas"
-    ];
-
     casks = [
       "alt-tab"
       "autodesk-fusion"
       "balenaetcher"
       "bettermouse"
       "bitwarden"
-      "brave-browser"
       "discord"
       "docker"
       "ente"
       "firefox"
-      "font-blex-mono-nerd-font"
-      "font-consolas-for-powerline"
-      "font-dosis"
-      "font-fira-code"
-      "font-firago"
-      "font-ia-writer-mono"
-      "font-jetbrains-mono"
-      "font-jetbrains-mono-nerd-font"
-      "font-meslo-for-powerline"
       "geekbench"
       "ghostty"
       "gimp"
       "google-drive"
       "istat-menus"
       "iterm2"
+      {
+        name = "librewolf";
+	args.no_quarantine = true;
+      }
       "logseq"
       "menuwhere"
       "orcaslicer"
@@ -97,6 +87,7 @@
       "steam"
       "utm"
       "visual-studio-code"
+      "vivaldi"
       "vlc"
       "whatsapp"
       "wireshark"

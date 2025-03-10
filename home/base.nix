@@ -6,10 +6,10 @@
 
 {
   home.shell.enableZshIntegration = true;
+  home.shell.enableFishIntegration = true;
 
   home.shellAliases = {
     cd = "z";
-    e = "\${EDITOR:-nvim}";
     egrep = "egrep --color=auto";
     fgrep = "fgrep --color=auto";
     grep = "grep --color=auto";
@@ -17,7 +17,6 @@
     ll = "eza -la";
     ls = "eza";
     vi = "nvim";
-    path = "echo -e \${PATH//:/\\n}";
     now = "date +\"%T\"";
     nowtime = "now";
     nowdate = "date +\"%d-%m-%Y\"";
@@ -115,6 +114,15 @@
 
     zig
     zls
+
+    # fonts
+    dosis
+    fira-go
+    nerd-fonts.blex-mono
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.meslo-lg
+    vista-fonts #consolas
   ];
 
   programs.bat = {
@@ -150,6 +158,10 @@
   };
 
   programs.fd = {
+    enable = true;
+  };
+
+  programs.fish = {
     enable = true;
   };
 
@@ -307,6 +319,10 @@
     history = {
       append = true;
       extended = true;
+    };
+    shellAliases = {
+      e = "\${EDITOR:-nvim}";
+      path = "echo -e \${PATH//:/\\n}";
     };
     historySubstringSearch.enable = true;
   };
