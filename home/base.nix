@@ -1,6 +1,6 @@
 {
-  config,
   pkgs,
+  inputs,
   ...
 }:
 
@@ -9,17 +9,23 @@
   home.shell.enableFishIntegration = true;
 
   home.shellAliases = {
+    bazel = "bazelisk";
     cd = "z";
+    e = "earthly";
     egrep = "egrep --color=auto";
     fgrep = "fgrep --color=auto";
     grep = "grep --color=auto";
     ip = "ip -color";
+    k = "kubectl";
+    kctx = "kubectx";
+    kns = "kubens";
+    ktx = "kubectx";
     ll = "eza -la";
     ls = "eza";
-    vi = "nvim";
     now = "date +\"%T\"";
-    nowtime = "now";
     nowdate = "date +\"%d-%m-%Y\"";
+    nowtime = "now";
+    vi = "nvim";
   };
 
   home.sessionVariables = {
@@ -29,29 +35,46 @@
     MANROFFOPT = "-c";
   };
 
+  home.sessionPath = [
+    "$HOME/.local/bin"
+    "$HOME/.local/go/bin"
+  ];
+
   home.packages = with pkgs; [
     ansible-lint
     ast-grep
+    bandwhich
     bottom
+    btop
     buf
-    coreutils
+    claude-code
     curl
     curlie
+    cyme
     delta
     duf
+    dust
     fastfetch
+    fend
     file
+    glances
     gnumake
     gnutar
     graphviz
+    grex
     gron
     grpcui
     grpcurl
+    hexyl
     htop
+    hurl
+    hyperfine
     inetutils
     iperf
     just
     lazydocker
+    miniserve
+    mitmproxy
     moreutils
     mosh
     most
@@ -59,30 +82,43 @@
     ncdu
     nh
     nixfmt-rfc-style
-    nvd
     nmap
+    nvd
+    picocom
+    pre-commit
     procs
     protobuf
+    psutils
     scc
+    sd
     sleek
     socat
     sqlite
+    tcpdump
+    tokei
     tree
     trurl
+    unar
+    unrar-wrapper
     unzip
+    uutils-coreutils-noprefix
+    viddy
     watch
     wcurl
     wget
     xan # active fork of xsv
+    xh # clone of httpie
     xz
+    yq
     yt-dlp
     zstd
 
     postgresql_16
     ansible
 
-    atlas
-    awscli
+    # atlas
+    awscli2
+    aws-vault
     bazel-buildtools
     bazelisk
     buildkite-cli
@@ -93,21 +129,26 @@
     kubectx
     kubeswitch
     kustomize
+    terraform
+    opentofu
 
     elixir
     gleam
     nodePackages.prettier
-    nodejs_23
-    python313
+    nodejs # LTS
     rustup
-    uv
-
     lldb
 
+    # python
+    python313
+    uv
+    poetry
+
+    # go
     gopls
     gofumpt
     golangci-lint
-    golangci-lint-langserver
+    #golangci-lint-langserver
     delve
 
     nil # language server for nix
@@ -120,9 +161,12 @@
     fira-go
     nerd-fonts.blex-mono
     nerd-fonts.fira-code
+    nerd-fonts.im-writing
     nerd-fonts.jetbrains-mono
     nerd-fonts.meslo-lg
-    vista-fonts #consolas
+    nerd-fonts.space-mono
+    nerd-fonts.terminess-ttf
+    vista-fonts # consolas
   ];
 
   programs.bat = {
@@ -224,7 +268,6 @@
 
   programs.go = {
     enable = true;
-    package = pkgs.go_1_24;
     goPath = ".local/go";
     telemetry.mode = "off";
   };
@@ -260,6 +303,9 @@
     settings = {
       email = "brandon@brbe.me";
       name = "Brandon Bennett";
+      ui = {
+        paginate = "auto";
+      };
     };
   };
 
@@ -274,6 +320,115 @@
 
   programs.neovim = {
     enable = true;
+
+    extraPackages = with pkgs; [
+      lua-language-server
+      stylua
+      ripgrep
+    ];
+
+    plugins = with pkgs.vimPlugins; [
+      lazy-nvim
+    ];
+  };
+
+  programs.oh-my-posh = {
+    enable = true;
+
+    settings = {
+      version = 3;
+      final_space = true;
+      blocks = [
+        {
+          type = "prompt";
+          alignment = "left";
+          segments = [
+            # USER
+            {
+              type = "session";
+              foreground = "lightYellow";
+              template = " {{ .UserName }}{{ if .SSHSession }}@{{ .HostName }}{{ end }} ";
+            }
+            # PATH
+            {
+              type = "path";
+              foreground = "lightCyan";
+              template = " {{ .Path }} ";
+              properties = {
+                style = "powerlevel";
+              };
+            }
+            # K8S
+            {
+              type = "kubectl";
+              foreground = "lightCyan";
+              template = "󱇶 {{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}} ";
+              properties = {
+                context_aliases = {
+                  gke_bluecore-qa-gke_us-central1_qa = "bcqa";
+                  gke_bluecore-prod-gke_us-central1_prod = "bcprod";
+		  "arn:aws:eks:us-west-2:106531118578:cluster/alby-staging-eks" = "alby-staging-eks";
+	     	  "arn:aws:eks:us-west-2:687585068688:cluster/alby-preprod-eks" = "alby-preprod-ekf";
+                };
+              };
+            }
+            # GIT
+            {
+              type = "git";
+              foreground = "lightMagenta";
+              template = "{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }} ";
+              properties = {
+                branch_icon = " ";
+                fetch_status = true;
+              };
+            }
+          ];
+        }
+        # RIGHT SEGMENT
+        {
+          type = "prompt";
+          alignment = "right";
+          segments = [
+            # BATTERY
+            {
+              type = "battery";
+              template = "{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}% ";
+              foreground = "lightGreen";
+              foreground_templates = [
+                "{{if lt 10 .Percentage}lightRed{{end}}"
+                "{{if lt 30 .Percentage}lightYellow{{end}}"
+              ];
+              properties = {
+                charged_icon = "󰁹 ";
+                charging_icon = " ";
+                discharging_icon = "󰂃 ";
+              };
+            }
+            # TIME
+            {
+              type = "time";
+              foreground = "lightYellow";
+              template = " {{ .CurrentDate | date .Format }}";
+            }
+          ];
+        }
+        {
+          type = "prompt";
+          alignment = "left";
+          newline = true;
+          segments = [
+            {
+              type = "text";
+              foreground = "lightWhite";
+              template = "❯";
+            }
+          ];
+        }
+      ];
+      transient_prompt = {
+        template = "{{ .Folder }}> ";
+      };
+    };
   };
 
   programs.ripgrep = {
@@ -289,14 +444,19 @@
     enable = true;
   };
 
-  programs.starship = {
-    enable = true;
-  };
+  #  programs.starship = {
+  #    enable = true;
+  #    settings = {
+  #      kubernetes.disabled = false;
+  #    };
+  #  };
 
   programs.tealdeer = {
     enable = true;
     settings = {
-      auto_update = true;
+      updates = {
+        auto_update = true;
+      };
     };
   };
 
@@ -321,7 +481,6 @@
       extended = true;
     };
     shellAliases = {
-      e = "\${EDITOR:-nvim}";
       path = "echo -e \${PATH//:/\\n}";
     };
     historySubstringSearch.enable = true;

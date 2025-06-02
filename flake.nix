@@ -19,7 +19,8 @@
       nixpkgs,
       home-manager,
       nix-darwin,
-    }:
+      ...
+    }@inputs:
     let
       myPackages = (
         final: prev: {
@@ -28,10 +29,13 @@
       );
     in
     {
-      homeConfigurations."bbennett@strongbad-wsl" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."bbennett@strongbad" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = "x86_64-linux";
           overlays = [ myPackages ];
+        };
+        extraSpecialArgs = {
+          inherit inputs;
         };
         modules = [
           {
@@ -41,7 +45,6 @@
             home.homeDirectory = "/home/bbennett";
           }
           ./home/home.nix
-          ./home/bluecore.nix
         ];
       };
 
@@ -57,6 +60,9 @@
 
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {
+             inherit inputs;
+            };
             home-manager.users.bbennett = {
               imports = [
                 ./home/base.nix

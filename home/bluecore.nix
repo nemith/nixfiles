@@ -1,10 +1,8 @@
 { config, pkgs, ... }:
 {
   home.shellAliases = {
-    kq = "kubectl --context=$(kubectx | grep qa)";
-    kp = "kubectl --context=$(kubectx | grep prod)";
-    kns = "kubens";
-    ktx = "kubectx";
+    kq = "kubectl --context=gke_bluecore-qa-gke_us-central1_qa";
+    kp = "kubectl --context=gke_bluecore-prod-gke_us-central1_prod";
   };
 
   home.packages = with pkgs; [

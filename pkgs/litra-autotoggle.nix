@@ -6,13 +6,13 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "litra-autotoggle";
-  version = "0.6.1"; # Update this based on the latest tag/release
+  version = "0.6.1"; 
   useFetchCargoVendor = true;
 
   src = fetchFromGitHub {
     owner = "timrogers";
     repo = "litra-autotoggle";
-    rev = "${version}";
+    rev = "v${version}";
     sha256 = "sha256-CoP9t8uvErvP3sU51pfsjsY/xp/zXNVcgXP8WmONz60=";
   };
 
