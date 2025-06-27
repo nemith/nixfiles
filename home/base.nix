@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }:
 
@@ -11,7 +12,6 @@
   home.shellAliases = {
     bazel = "bazelisk";
     cd = "z";
-    e = "earthly";
     egrep = "egrep --color=auto";
     fgrep = "fgrep --color=auto";
     grep = "grep --color=auto";
@@ -33,12 +33,16 @@
     LESS = "--quit-if-one-screen";
     PAGER = "most";
     MANROFFOPT = "-c";
+    GIT_FEATURE_BRANCH_PREFIX="brb/";
   };
 
   home.sessionPath = [
     "$HOME/.local/bin"
     "$HOME/.local/go/bin"
   ];
+
+  #home.file.".config/ghostty/config".source = ./configs/ghostty-config;
+
 
   home.packages = with pkgs; [
     ansible-lint
@@ -67,7 +71,7 @@
     grpcurl
     hexyl
     htop
-    hurl
+    # hurl # 6/26/25  This is broken to build for some reason
     hyperfine
     inetutils
     iperf
@@ -104,7 +108,6 @@
     uutils-coreutils-noprefix
     viddy
     watch
-    wcurl
     wget
     xan # active fork of xsv
     xh # clone of httpie
@@ -141,6 +144,7 @@
 
     # python
     python313
+
     uv
     poetry
 
@@ -182,16 +186,6 @@
     nix-direnv.enable = true;
   };
 
-  programs.earthly = {
-    enable = true;
-    settings = {
-      global = {
-        disable_analytics = true;
-        disable_log_sharing = true;
-      };
-    };
-  };
-
   programs.eza = {
     enable = true;
     colors = "auto";
@@ -202,10 +196,6 @@
   };
 
   programs.fd = {
-    enable = true;
-  };
-
-  programs.fish = {
     enable = true;
   };
 
@@ -222,11 +212,21 @@
     enable = true;
   };
 
+  home.file.".local/bin/git-feature" = {
+    source = ./scripts/git-feature.sh;
+    executable = true;
+  };
+
+  home.file.".local/bin/git-wtclone" = {
+    source = ./scripts/git-wtclone.sh;
+    executable = true;
+  };
+
   programs.git = {
     enable = true;
 
-    userEmail = "brandon@brbe.me";
-    userName = "Brandon Bennett";
+    userEmail = lib.mkDefault "brandon@brbe.me";
+    userName = lib.mkDefault "Brandon Bennett";
 
     maintenance.enable = true;
 
@@ -247,15 +247,10 @@
     };
 
     extraConfig = {
-      init = {
-        defaultBranch = "main";
-      };
-      rebase = {
-        updateRefs = true;
-      };
-      log = {
-        abbrevCommit = true;
-      };
+      init.defaultBranch = "main";
+      rebase.updateRefs = true;
+      log.abbrevCommit = true;
+      url."git@github.com:".insteadOf = "https://github.com/";
     };
 
     aliases = {
@@ -272,24 +267,6 @@
     telemetry.mode = "off";
   };
 
-  programs.helix = {
-    enable = true;
-    defaultEditor = true;
-
-    settings = {
-      theme = "adwaita-dark";
-
-      editor.end-of-line-diagnostics = "hint";
-      editor.inline-diagnostics.cursor-line = "warning";
-    };
-
-    languages = {
-      language-server.gopls.config = {
-        gofumpt = true;
-      };
-    };
-  };
-
   programs.jq = {
     enable = true;
   };
@@ -301,8 +278,8 @@
   programs.jujutsu = {
     enable = true;
     settings = {
-      email = "brandon@brbe.me";
-      name = "Brandon Bennett";
+      email = lib.mkDefault "brandon@brbe.me";
+      name = lib.mkDefault "Brandon Bennett";
       ui = {
         paginate = "auto";
       };
@@ -363,14 +340,6 @@
               type = "kubectl";
               foreground = "lightCyan";
               template = "󱇶 {{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}} ";
-              properties = {
-                context_aliases = {
-                  gke_bluecore-qa-gke_us-central1_qa = "bcqa";
-                  gke_bluecore-prod-gke_us-central1_prod = "bcprod";
-		  "arn:aws:eks:us-west-2:106531118578:cluster/alby-staging-eks" = "alby-staging-eks";
-	     	  "arn:aws:eks:us-west-2:687585068688:cluster/alby-preprod-eks" = "alby-preprod-ekf";
-                };
-              };
             }
             # GIT
             {
@@ -465,6 +434,7 @@
     settings = {
       default_layout = "compact";
       pane_frames = false;
+      default_shell = "zsh";
     };
   };
 
@@ -484,6 +454,10 @@
       path = "echo -e \${PATH//:/\\n}";
     };
     historySubstringSearch.enable = true;
+  };
+
+  services = {
+    home-manager.autoExpire.enable = true;
   };
 
   home.stateVersion = "24.11";

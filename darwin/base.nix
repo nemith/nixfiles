@@ -84,16 +84,16 @@
 	args.no_quarantine = true;
       }
       "logseq"
-      "menuwhere"
+      #"menuwhere"
       "monodraw"
       "notion"
       "notion-calendar"
       "orcaslicer"
+      "orion"
       "raycast"
       "rectangle"
       "steam"
       "utm"
-      "visual-studio-code"
       "vivaldi"
       "vlc"
       "waterfox"

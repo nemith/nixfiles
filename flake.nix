@@ -11,6 +11,8 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs =
@@ -19,6 +21,7 @@
       nixpkgs,
       home-manager,
       nix-darwin,
+      mac-app-util,
       ...
     }@inputs:
     let
@@ -29,9 +32,11 @@
       );
     in
     {
-      homeConfigurations."bbennett@strongbad" = home-manager.lib.homeManagerConfiguration {
+      # cw dev server
+      homeConfigurations."bbennett@bbennett-1" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = "x86_64-linux";
+          config.allowUnfree = true;
           overlays = [ myPackages ];
         };
         extraSpecialArgs = {
@@ -44,20 +49,23 @@
             home.username = "bbennett";
             home.homeDirectory = "/home/bbennett";
           }
-          ./home/home.nix
+          ./home/base.nix
+	  ./home/cw.nix
         ];
       };
 
-      darwinConfigurations.bbennett-MacBookPro = nix-darwin.lib.darwinSystem {
+      darwinConfigurations.strongbad = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           { nixpkgs.overlays = [ myPackages ]; }
+          mac-app-util.darwinModules.default
           ./darwin/base.nix
-          ./darwin/bluecore.nix
           home-manager.darwinModules.home-manager
           {
             users.users.bbennett.home = "/Users/bbennett";
-
+	    home-manager.sharedModules = [
+              mac-app-util.homeManagerModules.default
+	    ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
@@ -66,7 +74,6 @@
             home-manager.users.bbennett = {
               imports = [
                 ./home/base.nix
-                ./home/bluecore.nix
                 ./home/darwin.nix
               ];
             };
