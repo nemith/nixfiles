@@ -1,6 +1,5 @@
 {
   pkgs,
-  inputs,
   lib,
   ...
 }:
@@ -265,6 +264,24 @@
     enable = true;
     goPath = ".local/go";
     telemetry.mode = "off";
+  };
+
+  programs.helix = {
+    enable = true;
+
+    settings = {
+      theme = "catppuccin_macchiato";
+      editor = {
+        clipboard-provider = "termcode";
+        popup-border = "all";
+        cursorline = true;
+        end-of-line-diagnostics = "hint";
+        color-modes = true;
+        inline-diagnostics = {
+          cursor-line = "warning";
+        };
+      };
+    };
   };
 
   programs.jq = {
