@@ -87,6 +87,7 @@
     nixfmt-rfc-style
     nmap
     nvd
+    osc
     picocom
     pre-commit
     procs
