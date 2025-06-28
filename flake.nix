@@ -50,7 +50,7 @@
             home.homeDirectory = "/home/bbennett";
           }
           ./home/base.nix
-	  ./home/cw.nix
+          ./home/cw.nix
         ];
       };
 
@@ -63,13 +63,13 @@
           home-manager.darwinModules.home-manager
           {
             users.users.bbennett.home = "/Users/bbennett";
-	    home-manager.sharedModules = [
+            home-manager.sharedModules = [
               mac-app-util.homeManagerModules.default
-	    ];
+            ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
-             inherit inputs;
+              inherit inputs;
             };
             home-manager.users.bbennett = {
               imports = [
