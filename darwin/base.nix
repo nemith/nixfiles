@@ -45,15 +45,6 @@
 
   security.pam.services.sudo_local.touchIdAuth = true;
 
-  security.sudo.extraConfig = ''
-    %admin ALL=(ALL:ALL) NOPASSWD: ${config.system.build.darwin-rebuild}/bin/darwin-rebuild
-    '';
-
-
-  services = {
-    openssh.enable = true;
-  };
-
   homebrew = {
     enable = true;
     onActivation = {
@@ -62,42 +53,17 @@
     };
 
     casks = [
-      "alt-tab"
-      "autodesk-fusion"
-      "balenaetcher"
+      "bazecor" # Dygma keyboard utility (https://dygma.com/pages/programmable-keyboar)
       "bettermouse"
-      "bitwarden"
-      "cursor"
       "discord"
       "docker"
-      "eloston-chromium" # ungoogled-chromium
-      "ente"
-      "firefox"
-      "geekbench"
       "ghostty"
-      "gimp"
-      "google-drive"
-      "istat-menus"
-      "iterm2"
-      {
-        name = "librewolf";
-	args.no_quarantine = true;
-      }
       "logseq"
-      #"menuwhere"
       "monodraw"
-      "notion"
-      "notion-calendar"
-      "orcaslicer"
-      "orion"
       "raycast"
       "rectangle"
-      "steam"
       "utm"
-      "vivaldi"
-      "vlc"
-      "waterfox"
-      "whatsapp"
+      "visual-studio-code"
       "wireshark"
     ];
 

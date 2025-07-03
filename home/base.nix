@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  inputs,
   ...
 }:
 
@@ -199,6 +200,10 @@
     enable = true;
   };
 
+  programs.fish = {
+    enable = true;
+  };
+
   programs.fzf = {
     enable = true;
   };
@@ -296,9 +301,12 @@
   programs.jujutsu = {
     enable = true;
     settings = {
-      email = lib.mkDefault "brandon@brbe.me";
-      name = lib.mkDefault "Brandon Bennett";
+      user = {
+        email = lib.mkDefault "brandon@brbe.me";
+        name = lib.mkDefault "Brandon Bennett";
+      };
       ui = {
+        pager = ":builtin";
         paginate = "auto";
       };
     };
@@ -313,7 +321,7 @@
     enableAlias = true;
   };
 
-  programs.neovim = {
+    programs.neovim = {
     enable = true;
 
     extraPackages = with pkgs; [

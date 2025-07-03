@@ -30,6 +30,34 @@
           litra-autotoggle = prev.callPackage ./pkgs/litra-autotoggle.nix { };
         }
       );
+
+      mkDarwinConfig = { username, extraDarwinModules ? [], extraHomeModules ? [] }:
+        nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            { nixpkgs.overlays = [ myPackages ]; }
+            mac-app-util.darwinModules.default
+            ./darwin/base.nix
+            home-manager.darwinModules.home-manager
+            {
+              users.users.${username}.home = "/Users/${username}";
+              home-manager.sharedModules = [
+                mac-app-util.homeManagerModules.default
+              ];
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+              };
+              home-manager.users.${username} = {
+                imports = [
+                  ./home/base.nix
+                  ./home/darwin.nix
+                ] ++ extraHomeModules;
+              };
+            }
+          ] ++ extraDarwinModules;
+        };
     in
     {
       # cw dev server
@@ -54,31 +82,21 @@
         ];
       };
 
-      darwinConfigurations.strongbad = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        modules = [
-          { nixpkgs.overlays = [ myPackages ]; }
-          mac-app-util.darwinModules.default
-          ./darwin/base.nix
-          home-manager.darwinModules.home-manager
-          {
-            users.users.bbennett.home = "/Users/bbennett";
-            home-manager.sharedModules = [
-              mac-app-util.homeManagerModules.default
-            ];
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-            home-manager.users.bbennett = {
-              imports = [
-                ./home/base.nix
-                ./home/darwin.nix
-              ];
-            };
-          }
+      darwinConfigurations.strongbad = mkDarwinConfig {
+        username = "bbennett";
+        extraDarwinModules = [
+          ./darwin/personal.nix
         ];
       };
-    };
+
+      darwinConfigurations.CW-HM9D4MQMW2-L = mkDarwinConfig {
+        username = "bbennett";
+        extraDarwinModules = [
+          ./darwin/cw.nix
+        ];
+        extraHomeModules = [
+          ./home/cw.nix
+        ];
+      };
+};
 }

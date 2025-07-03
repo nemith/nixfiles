@@ -1,7 +1,9 @@
 {
   homebrew = {
     casks = [
-      "1password-cli"
+      "1password"
+      "google-drive"
+      "notion"
       "slack"
     ];
   };
