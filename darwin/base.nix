@@ -56,7 +56,6 @@
       "bazecor" # Dygma keyboard utility (https://dygma.com/pages/programmable-keyboar)
       "bettermouse"
       "discord"
-      "docker"
       "ghostty"
       "logseq"
       "monodraw"
@@ -75,7 +74,7 @@
   programs.fish.enable = true;
   users.users.bbennett.shell = pkgs.fish;
 
-  
+
   nix = {
     package = pkgs.lix;
     gc = {
@@ -83,8 +82,11 @@
       options = "--delete-older-than 30d";
     };
     extraOptions = ''
-      # auto-optimise-store = true
+      auto-optimise-store = true
       experimental-features = nix-command flakes repl-flake
     '';
+    settings = {
+      trusted-users = [ "bbennett" ];
+    };
   };
 }

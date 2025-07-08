@@ -9,7 +9,7 @@
       "balenaetcher"
       "bitwarden"
       "cursor"
-      "ungoogled-chromium" 
+      "ungoogled-chromium"
       "ente"
       "geekbench"
       {
@@ -17,7 +17,6 @@
         args.no_quarantine = true;
       }
       "orcaslicer"
-      "raycast"
       "steam"
       "vlc"
       "whatsapp"
