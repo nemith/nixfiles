@@ -13,6 +13,10 @@ in
 
   programs.ssh = {
     matchBlocks = {
+      "* !devvm !vdi".setEnv = {
+        TERM = "xterm-256colors";
+      };
+
       "10.* cwint.ai" = {
         forwardAgent = true;
         setEnv = {
@@ -21,6 +25,7 @@ in
           TERM = "xterm-256color";
         };
       };
+
       "metal-ztp*" = {
         user = "acc";
       };
