@@ -1,8 +1,7 @@
-{
-  pkgs,
-  lib,
-  inputs,
-  ...
+{ pkgs
+, lib
+, inputs
+, ...
 }:
 
 {
@@ -33,7 +32,7 @@
     LESS = "--quit-if-one-screen";
     PAGER = "most";
     MANROFFOPT = "-c";
-    GIT_FEATURE_BRANCH_PREFIX="brb/";
+    GIT_FEATURE_BRANCH_PREFIX = "brb/";
   };
 
   home.sessionPath = [
@@ -49,7 +48,6 @@
     ast-grep
     bandwhich
     bottom
-    btop
     buf
     claude-code
     curl
@@ -73,7 +71,6 @@
     htop
     # hurl # 6/26/25  This is broken to build for some reason
     hyperfine
-    inetutils
     iperf
     just
     lazydocker
@@ -88,6 +85,7 @@
     nixfmt-rfc-style
     nmap
     nvd
+    opencode
     osc
     picocom
     pre-commit
@@ -116,6 +114,11 @@
     yq
     yt-dlp
     zstd
+
+    podman
+    podman-desktop
+    podman-compose
+    docker-compose
 
     postgresql_16
     ansible
@@ -217,15 +220,7 @@
     enable = true;
   };
 
-  home.file.".local/bin/git-feature" = {
-    source = ./scripts/git-feature.sh;
-    executable = true;
-  };
 
-  home.file.".local/bin/git-wtclone" = {
-    source = ./scripts/git-wtclone.sh;
-    executable = true;
-  };
 
   programs.git = {
     enable = true;
@@ -238,7 +233,7 @@
     delta = {
       enable = true;
       options = {
-        file-style- = "bright-yellow";
+        file-style = "bright-yellow";
         hunk-header-style = "bold syntax";
         minus-style = "bold red";
         minus-non-emph-style = "bold red";
@@ -309,8 +304,18 @@
         pager = ":builtin";
         paginate = "auto";
       };
+      git = {
+        auto-local-bookmark = true;
+      };
+      aliases = {
+        s = [ "status" ];
+      };
+      templates = {
+        git_push_bookmark = "\"brb/push-\" ++ change_id.short()";
+      };
     };
   };
+
 
   programs.k9s = {
     enable = true;
@@ -321,7 +326,24 @@
     enableAlias = true;
   };
 
-    programs.neovim = {
+  programs.lazygit = {
+    enable = true;
+  };
+
+  programs.btop = {
+    enable = true;
+    settings = {
+      vim_keys = true;
+    };
+  };
+
+  programs.nix-index = {
+    enable = true;
+    enableFishIntegration = true;
+    enableZshIntegration = true;
+  };
+
+  programs.neovim = {
     enable = true;
 
     extraPackages = with pkgs; [
@@ -459,8 +481,12 @@
     enable = true;
     settings = {
       default_layout = "compact";
-      pane_frames = false;
+      ui.pane_frames = {
+        rounded_corners = true;
+      };
+      pane_viewport_serialization = "true";
       default_shell = "zsh";
+      theme = "catppuccin-macchiato";
     };
   };
 
@@ -479,7 +505,9 @@
     shellAliases = {
       path = "echo -e \${PATH//:/\\n}";
     };
+
     historySubstringSearch.enable = true;
+    initContent = builtins.readFile ./configs/extra.zshrc;
   };
 
   services = {

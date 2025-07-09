@@ -1,12 +1,12 @@
-{
-  lib,
-  fetchFromGitHub,
-  rustPlatform,
+{ lib
+, fetchFromGitHub
+, rustPlatform
+,
 }:
 
 rustPlatform.buildRustPackage rec {
   pname = "litra-autotoggle";
-  version = "0.6.1"; 
+  version = "0.6.1";
   useFetchCargoVendor = true;
 
   src = fetchFromGitHub {

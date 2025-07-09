@@ -1,30 +1,28 @@
-{ config, pkgs, ... }:
-
+{ config, lib, pkgs, ... }:
+let
+  cwEmail = "bbennett@coreweave.com";
+in
 {
   home.packages = with pkgs; [
     _1password-cli
     go-task
-    teleport
   ];
 
-  programs.git = {
-    userEmail = "bbennett@coreweave.com";
-    userName = "Brandon Bennett";
-  };   
+  programs.git.userEmail = cwEmail;
+  programs.jujutsu.settings.user.email = cwEmail;
 
   programs.ssh = {
     matchBlocks = {
-      "vdi devvm" = {
-        hostname = "bbennett-1.tenant-coreweave-vdi.coreweave.cloud";
-        forwardAgent = true;
-      };
-      "10.*" = {
+      "10.* cwint.ai" = {
         forwardAgent = true;
         setEnv = {
           # Explicitly set the TERM as we are not going to poke the termcaps of
           # routers/switches for ghostty.
           TERM = "xterm-256color";
         };
+      };
+      "metal-ztp*" = {
+        user = "acc";
       };
     };
   };

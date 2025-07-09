@@ -16,13 +16,12 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      nix-darwin,
-      mac-app-util,
-      ...
+    { self
+    , nixpkgs
+    , home-manager
+    , nix-darwin
+    , mac-app-util
+    , ...
     }@inputs:
     let
       myPackages = (
@@ -31,7 +30,7 @@
         }
       );
 
-      mkDarwinConfig = { username, extraDarwinModules ? [], extraHomeModules ? [] }:
+      mkDarwinConfig = { username, extraDarwinModules ? [ ], extraHomeModules ? [ ] }:
         nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
@@ -79,6 +78,7 @@
           }
           ./home/base.nix
           ./home/cw.nix
+          ./home/cw-vdi.nix
         ];
       };
 
@@ -96,7 +96,10 @@
         ];
         extraHomeModules = [
           ./home/cw.nix
+          ./home/cw-laptop.nix
         ];
       };
-};
+      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixpkgs-fmt;
+
+    };
 }
