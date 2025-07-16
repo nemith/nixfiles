@@ -299,9 +299,6 @@
         pager = ":builtin";
         paginate = "auto";
       };
-      git = {
-        auto-local-bookmark = true;
-      };
       aliases = {
         s = [ "status" ];
       };
