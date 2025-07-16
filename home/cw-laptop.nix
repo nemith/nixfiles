@@ -5,21 +5,8 @@ let
     hostname = vdiHostname;
     forwardAgent = true;
   };
-
-  # Spy on me
-  netskopeCacertPath = "/Library/Application Support/Netskope/STAgent/data/nscacert.pem";
 in
 {
-  home.sessionVariables = {
-    SSL_CERT_FILE = netskopeCacertPath;
-  };
-
-  programs.git = {
-    extraConfig = {
-      http.sslCAInfo = netskopeCacertPath;
-    };
-  };
-
   programs.ssh = {
     addKeysToAgent = "yes";
 
