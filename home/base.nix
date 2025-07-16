@@ -97,6 +97,7 @@
     sleek
     socat
     sqlite
+    sshpass
     tcpdump
     tokei
     tree
