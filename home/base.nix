@@ -303,6 +303,10 @@
       };
       aliases = {
         s = [ "status" ];
+	clone = [ "git" "clone" "--colocate" ];
+	push = [ "git" "push" ];
+	up = [ "edit" "@-" ];
+	down = [ "edit" "@+" ];
       };
       templates = {
         git_push_bookmark = "\"brb/push-\" ++ change_id.short()";
