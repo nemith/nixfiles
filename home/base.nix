@@ -24,7 +24,6 @@
     now = "date +\"%T\"";
     nowdate = "date +\"%d-%m-%Y\"";
     nowtime = "now";
-    vi = "nvim";
   };
 
   home.sessionVariables = {
@@ -81,7 +80,6 @@
     most
     mtr
     ncdu
-    nh
     nixfmt-rfc-style
     nix-search-cli
     nmap
@@ -217,8 +215,6 @@
     enable = true;
   };
 
-
-
   programs.git = {
     enable = true;
 
@@ -298,18 +294,32 @@
         name = lib.mkDefault "Brandon Bennett";
       };
       ui = {
-        pager = ":builtin";
+        pager = [ "delta" "--pager" "less -FRX" ];
         paginate = "auto";
+        diff-formatter = ":git"; # Needed for delta
+      };
+      git = {
+        colocate = true;
+        write-change-id-header = true;
       };
       aliases = {
         s = [ "status" ];
-	clone = [ "git" "clone" "--colocate" ];
-	push = [ "git" "push" ];
-	up = [ "edit" "@-" ];
-	down = [ "edit" "@+" ];
+        d = [ "diff" ];
+        n = [ "new" "trunk()" ];
+
+        hide = [ "abandon" ];
+        blame = [ "file" "annotate" ];
+        cat = [ "file" "show" ];
+
+        clone = [ "git" "clone" "--colocate" ];
+        push = [ "git" "push" ];
+        fetch = [ "git" "fetch" ];
+
+        up = [ "edit" "@-" ];
+        down = [ "edit" "@+" ];
       };
       templates = {
-        git_push_bookmark = "\"brb/push-\" ++ change_id.short()";
+        git_push_bookmark = ''"brb/push-" ++ change_id.short()'';
       };
     };
   };
@@ -335,6 +345,11 @@
     };
   };
 
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+  };
+
   programs.nix-index = {
     enable = true;
     enableFishIntegration = true;
@@ -343,6 +358,10 @@
 
   programs.neovim = {
     enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
 
     extraPackages = with pkgs; [
       lua-language-server
