@@ -13,8 +13,8 @@ in
 
   programs.ssh = {
     matchBlocks = {
-      "* !devvm !vdi".setEnv = {
-        TERM = "xterm-256colors";
+      "* !dev !vdi".setEnv = {
+        TERM = "xterm-256color";
       };
 
       "10.* cwint.ai" = {

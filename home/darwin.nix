@@ -7,7 +7,6 @@
 
   home.packages = with pkgs; [
     litra-autotoggle
-    lima
   ];
 
   launchd = {

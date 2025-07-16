@@ -4,11 +4,6 @@ let
   vdiSSHConfig = {
     hostname = vdiHostname;
     forwardAgent = true;
-    extraOptions = {
-      ControlMaster = "auto";
-      ControlPersist = "24h";
-      ControlPath = "~/.ssh/master-%r@vdi:%p";
-    };
   };
 
   # Spy on me
@@ -30,7 +25,7 @@ in
 
     matchBlocks = {
       "vdi" = vdiSSHConfig;
-      "devvm" = lib.recursiveUpdate vdiSSHConfig {
+      "dev" = lib.recursiveUpdate vdiSSHConfig {
         extraOptions = {
           RequestTTY = "yes";
           RemoteCommand = "zellij attach --create dev";
