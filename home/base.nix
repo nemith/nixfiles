@@ -83,6 +83,7 @@
     ncdu
     nh
     nixfmt-rfc-style
+    nix-search-cli
     nmap
     nvd
     opencode
