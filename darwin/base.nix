@@ -59,6 +59,7 @@
       "ghostty"
       "logseq"
       "monodraw"
+      "orbstack"
       "raycast"
       "rectangle"
       "utm"

@@ -115,11 +115,6 @@
     yt-dlp
     zstd
 
-    podman
-    podman-desktop
-    podman-compose
-    docker-compose
-
     postgresql_16
     ansible
 
