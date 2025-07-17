@@ -13,6 +13,10 @@
     };
 
     mac-app-util.url = "github:hraban/mac-app-util";
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -21,6 +25,7 @@
     , home-manager
     , nix-darwin
     , mac-app-util
+    , catppuccin
     , ...
     }@inputs:
     let
@@ -42,6 +47,7 @@
               users.users.${username}.home = "/Users/${username}";
               home-manager.sharedModules = [
                 mac-app-util.homeManagerModules.default
+                catppuccin.homeModules.catppuccin
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -79,6 +85,7 @@
           ./home/base.nix
           ./home/cw.nix
           ./home/cw-vdi.nix
+          catppuccin.homeManagerModules.catppuccin
         ];
       };
 

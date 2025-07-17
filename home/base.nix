@@ -39,6 +39,8 @@
     "$HOME/.local/go/bin"
   ];
 
+  catppuccin.enable = true;
+
   #home.file.".config/ghostty/config".source = ./configs/ghostty-config;
 
 
@@ -223,21 +225,7 @@
 
     maintenance.enable = true;
 
-    delta = {
-      enable = true;
-      options = {
-        file-style = "bright-yellow";
-        hunk-header-style = "bold syntax";
-        minus-style = "bold red";
-        minus-non-emph-style = "bold red";
-        minus-emph-style = "bold red 52";
-        zero-style = "normal";
-        plus-style = "bold green";
-        plus-non-emph-style = "bold green";
-        plus-emph-style = "bold green 22";
-        line-numbers = true;
-      };
-    };
+    delta.enable = true;
 
     extraConfig = {
       init.defaultBranch = "main";
@@ -264,7 +252,6 @@
     enable = true;
 
     settings = {
-      theme = "catppuccin_macchiato";
       editor = {
         clipboard-provider = "termcode";
         popup-border = "all";
@@ -503,7 +490,6 @@
       };
       pane_viewport_serialization = "true";
       default_shell = "zsh";
-      theme = "catppuccin-macchiato";
     };
   };
 
