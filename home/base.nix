@@ -384,7 +384,7 @@
               foreground = "lightCyan";
               template = " {{ .Path }} ";
               properties = {
-                style = "powerlevel";
+                style = "agnoster";
               };
             }
             # K8S
@@ -465,12 +465,125 @@
     enable = true;
   };
 
-  #  programs.starship = {
-  #    enable = true;
-  #    settings = {
-  #      kubernetes.disabled = false;
-  #    };
-  #  };
+  programs.starship = {
+    enable = false;
+    settings = {
+       format = lib.concatStrings [
+         "$username"
+	 "$password"
+         #"$localip"
+         "$shlvl"
+         #"$singularity"
+         "$directory"
+	 
+	 # VCS
+         "$vcsh"
+         "$fossil_branch"
+         "$fossil_metrics"
+         "$git_branch"
+         "$git_commit"
+         "$git_state"
+         "$git_metrics"
+         "$git_status"
+         "$hg_branch"
+         "$pijul_channel"
+
+         #"$package"
+         "$nix_shell"
+         #"$memory_usage"
+         "$direnv"
+         #"$env_var"
+         #"$mise"
+         #"$crystal"
+         #"$custom"
+         #"$sudo"
+         "$cmd_duration"
+         "$line_break"
+         "$jobs"
+         "$status"
+         #"$os"
+         "$container"
+         "$netns"
+          #"$shell"
+         "$character"
+       ];
+       right_format = lib.concatStrings [
+         "$kubernetes"
+         "$docker_context"
+	 # Languages
+         "$c"
+         "$cmake"
+         "$cobol"
+         "$daml"
+         "$dart"
+         "$deno"
+         "$dotnet"
+         "$elixir"
+         "$elm"
+         "$erlang"
+         "$fennel"
+         "$gleam"
+         "$golang"
+         "$guix_shell"
+         "$haskell"
+         "$haxe"
+         "$helm"
+         "$java"
+         "$julia"
+         "$kotlin"
+         "$gradle"
+         "$lua"
+         "$nim"
+         "$nodejs"
+         "$ocaml"
+         "$opa"
+         "$perl"
+         "$php"
+         "$pulumi"
+         "$purescript"
+         "$python"
+         "$quarto"
+         "$raku"
+         "$rlang"
+         "$red"
+         "$ruby"
+         "$rust"
+         "$scala"
+         "$solidity"
+         "$swift"
+         "$terraform"
+         "$typst"
+         "$vlang"
+         "$vagrant"
+         "$zig"
+
+         "$buf"
+         "$conda"
+         "$meson"
+         "$spack"
+
+	 #cloud/service context
+         "$aws"
+         "$gcloud"
+         "$openstack"
+         "$azure"
+         "$nats"
+
+         "$battery"
+         "$time"
+
+	 "$line_break"
+       ];
+
+
+       kubernetes = {
+         disabled = false;
+         format = "[$symbol$context( \($namespace\))]($style) ";
+       };
+       battery.disabled = false;
+       time.disabled = false;
+    };
+  };
 
   programs.tealdeer = {
     enable = true;
