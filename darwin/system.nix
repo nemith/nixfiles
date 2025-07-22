@@ -1,10 +1,5 @@
-{ pkgs, config, ... }:
+{ inputs, ... }:
 {
-  nixpkgs.config.allowUnfree = true;
-
-  system.stateVersion = 6;
-  system.primaryUser = "bbennett";
-
   system.defaults = {
     dock = {
       autohide = true;
@@ -44,50 +39,4 @@
   };
 
   security.pam.services.sudo_local.touchIdAuth = true;
-
-  homebrew = {
-    enable = true;
-    onActivation = {
-      autoUpdate = true;
-      cleanup = "zap";
-    };
-
-    casks = [
-      "bazecor" # Dygma keyboard utility (https://dygma.com/pages/programmable-keyboar)
-      "bettermouse"
-      "discord"
-      "ghostty"
-      "logseq"
-      "monodraw"
-      "orbstack"
-      "raycast"
-      "rectangle"
-      "utm"
-      "visual-studio-code"
-      "wireshark"
-    ];
-
-    #masApps = {
-    #  "Xcode" = 497799835;
-    #};
-  };
-
-  programs.fish.enable = true;
-  users.users.bbennett.shell = pkgs.fish;
-
-
-  nix = {
-    package = pkgs.lix;
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 30d";
-    };
-    extraOptions = ''
-      auto-optimise-store = true
-      experimental-features = nix-command flakes repl-flake
-    '';
-    settings = {
-      trusted-users = [ "bbennett" ];
-    };
-  };
 }

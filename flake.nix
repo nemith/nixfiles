@@ -12,101 +12,29 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixCats.url = "github:BirdeeHub/nixCats-nvim";
     mac-app-util.url = "github:hraban/mac-app-util";
-    catppuccin = {
-      url = "github:catppuccin/nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    catppuccin.url = "github:catppuccin/nix";
   };
-
-  outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , nix-darwin
-    , mac-app-util
-    , catppuccin
-    , ...
-    }@inputs:
+  outputs = { self, nixpkgs, ... }@inputs:
     let
-      myPackages = (
-        final: prev: {
-          litra-autotoggle = prev.callPackage ./pkgs/litra-autotoggle.nix { };
-        }
-      );
-
-      mkDarwinConfig = { username, extraDarwinModules ? [ ], extraHomeModules ? [ ] }:
-        nix-darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-          modules = [
-            { nixpkgs.overlays = [ myPackages ]; }
-            mac-app-util.darwinModules.default
-            ./darwin/base.nix
-            home-manager.darwinModules.home-manager
-            {
-              users.users.${username}.home = "/Users/${username}";
-              home-manager.sharedModules = [
-                mac-app-util.homeManagerModules.default
-                catppuccin.homeModules.catppuccin
-              ];
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-              };
-              home-manager.users.${username} = {
-                imports = [
-                  ./home/base.nix
-                  ./home/darwin.nix
-                ] ++ extraHomeModules;
-              };
-            }
-          ] ++ extraDarwinModules;
-        };
+      lib = import ./lib { inherit inputs; };
     in
     {
-      # cw dev server
-      homeConfigurations."bbennett@bbennett-1" = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
+      darwinConfigurations = {
+        strongbad = lib.mkDarwinConfig "strongbad";
+        CW-HM9D4MQMW2-L = lib.mkDarwinConfig "cw-laptop";
+      };
+
+      homeConfigurations = {
+        "bbennett@bbennett-1" = lib.mkHomeConfig {
+          hostname = "bbennett-1";
           system = "x86_64-linux";
-          config.allowUnfree = true;
-          overlays = [ myPackages ];
         };
-        extraSpecialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          {
-            targets.genericLinux.enable = true;
-
-            home.username = "bbennett";
-            home.homeDirectory = "/home/bbennett";
-          }
-          ./home/base.nix
-          ./home/cw.nix
-          ./home/cw-vdi.nix
-          catppuccin.homeManagerModules.catppuccin
-        ];
       };
 
-      darwinConfigurations.strongbad = mkDarwinConfig {
-        username = "bbennett";
-        extraDarwinModules = [
-          ./darwin/personal.nix
-        ];
-      };
-
-      darwinConfigurations.CW-HM9D4MQMW2-L = mkDarwinConfig {
-        username = "bbennett";
-        extraDarwinModules = [
-          ./darwin/cw.nix
-        ];
-        extraHomeModules = [
-          ./home/cw.nix
-          ./home/cw-laptop.nix
-        ];
-      };
-      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixpkgs-fmt;
-
+      formatter = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-darwin" ] (system:
+        nixpkgs.legacyPackages.${system}.nixpkgs-fmt
+      );
     };
 }

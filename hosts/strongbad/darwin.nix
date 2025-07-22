@@ -1,4 +1,12 @@
+{ inputs, ... }:
 {
+  system.primaryUser = "bbennett";
+  users.users.bbennett.home = "/Users/bbennett";
+  home-manager.users.bbennett.imports = [
+    ./home.nix
+    ../../../home:
+  ];
+
   services.openssh = {
     enable = true;
   };
@@ -8,7 +16,6 @@
       "autodesk-fusion"
       "balenaetcher"
       "bitwarden"
-      "cursor"
       "ungoogled-chromium"
       "ente"
       "geekbench"
