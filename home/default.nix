@@ -1,29 +1,42 @@
 { pkgs
 , lib
 , inputs
+, config
 , ...
 }:
 
 {
+  home.stateVersion = "24.11";
+
+  imports = [
+    inputs.catppuccin.homeModules.catppuccin
+    ./dev.nix
+    ./k8s.nix
+    ./litra.nix
+    ./work.nix
+  ];
+
+  bbennett.dev.enable = lib.mkDefault true;
+  bbennett.k8s.enable = lib.mkDefault config.bbennett.dev.enable;
+  bbennett.litra.enable = lib.mkDefault lib.mkIf pkgs.stdenv.isDarwin;
+
+
   home.shell.enableZshIntegration = true;
   home.shell.enableFishIntegration = true;
 
   home.shellAliases = {
-    bazel = "bazelisk";
     cd = "z";
     egrep = "egrep --color=auto";
     fgrep = "fgrep --color=auto";
     grep = "grep --color=auto";
     ip = "ip -color";
-    k = "kubectl";
-    kctx = "kubectx";
-    kns = "kubens";
-    ktx = "kubectx";
     ll = "eza -la";
     ls = "eza";
     now = "date +\"%T\"";
     nowdate = "date +\"%d-%m-%Y\"";
     nowtime = "now";
+  } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+    mosh = "mosh --ssh=/usr/bin/ssh";
   };
 
   home.sessionVariables = {
@@ -41,16 +54,9 @@
 
   catppuccin.enable = true;
 
-  #home.file.".config/ghostty/config".source = ./configs/ghostty-config;
-
-
   home.packages = with pkgs; [
-    ansible-lint
-    ast-grep
     bandwhich
     bottom
-    buf
-    claude-code
     curl
     curlie
     cyme
@@ -61,21 +67,12 @@
     fend
     file
     glances
-    gnumake
     gnutar
     graphviz
-    grex
     gron
-    grpcui
-    grpcurl
-    hexyl
     htop
-    # hurl # 6/26/25  This is broken to build for some reason
     hyperfine
     iperf
-    just
-    lazydocker
-    miniserve
     mitmproxy
     moreutils
     mosh
@@ -85,22 +82,15 @@
     nixfmt-rfc-style
     nix-search-cli
     nmap
-    nvd
-    opencode
     osc
     picocom
-    pre-commit
     procs
-    protobuf
     psutils
-    scc
     sd
-    sleek
     socat
     sqlite
     sshpass
     tcpdump
-    tokei
     tree
     trurl
     unar
@@ -117,49 +107,10 @@
     yt-dlp
     zstd
 
-    postgresql_16
-    ansible
 
     # atlas
-    awscli2
-    aws-vault
-    bazel-buildtools
-    bazelisk
-    buildkite-cli
-    ent-go
-    google-cloud-sdk
-    kubernetes-helm
-    kubectl
-    kubectx
-    kubeswitch
-    kustomize
     terraform
     opentofu
-
-    elixir
-    gleam
-    nodePackages.prettier
-    nodejs # LTS
-    rustup
-    lldb
-
-    # python
-    python313
-
-    uv
-    poetry
-
-    # go
-    gopls
-    gofumpt
-    golangci-lint
-    #golangci-lint-langserver
-    delve
-
-    nil # language server for nix
-
-    zig
-    zls
 
     # fonts
     dosis
@@ -311,20 +262,6 @@
     };
   };
 
-
-  programs.k9s = {
-    enable = true;
-  };
-
-  programs.kubecolor = {
-    enable = true;
-    enableAlias = true;
-  };
-
-  programs.lazygit = {
-    enable = true;
-  };
-
   programs.btop = {
     enable = true;
     settings = {
@@ -456,133 +393,12 @@
     enable = true;
   };
 
-  programs.ruff = {
-    enable = true;
-    settings = { };
-  };
-
   programs.ssh = {
     enable = true;
-  };
-
-  programs.starship = {
-    enable = false;
-    settings = {
-       format = lib.concatStrings [
-         "$username"
-	 "$password"
-         #"$localip"
-         "$shlvl"
-         #"$singularity"
-         "$directory"
-	 
-	 # VCS
-         "$vcsh"
-         "$fossil_branch"
-         "$fossil_metrics"
-         "$git_branch"
-         "$git_commit"
-         "$git_state"
-         "$git_metrics"
-         "$git_status"
-         "$hg_branch"
-         "$pijul_channel"
-
-         #"$package"
-         "$nix_shell"
-         #"$memory_usage"
-         "$direnv"
-         #"$env_var"
-         #"$mise"
-         #"$crystal"
-         #"$custom"
-         #"$sudo"
-         "$cmd_duration"
-         "$line_break"
-         "$jobs"
-         "$status"
-         #"$os"
-         "$container"
-         "$netns"
-          #"$shell"
-         "$character"
-       ];
-       right_format = lib.concatStrings [
-         "$kubernetes"
-         "$docker_context"
-	 # Languages
-         "$c"
-         "$cmake"
-         "$cobol"
-         "$daml"
-         "$dart"
-         "$deno"
-         "$dotnet"
-         "$elixir"
-         "$elm"
-         "$erlang"
-         "$fennel"
-         "$gleam"
-         "$golang"
-         "$guix_shell"
-         "$haskell"
-         "$haxe"
-         "$helm"
-         "$java"
-         "$julia"
-         "$kotlin"
-         "$gradle"
-         "$lua"
-         "$nim"
-         "$nodejs"
-         "$ocaml"
-         "$opa"
-         "$perl"
-         "$php"
-         "$pulumi"
-         "$purescript"
-         "$python"
-         "$quarto"
-         "$raku"
-         "$rlang"
-         "$red"
-         "$ruby"
-         "$rust"
-         "$scala"
-         "$solidity"
-         "$swift"
-         "$terraform"
-         "$typst"
-         "$vlang"
-         "$vagrant"
-         "$zig"
-
-         "$buf"
-         "$conda"
-         "$meson"
-         "$spack"
-
-	 #cloud/service context
-         "$aws"
-         "$gcloud"
-         "$openstack"
-         "$azure"
-         "$nats"
-
-         "$battery"
-         "$time"
-
-	 "$line_break"
-       ];
-
-
-       kubernetes = {
-         disabled = false;
-         format = "[$symbol$context( \($namespace\))]($style) ";
-       };
-       battery.disabled = false;
-       time.disabled = false;
-    };
+    addKeysToAgent = "yes";
+    extraConfig = lib.concatStringsSep "\n" (
+      lib.optional pkgs.stdenv.isDarwin "UseKeychain yes"
+    );
   };
 
   programs.tealdeer = {
@@ -629,8 +445,6 @@
   services = {
     home-manager.autoExpire.enable = true;
   };
-
-  home.stateVersion = "24.11";
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
