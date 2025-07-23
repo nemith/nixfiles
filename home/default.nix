@@ -1,11 +1,10 @@
-{ pkgs
-, lib
-, inputs
-, config
-, ...
-}:
-
 {
+  pkgs,
+  lib,
+  inputs,
+  config,
+  ...
+}: {
   home.stateVersion = "24.11";
 
   imports = [
@@ -13,31 +12,34 @@
     ./dev.nix
     ./k8s.nix
     ./litra.nix
+    ./neovim.nix
     ./work.nix
   ];
 
   bbennett.dev.enable = lib.mkDefault true;
-  bbennett.k8s.enable = lib.mkDefault config.bbennett.dev.enable;
+  bbennett.k8s.enable = lib.mkdefault config.bbennett.dev.enable;
   bbennett.litra.enable = lib.mkDefault lib.mkIf pkgs.stdenv.isDarwin;
-
+  bbennett.neovim.enable = lib.mkDefault true;
 
   home.shell.enableZshIntegration = true;
   home.shell.enableFishIntegration = true;
 
-  home.shellAliases = {
-    cd = "z";
-    egrep = "egrep --color=auto";
-    fgrep = "fgrep --color=auto";
-    grep = "grep --color=auto";
-    ip = "ip -color";
-    ll = "eza -la";
-    ls = "eza";
-    now = "date +\"%T\"";
-    nowdate = "date +\"%d-%m-%Y\"";
-    nowtime = "now";
-  } // lib.optionalAttrs pkgs.stdenv.isDarwin {
-    mosh = "mosh --ssh=/usr/bin/ssh";
-  };
+  home.shellAliases =
+    {
+      cd = "z";
+      egrep = "egrep --color=auto";
+      fgrep = "fgrep --color=auto";
+      grep = "grep --color=auto";
+      ip = "ip -color";
+      ll = "eza -la";
+      ls = "eza";
+      now = "date +\"%T\"";
+      nowdate = "date +\"%d-%m-%Y\"";
+      nowtime = "now";
+    }
+    // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      mosh = "mosh --ssh=/usr/bin/ssh";
+    };
 
   home.sessionVariables = {
     COLORTERM = "truecolor";
@@ -106,7 +108,6 @@
     yq
     yt-dlp
     zstd
-
 
     # atlas
     terraform
@@ -232,7 +233,7 @@
         name = lib.mkDefault "Brandon Bennett";
       };
       ui = {
-        pager = [ "delta" "--pager" "less -FRX" ];
+        pager = ["delta" "--pager" "less -FRX"];
         paginate = "auto";
         diff-formatter = ":git"; # Needed for delta
       };
@@ -241,20 +242,20 @@
         write-change-id-header = true;
       };
       aliases = {
-        s = [ "status" ];
-        d = [ "diff" ];
-        n = [ "new" "trunk()" ];
+        s = ["status"];
+        d = ["diff"];
+        n = ["new" "trunk()"];
 
-        hide = [ "abandon" ];
-        blame = [ "file" "annotate" ];
-        cat = [ "file" "show" ];
+        hide = ["abandon"];
+        blame = ["file" "annotate"];
+        cat = ["file" "show"];
 
-        clone = [ "git" "clone" "--colocate" ];
-        push = [ "git" "push" ];
-        fetch = [ "git" "fetch" ];
+        clone = ["git" "clone" "--colocate"];
+        push = ["git" "push"];
+        fetch = ["git" "fetch"];
 
-        up = [ "edit" "@-" ];
-        down = [ "edit" "@+" ];
+        up = ["edit" "@-"];
+        down = ["edit" "@+"];
       };
       templates = {
         git_push_bookmark = ''"brb/push-" ++ change_id.short()'';
@@ -278,24 +279,6 @@
     enable = true;
     enableFishIntegration = true;
     enableZshIntegration = true;
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-
-    extraPackages = with pkgs; [
-      lua-language-server
-      stylua
-      ripgrep
-    ];
-
-    plugins = with pkgs.vimPlugins; [
-      lazy-nvim
-    ];
   };
 
   programs.oh-my-posh = {

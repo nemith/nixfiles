@@ -1,9 +1,8 @@
-{ lib
-, fetchFromGitHub
-, rustPlatform
-,
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
 }:
-
 rustPlatform.buildRustPackage rec {
   pname = "litra-autotoggle";
   version = "0.6.1";
@@ -22,7 +21,7 @@ rustPlatform.buildRustPackage rec {
     description = "Automatically controls Logitech Litra Glow lights based on webcam usage";
     homepage = "https://github.com/timrogers/litra-autotoggle";
     license = licenses.mit;
-    maintainers = [ ];
+    maintainers = [];
     platforms = platforms.linux ++ platforms.darwin;
   };
 }

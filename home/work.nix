@@ -1,17 +1,19 @@
-{ pkgs, lib, config, ... }:
-let
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: let
   cwEmail = "bbennett@coreweave.com";
   cfg = config.bbennett.work;
-in
-{
+in {
   options.bbennett.work = {
     enable = lib.mkEnableOption "Work settings";
 
     flavor = lib.mkOption {
-      type = lib.types.enum [ "vdi" "laptop" ];
+      type = lib.types.enum ["vdi" "laptop"];
       description = "Flavor of works system";
     };
-
 
     vdiHostname = lib.mkOption {
       type = lib.types.str;
@@ -27,7 +29,6 @@ in
 
     programs.git.userEmail = cwEmail;
     programs.jujutsu.settings.user.email = cwEmail;
-
 
     programs.ssh = {
       extraConfig = lib.concatStringsSep "\n" [
@@ -53,11 +54,13 @@ in
           TERM = "xterm-256color";
         };
 
-        "10.* *.cwint.ai" = {
-          forwardAgent = true;
-        } // lib.optionalAttrs (cfg.flavor == "laptop") {
-          proxyJump = "vdi";
-        };
+        "10.* *.cwint.ai" =
+          {
+            forwardAgent = true;
+          }
+          // lib.optionalAttrs (cfg.flavor == "laptop") {
+            proxyJump = "vdi";
+          };
 
         "metal-ztp*" = {
           user = "acc";

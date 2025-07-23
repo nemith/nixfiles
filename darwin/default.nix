@@ -1,5 +1,9 @@
-{ inputs, pkgs, config, ... }:
 {
+  inputs,
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     inputs.mac-app-util.darwinModules.default
     inputs.home-manager.darwinModules.home-manager
@@ -13,7 +17,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = {inherit inputs;};
     sharedModules = [
       inputs.mac-app-util.homeManagerModules.default
     ];
@@ -35,7 +39,7 @@
     '';
     settings = {
       #TODO: remove from default config for user specific settings1
-      trusted-users = [ "bbennett" ];
+      trusted-users = ["bbennett"];
     };
   };
 }

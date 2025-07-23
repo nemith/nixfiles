@@ -1,9 +1,9 @@
-{ pkgs
-, lib
-, config
-, ...
-}:
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
   options = {
     bbennett.dev.enable = lib.mkEnableOption "dev environment";
   };
@@ -36,7 +36,6 @@
       opencode
       claude-code
 
-
       bazel-buildtools
       bazelisk
 
@@ -47,10 +46,10 @@
       poetry
 
       # go
-      gopls
       gofumpt
       golangci-lint
       delve
+      gotools
 
       zig
 
@@ -69,7 +68,7 @@
 
     programs.ruff = {
       enable = true;
-      settings = { };
+      settings = {};
     };
 
     home.shellAliases = {

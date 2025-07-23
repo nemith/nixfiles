@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{inputs, ...}: {
   system.defaults = {
     dock = {
       autohide = true;
