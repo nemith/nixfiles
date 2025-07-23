@@ -10,16 +10,18 @@
   imports = [
     inputs.catppuccin.homeModules.catppuccin
     ./dev.nix
+    ./ghostty.nix
     ./k8s.nix
     ./litra.nix
     ./neovim.nix
     ./work.nix
   ];
 
+  bbennett.neovim.enable = lib.mkDefault true;
   bbennett.dev.enable = lib.mkDefault true;
   bbennett.k8s.enable = lib.mkdefault config.bbennett.dev.enable;
-  bbennett.litra.enable = lib.mkDefault lib.mkIf pkgs.stdenv.isDarwin;
-  bbennett.neovim.enable = lib.mkDefault true;
+  bbennett.litra.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
+  bbennett.ghostty.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
 
   home.shell.enableZshIntegration = true;
   home.shell.enableFishIntegration = true;
