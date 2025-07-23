@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   bbennett.work = {
     enable = true;
     flavor = "laptop";

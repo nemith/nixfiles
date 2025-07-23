@@ -1,9 +1,9 @@
-{ pkgs
-, lib
-, config
-, ...
-}:
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
   options = {
     bbennett.litra.enable = lib.mkEnableOption "litra autotoggle";
   };

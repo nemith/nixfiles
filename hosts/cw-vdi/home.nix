@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{inputs, ...}: {
   targets.genericLinux.enable = true;
   home = {
     username = "bbennett";
