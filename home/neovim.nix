@@ -14,6 +14,10 @@ in {
   options.bbennett.neovim.enable = lib.mkEnableOption "Neovim configuration for bbennett";
 
   config = lib.mkIf config.bbennett.neovim.enable {
+    home.sessionVariable = {
+      EDITOR =  "nvim";
+    };
+
     nixCats = {
       enable = true;
 
