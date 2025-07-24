@@ -63,6 +63,13 @@ in {
           "dev" = {
             hostname = cfg.vdiHostname;
             forwardAgent = true;
+            remoteForwards = lib.optionals config.bbennett.lemonade.server.enable [
+              {
+                bind.port = 2489;
+                host.address = "localhost";
+                host.port = 2489;
+              }
+            ];
             extraOptions = {
               RequestTTY = "yes";
               RemoteCommand = "zellij attach --create dev";

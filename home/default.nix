@@ -12,6 +12,7 @@
     ./dev.nix
     ./ghostty.nix
     ./k8s.nix
+    ./lemonade.nix
     ./litra.nix
     ./neovim.nix
     ./work.nix
