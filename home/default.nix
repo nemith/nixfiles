@@ -108,7 +108,7 @@
     xan # active fork of xsv
     xh # clone of httpie
     xz
-    yq
+    yq-go
     yt-dlp
     zstd
 
