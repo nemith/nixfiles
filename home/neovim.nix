@@ -15,7 +15,7 @@ in {
 
   config = lib.mkIf config.bbennett.neovim.enable {
     home.sessionVariables = {
-      EDITOR =  "nvim";
+      EDITOR = "nvim";
     };
 
     nixCats = {

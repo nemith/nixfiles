@@ -16,10 +16,7 @@
     mac-app-util.url = "github:hraban/mac-app-util";
     catppuccin.url = "github:catppuccin/nix";
   };
-  outputs = {
-    nixpkgs,
-    ...
-  } @ inputs: let
+  outputs = {nixpkgs, ...} @ inputs: let
     lib = import ./lib {inherit inputs;};
   in {
     darwinConfigurations = {
@@ -29,7 +26,7 @@
 
     homeConfigurations = {
       "bbennett@bbennett-1" = lib.mkHomeConfig {
-        hostname = "bbennett-1";
+        hostname = "cw-vdi";
         system = "x86_64-linux";
       };
     };

@@ -4,20 +4,20 @@
 }: let
   inherit (inputs) nixpkgs home-manager nix-darwin;
 in {
-  mkDarwinConfig = hostName:
+  mkDarwinConfig = hostname:
     nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       specialArgs = {inherit inputs;};
       modules = [
         {nixpkgs.overlays = [overlays.myPackages];}
         ../darwin
-        ../hosts/${hostName}/darwin.nix
+        ../hosts/${hostname}/darwin.nix
       ];
     };
 
   mkHomeConfig = {
     system,
-    hostName,
+    hostname,
   }:
     home-manager.lib.homeManagerConfiguration {
       pkgs = import nixpkgs {
@@ -28,7 +28,7 @@ in {
       extraSpecialArgs = {inherit inputs;};
       modules = [
         ../home
-        ../hosts/${hostName}/home.nix
+        ../hosts/${hostname}/home.nix
       ];
     };
 }

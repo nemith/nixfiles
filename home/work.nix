@@ -17,6 +17,7 @@ in {
 
     vdiHostname = lib.mkOption {
       type = lib.types.str;
+      default = "";
       description = "VDI Hostname";
     };
   };
@@ -36,37 +37,38 @@ in {
         "CanonicalDomains cwint.ai"
         "CanonicalizeHostname always"
       ];
-      matchBlocks = {
-        "vdi" = {
-          hostname = cfg.vdiHostname;
-          forwardAgent = true;
-        };
-
-        "dev" = {
-          hostname = cfg.vdiHostname;
-          forwardAgent = true;
-          extraOptions = {
-            RequestTTY = "yes";
-            RemoteCommand = "zellij attach --create dev";
+      matchBlocks =
+        {
+          "* !dev !vdi".setEnv = {
+            TERM = "xterm-256color";
           };
-        };
 
-        "* !dev !vdi".setEnv = {
-          TERM = "xterm-256color";
-        };
+          "10.* *.cwint.ai" =
+            {
+              forwardAgent = true;
+            }
+            // lib.optionalAttrs (cfg.flavor == "laptop") {
+              proxyJump = "vdi";
+            };
 
-        "10.* *.cwint.ai" =
-          {
+          "metal-ztp*" = {
+            user = "acc";
+          };
+        }
+        // lib.optionalAttrs (cfg.vdiHostname != null && cfg.vdiHostname != "") {
+          "vdi" = {
+            hostname = cfg.vdiHostname;
             forwardAgent = true;
-          }
-          // lib.optionalAttrs (cfg.flavor == "laptop") {
-            proxyJump = "vdi";
           };
-
-        "metal-ztp*" = {
-          user = "acc";
+          "dev" = {
+            hostname = cfg.vdiHostname;
+            forwardAgent = true;
+            extraOptions = {
+              RequestTTY = "yes";
+              RemoteCommand = "zellij attach --create dev";
+            };
+          };
         };
-      };
     };
   };
 }

@@ -8,7 +8,7 @@
     bbennett.litra.enable = lib.mkEnableOption "litra autotoggle";
   };
 
-  config = lib.mkIf config.bbennett.dev.enable {
+  config = lib.mkIf config.bbennett.litra.enable {
     home.packages = with pkgs; [
       litra-autotoggle
     ];
