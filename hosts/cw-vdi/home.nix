@@ -10,4 +10,10 @@
     enable = true;
     flavor = "vdi";
   };
+
+  bbennett.lemonade = {
+    enable = true;
+    pbAliases = true;
+    browserEnv = true;
+  };
 }

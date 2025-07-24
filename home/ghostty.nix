@@ -15,7 +15,7 @@
     programs.ghostty = {
       enable = true;
 
-      # Don't install the package on Darwin since it is broken.  This assumes 
+      # Don't install the package on Darwin since it is broken.  This assumes
       # it has been installed via homebrew.
       package = lib.mkIf pkgs.stdenv.isDarwin null;
 
