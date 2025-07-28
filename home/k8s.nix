@@ -4,11 +4,11 @@
   config,
   ...
 }: {
-  options = {
-    bbennett.k8s.enable = lib.mkEnableOption "k8s tools";
+  options.bbennett.k8s = {
+    enable = lib.mkEnableOption "k8s tools";
   };
 
-  config = lib.mkIf config.bbennett.dev.enable {
+  config = lib.mkIf config.bbennett.k8s.enable {
     home.packages = with pkgs; [
       kubernetes-helm
       kubectl

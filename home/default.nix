@@ -11,6 +11,7 @@
     inputs.catppuccin.homeModules.catppuccin
     ./dev.nix
     ./ghostty.nix
+    ./jujutsu.nix
     ./k8s.nix
     ./lemonade.nix
     ./litra.nix
@@ -20,7 +21,8 @@
 
   bbennett.neovim.enable = lib.mkDefault true;
   bbennett.dev.enable = lib.mkDefault true;
-  bbennett.k8s.enable = lib.mkdefault config.bbennett.dev.enable;
+  bbennett.k8s.enable = lib.mkDefault config.bbennett.dev.enable;
+  bbennett.jujutsu.enable = lib.mkDefault config.bbennett.dev.enable;
   bbennett.litra.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.ghostty.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
 
@@ -226,44 +228,6 @@
 
   programs.jqp = {
     enable = true;
-  };
-
-  programs.jujutsu = {
-    enable = true;
-    settings = {
-      user = {
-        email = lib.mkDefault "brandon@brbe.me";
-        name = lib.mkDefault "Brandon Bennett";
-      };
-      ui = {
-        pager = ["delta" "--pager" "less -FRX"];
-        paginate = "auto";
-        diff-formatter = ":git"; # Needed for delta
-      };
-      git = {
-        colocate = true;
-        write-change-id-header = true;
-      };
-      aliases = {
-        s = ["status"];
-        d = ["diff"];
-        n = ["new" "trunk()"];
-
-        hide = ["abandon"];
-        blame = ["file" "annotate"];
-        cat = ["file" "show"];
-
-        clone = ["git" "clone" "--colocate"];
-        push = ["git" "push"];
-        fetch = ["git" "fetch"];
-
-        up = ["edit" "@-"];
-        down = ["edit" "@+"];
-      };
-      templates = {
-        git_push_bookmark = ''"brb/push-" ++ change_id.short()'';
-      };
-    };
   };
 
   programs.btop = {

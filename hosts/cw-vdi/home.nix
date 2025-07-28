@@ -11,6 +11,14 @@
     flavor = "vdi";
   };
 
+  bbennett.jujutsu = {
+    enable = true;
+    user = {
+      email = "bbennett@coreweave.com";
+      name = "Brandon Bennett";
+    };
+  };
+
   bbennett.lemonade = {
     enable = true;
     pbAliases = true;

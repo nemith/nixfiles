@@ -4,7 +4,6 @@
   config,
   ...
 }: let
-  cwEmail = "bbennett@coreweave.com";
   cfg = config.bbennett.work;
 in {
   options.bbennett.work = {
@@ -28,9 +27,6 @@ in {
       go-task
       teleport
     ];
-
-    programs.git.userEmail = cwEmail;
-    programs.jujutsu.settings.user.email = cwEmail;
 
     programs.ssh = {
       extraConfig = lib.concatStringsSep "\n" [
