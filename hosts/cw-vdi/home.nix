@@ -1,14 +1,18 @@
-{inputs, pkgs, lib ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   targets.genericLinux.enable = true;
+  home.packages = with pkgs; [
+    _1password-cli
+    go-task
+    teleport
+  ];
 
   home = {
     username = "bbennett";
     homeDirectory = "/home/bbennett";
-  };
-
-  bbennett.work = {
-    enable = true;
-    flavor = "vdi";
   };
 
   bbennett.jujutsu = {

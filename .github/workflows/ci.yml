@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - name: Check lint
+        run: nix flake check
+
+  darwin:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        host: [strongbad, CW-HM9D4MQMW2-L]
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: DeterminateSystems/nix-installer-action@main
+    - name: Build nix-darwin configuration
+      run: nix build .#darwinConfigurations.${{ matrix.host }}.system
+
+  hm-ubuntu:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        host: ["bbennett@bbennett-1"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - name: Build nix-home-manager configuration
+        run: nix build .#homeConfigurations.${{ matrix.host }}.activationPackage

@@ -113,10 +113,6 @@
     yt-dlp
     zstd
 
-    # atlas
-    terraform
-    opentofu
-
     # fonts
     dosis
     fira-go

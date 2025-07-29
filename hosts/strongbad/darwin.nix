@@ -1,4 +1,4 @@
-{inputs, ...}: {
+_: {
   system.primaryUser = "bbennett";
   users.users.bbennett.home = "/Users/bbennett";
   home-manager.users.bbennett.imports = [
