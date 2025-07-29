@@ -13,7 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/determinate-nix-action@main
+        with:
+          extra-conf:
+            lazy-trees = true
       - name: Check lint
         run: nix flake check
 
@@ -24,10 +27,13 @@ jobs:
         host: [strongbad, CW-HM9D4MQMW2-L]
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: DeterminateSystems/nix-installer-action@main
-    - name: Build nix-darwin configuration
-      run: nix build .#darwinConfigurations.${{ matrix.host }}.system
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/determinate-nix-action@main
+        with:
+          extra-conf:
+            lazy-trees = true
+      - name: Build nix-darwin configuration
+        run: nix build .#darwinConfigurations.${{ matrix.host }}.system
 
   hm-ubuntu:
     runs-on: ubuntu-latest
@@ -37,6 +43,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/determinate-nix-action@main
+        with:
+          extra-conf:
+            lazy-trees = true
       - name: Build nix-home-manager configuration
         run: nix build .#homeConfigurations.${{ matrix.host }}.activationPackage
