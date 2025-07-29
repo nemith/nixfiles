@@ -16,7 +16,6 @@
     ./lemonade.nix
     ./litra.nix
     ./neovim.nix
-    ./work.nix
   ];
 
   bbennett.neovim.enable = lib.mkDefault true;

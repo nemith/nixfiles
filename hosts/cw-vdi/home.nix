@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{inputs, pkgs, lib ...}: {
   targets.genericLinux.enable = true;
 
   home = {
@@ -23,5 +23,21 @@
     enable = true;
     pbAliases = true;
     browserEnv = true;
+  };
+
+  programs.ssh = {
+    extraConfig = lib.concatStringsSep "\n" [
+      "CanonicalDomains cwint.ai"
+      "CanonicalizeHostname always"
+    ];
+    matchBlocks = {
+      "10.* *.cwint.ai" = {
+        forwardAgent = true;
+      };
+
+      "metal-ztp*" = {
+        user = "acc";
+      };
+    };
   };
 }
