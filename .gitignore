@@ -1,1 +1,8 @@
 result
+
+# direnv files
+.direnv
+.envrc
+
+# Generated from check in flake nix
+/.pre-commit-config.yaml

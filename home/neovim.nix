@@ -2,10 +2,9 @@
   inputs,
   lib,
   config,
-  pkgs,
   ...
 }: let
-  utils = inputs.nixCats.utils;
+  inherit (inputs.nixCats) utils;
 in {
   imports = [
     inputs.nixCats.homeModule
@@ -33,15 +32,7 @@ in {
 
       luaPath = ./configs/nvim;
 
-      categoryDefinitions.replace = {
-        pkgs,
-        settings,
-        categories,
-        extra,
-        name,
-        mkPlugin,
-        ...
-      } @ packageDef: {
+      categoryDefinitions.replace = {pkgs, ...}: {
         lspsAndRuntimeDeps = {
           general = with pkgs; [
             lazygit
@@ -107,11 +98,7 @@ in {
       };
 
       packageDefinitions.replace = {
-        bbennettNeovim = {
-          pkgs,
-          name,
-          ...
-        }: {
+        bbennettNeovim = _: {
           settings = {
             suffix-path = true;
             suffix-LD = true;

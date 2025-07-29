@@ -108,7 +108,7 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
--- kickstart.nvim starts you with this. 
+-- kickstart.nvim starts you with this.
 -- But it constantly clobbers your system clipboard whenever you delete anything.
 
 -- Sync clipboard between OS and Neovim.

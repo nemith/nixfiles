@@ -34,8 +34,8 @@ in {
       enable = true;
       settings = {
         user = {
-          email = cfg.user.email;
-          name = cfg.user.name;
+          inherit (cfg.user) email;
+          inherit (cfg.user) name;
         };
         ui = {
           pager = ["delta" "--pager" "less -FRX"];
