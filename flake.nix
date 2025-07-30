@@ -23,7 +23,6 @@
   outputs = {
     self,
     nixpkgs,
-    pre-commit-hooks,
     ...
   } @ inputs: let
     lib = import ./lib {inherit inputs;};
@@ -57,10 +56,16 @@
       };
     });
 
-    devShells = forAllSystems (system: {
-      default = nixpkgs.legacyPackages.${system}.mkShell {
+    devShells = forAllSystems (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      default = pkgs.mkShell {
         inherit (self.checks.${system}.pre-commit-check) shellHook;
-        buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
+        buildInputs =
+          (with pkgs; [
+            statix
+          ])
+          ++ self.checks.${system}.pre-commit-check.enabledPackages;
       };
     });
   };
