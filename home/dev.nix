@@ -9,6 +9,10 @@
   };
 
   config = lib.mkIf config.bbennett.dev.enable {
+    home.sessionPath = [
+      "$HOME/.local/go/bin"
+    ];
+
     home.packages = with pkgs; [
       ast-grep
       delta
@@ -61,6 +65,12 @@
       rustup
       lldb
     ];
+
+    programs.go = {
+      enable = true;
+      goPath = ".local/go";
+      telemetry.mode = "off";
+    };
 
     programs.lazygit = {
       enable = true;
