@@ -12,13 +12,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixCats.url = "github:BirdeeHub/nixCats-nvim";
-    mac-app-util.url = "github:hraban/mac-app-util";
-    catppuccin.url = "github:catppuccin/nix";
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixCats.url = "github:BirdeeHub/nixCats-nvim";
+    mac-app-util.url = "github:hraban/mac-app-util";
+    catppuccin.url = "github:catppuccin/nix";
   };
   outputs = {
     self,
