@@ -25,6 +25,9 @@
         font-thicken = true;
         font-thicken-strength = 192;
         adjust-cell-width = -1;
+        keybind = [
+          "shift+enter=text:\n"
+        ];
       };
     };
   };
