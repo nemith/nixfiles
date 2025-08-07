@@ -18,10 +18,12 @@
     ./litra.nix
     ./neovim.nix
     ./shell.nix
+    ./zellij.nix
   ];
 
   bbennett.shell.enable = lib.mkDefault true;
   bbennett.neovim.enable = lib.mkDefault true;
+  bbennett.zellij.enable = lib.mkDefault true;
 
   bbennett.dev.enable = lib.mkDefault true;
   bbennett.k8s.enable = lib.mkDefault config.bbennett.dev.enable;
@@ -171,18 +173,6 @@
       updates = {
         auto_update = true;
       };
-    };
-  };
-
-  programs.zellij = {
-    enable = true;
-    settings = {
-      default_layout = "compact";
-      ui.pane_frames = {
-        rounded_corners = true;
-      };
-      pane_viewport_serialization = "true";
-      default_shell = "zsh";
     };
   };
 
