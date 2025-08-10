@@ -18,11 +18,13 @@
     ./litra.nix
     ./neovim.nix
     ./shell.nix
+    ./ssh.nix
     ./zellij.nix
   ];
 
-  bbennett.shell.enable = lib.mkDefault true;
   bbennett.neovim.enable = lib.mkDefault true;
+  bbennett.shell.enable = lib.mkDefault true;
+  bbennett.ssh.enable = lib.mkDefault true;
   bbennett.zellij.enable = lib.mkDefault true;
 
   bbennett.dev.enable = lib.mkDefault true;
@@ -68,7 +70,6 @@
     sd
     socat
     sqlite
-    sshpass
     tcpdump
     tree
     trurl
@@ -157,14 +158,6 @@
 
   programs.ripgrep = {
     enable = true;
-  };
-
-  programs.ssh = {
-    enable = true;
-    addKeysToAgent = "yes";
-    extraConfig = lib.concatStringsSep "\n" (
-      lib.optional pkgs.stdenv.isDarwin "UseKeychain yes"
-    );
   };
 
   programs.tealdeer = {

@@ -34,6 +34,7 @@
       "CanonicalDomains cwint.ai"
       "CanonicalizeHostname always"
     ];
+
     matchBlocks = {
       "10.* *.cwint.ai" = {
         forwardAgent = true;
