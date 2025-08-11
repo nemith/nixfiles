@@ -90,6 +90,7 @@
     # fonts
     dosis
     fira-go
+    maple-mono.NF
     nerd-fonts.blex-mono
     nerd-fonts.fira-code
     nerd-fonts.im-writing

@@ -8,9 +8,7 @@
 
   config = lib.mkIf config.bbennett.ghostty.enable {
     # make sure our desired font is installed
-    home.packages = with pkgs; [
-      nerd-fonts.meslo-lg
-    ];
+    home.packages = with pkgs; [ maple-mono.NF ];
 
     programs.ghostty = {
       enable = true;
@@ -21,7 +19,7 @@
 
       settings = {
         font-size = 12;
-        font-family = "MesloLGMDZ Nerd Font Mono";
+        font-family = "Maple Mono NF";
         font-thicken = true;
         font-thicken-strength = 192;
         adjust-cell-width = -1;
