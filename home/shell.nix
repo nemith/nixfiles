@@ -102,11 +102,24 @@
                 foreground = "lightCyan";
                 template = "󱇶 {{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}} ";
               }
+              # JUJUTSU
+              {
+                type = "jujutsu";
+                foreground = "lightMagenta";
+                template = " {{.ChangeID}}{{if .Working.Changed}}  {{ .Working.String }}{{ end }} ";
+                properties = {
+                  fetch_status = true;
+                  #log_templates = {
+                  #  change_id_prefix =  "change_id.shortest(8).prefix()";
+                  #  change_id_rest =  "change_id.shortest(8).rest()";
+                  #};
+                };
+              }
               # GIT
               {
                 type = "git";
                 foreground = "lightMagenta";
-                template = "{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }} ";
+                template = "{{ if not (.Segments.Contains \"Jujutsu\") }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }} {{ end }}";
                 properties = {
                   branch_icon = " ";
                   fetch_status = true;
