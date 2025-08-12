@@ -4,8 +4,19 @@
   config,
   ...
 }: {
-  # Let determinate nix manage nix
-  nix.enable = false;
+  nix = {
+    package = pkgs.lix;
+
+    gc.automatic = true;
+    optimise.automatic = true;
+
+    linux-builder.enable = true;
+
+    settings = {
+      trusted-users = ["@admin"];
+      "extra-experimental-features" = ["nix-command" "flakes"];
+    };
+  };
 
   imports = [
     inputs.mac-app-util.darwinModules.default

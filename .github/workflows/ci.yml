@@ -1,5 +1,4 @@
 name: CI
-
 on:
   push:
     branches:
@@ -7,31 +6,33 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/determinate-nix-action@main
-        with:
-          extra-conf:
-            lazy-trees = true
+      - name: Install Lix
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf -L https://install.lix.systems/lix | \
+            sh -s -- install --no-confirm
+      - name: Add Lix to PATH
+        run: echo "/nix/var/nix/profiles/default/bin" >> $GITHUB_PATH
       - name: Check lint
-        run: nix flake check
+        run: nix flake check --all-systems
 
   darwin:
     runs-on: macos-latest
     strategy:
       matrix:
         host: [strongbad, CW-HM9D4MQMW2-L]
-
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/determinate-nix-action@main
-        with:
-          extra-conf:
-            lazy-trees = true
+      - name: Install Lix
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf -L https://install.lix.systems/lix | \
+            sh -s -- install --no-confirm
+      - name: Add Lix to PATH
+        run: echo "/nix/var/nix/profiles/default/bin" >> $GITHUB_PATH
       - name: Build nix-darwin configuration
         run: nix build .#darwinConfigurations.${{ matrix.host }}.system
 
@@ -40,12 +41,13 @@ jobs:
     strategy:
       matrix:
         host: ["bbennett@bbennett-1"]
-
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/determinate-nix-action@main
-        with:
-          extra-conf:
-            lazy-trees = true
+      - name: Install Lix
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf -L https://install.lix.systems/lix | \
+            sh -s -- install --no-confirm
+      - name: Add Lix to PATH
+        run: echo "/nix/var/nix/profiles/default/bin" >> $GITHUB_PATH
       - name: Build nix-home-manager configuration
         run: nix build .#homeConfigurations.${{ matrix.host }}.activationPackage

@@ -8,7 +8,7 @@
 
   config = lib.mkIf config.bbennett.ghostty.enable {
     # make sure our desired font is installed
-    home.packages = with pkgs; [ maple-mono.NF ];
+    home.packages = with pkgs; [maple-mono.NF];
 
     programs.ghostty = {
       enable = true;
