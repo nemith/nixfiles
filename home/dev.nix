@@ -9,10 +9,6 @@
   };
 
   config = lib.mkIf config.bbennett.dev.enable {
-    home.sessionPath = [
-      "$HOME/.local/go/bin"
-    ];
-
     home.packages = with pkgs; [
       ast-grep
       delta
@@ -44,18 +40,6 @@
       bazel-buildtools
       bazelisk
 
-      # python
-      python313
-      pre-commit
-      uv
-      poetry
-
-      # go
-      gofumpt
-      golangci-lint
-      delve
-      gotools
-
       zig
 
       nodePackages.prettier
@@ -67,19 +51,8 @@
       lldb
     ];
 
-    programs.go = {
-      enable = true;
-      goPath = ".local/go";
-      telemetry.mode = "off";
-    };
-
     programs.lazygit = {
       enable = true;
-    };
-
-    programs.ruff = {
-      enable = true;
-      settings = {};
     };
 
     home.shellAliases = {

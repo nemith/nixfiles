@@ -20,6 +20,10 @@ _: {
       "utm"
       "visual-studio-code"
       "wireshark"
+      {
+        name = "librewolf";
+        args.no_quarantine = true;
+      }
     ];
 
     #masApps = {
