@@ -7,7 +7,7 @@
   home.packages = with pkgs; [
     _1password-cli
     go-task
-    teleport
+    teleport_16
   ];
 
   home = {
@@ -28,6 +28,10 @@
     pbAliases = true;
     browserEnv = true;
   };
+
+  programs.go.goPrivate = [
+    "github.com/coreweave/*"
+  ];
 
   programs.ssh = {
     extraConfig = lib.concatStringsSep "\n" [

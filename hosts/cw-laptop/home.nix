@@ -9,7 +9,7 @@ in {
   home.packages = with pkgs; [
     _1password-cli
     go-task
-    teleport
+    teleport_16
   ];
 
   bbennett.jujutsu = {
@@ -30,6 +30,10 @@ in {
   bbennett.ssh = {
     defaultTermEnv.excludePatterns = "!dev !vdi";
   };
+
+  programs.go.goPrivate = [
+    "github.com/coreweave/*"
+  ];
 
   programs.ssh = {
     matchBlocks = {

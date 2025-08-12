@@ -10,11 +10,12 @@
 
   config = lib.mkIf config.bbennett.k8s.enable {
     home.packages = with pkgs; [
-      kubernetes-helm
       kubectl
       kubectx
+      kubernetes-helm
       kubeswitch
       kustomize
+      stern
     ];
 
     programs.k9s = {
