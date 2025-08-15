@@ -21,6 +21,7 @@ jobs:
         run: nix flake check --all-systems
 
   darwin:
+    needs: lint # delay until we know the lint is ok
     runs-on: macos-latest
     strategy:
       matrix:
@@ -37,6 +38,7 @@ jobs:
         run: nix build .#darwinConfigurations.${{ matrix.host }}.system
 
   hm-ubuntu:
+    needs: lint # delay until we know the lint is ok
     runs-on: ubuntu-latest
     strategy:
       matrix:
