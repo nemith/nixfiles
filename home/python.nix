@@ -43,6 +43,10 @@ in {
         others = cfg.other_packages;
       });
 
+    home.sessionVariables = {
+      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib/";
+    };
+
     programs.ruff = {
       enable = true;
       settings = {};
