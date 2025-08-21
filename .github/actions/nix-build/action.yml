@@ -1,0 +1,116 @@
+# .github/actions/nvd-comment/action.yml
+name: 'Nix Build and compare'
+description: 'Build packages, compare with nvd'
+
+inputs:
+  build-target:
+    description: 'Nix build target (e.g., .#darwinConfigurations.host.system)'
+    required: true
+  job-name:
+    description: 'Job name for the comment header'
+    required: true
+  github-token:
+    description: 'GitHub token for commenting'
+    required: true
+    default: ${{ github.token }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Get base commit for comparison
+      id: base
+      shell: bash
+      run: |
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          echo "base_sha=${{ github.event.pull_request.base.sha }}" >> $GITHUB_OUTPUT
+        else
+          # For push events, compare with previous commit
+          echo "base_sha=${{ github.event.before }}" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Build old version
+      shell: bash
+      run: |
+        current_commit=$(git rev-parse HEAD)
+
+        # Checkout old commit
+        git fetch origin ${{ steps.base.outputs.base_sha }}
+        git checkout ${{ steps.base.outputs.base_sha }}
+
+        if nix build ${{ inputs.build-target }} --out-link old-result; then
+          echo "old_build_success=true" >> $GITHUB_ENV
+        else
+          echo "old_build_success=false" >> $GITHUB_ENV
+          echo "Old build failed, will skip comparison"
+        fi
+
+        # Return to current commit
+        git checkout $current_commit
+
+    - name: Build new version
+      shell: bash
+      run: |
+        echo "Building new version..."
+        if nix build ${{ inputs.build-target }} --out-link new-result; then
+          echo "new_build_success=true" >> $GITHUB_ENV
+        else
+          echo "new_build_success=false" >> $GITHUB_ENV
+          echo "New build failed"
+          exit 1
+        fi
+
+    - name: Generate nvd comparison
+      shell: bash
+      run: |
+        echo "## 🔍 Package Changes - ${{ inputs.job-name }}" > nvd_output.md
+        echo "" >> nvd_output.md
+
+        if [ "$old_build_success" = "true" ] && [ "$new_build_success" = "true" ]; then
+          echo "**Build target:** \`${{ inputs.build-target }}\`" >> nvd_output.md
+          echo "" >> nvd_output.md
+
+          if nix run nixpkgs#nvd -- diff old-result new-result 2>&1 | tee nvd_diff.txt; then
+            if [ -s nvd_diff.txt ]; then
+              echo "<details><summary>Package differences</summary>" >> nvd_output.md
+              echo "" >> nvd_output.md
+              echo '```' >> nvd_output.md
+              cat nvd_diff.txt >> nvd_output.md
+              echo '```' >> nvd_output.md
+              echo "</details>" >> nvd_output.md
+            else
+              echo "✅ No package changes detected" >> nvd_output.md
+            fi
+          else
+            echo "❌ Failed to run nvd comparison" >> nvd_output.md
+          fi
+        elif [ "$old_build_success" = "false" ]; then
+          echo "⚠️ Could not compare - base commit build failed" >> nvd_output.md
+        else
+          echo "❌ Current build failed" >> nvd_output.md
+        fi
+
+        # Clean up
+        rm -f old-result new-result nvd_diff.txt
+
+    - name: Comment on PR
+      if: github.event_name == 'pull_request'
+      shell: bash
+      run: |
+        # Check if we already have a comment for this job
+        existing_comment=$(gh pr view ${{ github.event.number }} --json comments --jq '.comments[] | select(.body | contains("Package Changes - ${{ inputs.job-name }}")) | .url' | sed 's/.*#issuecomment-//' | head -n1)
+
+        comment_body=$(cat nvd_output.md)
+
+        if [ -n "$existing_comment" ]; then
+          echo "Updating existing comment (ID: $existing_comment)..."
+          gh api repos/${{ github.repository }}/issues/comments/$existing_comment \
+            --method PATCH \
+            --field body="$comment_body"
+        else
+          echo "Creating new comment..."
+          gh pr comment ${{ github.event.number }} --body "$comment_body"
+        fi
+
+        rm -f nvd_output.md
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}

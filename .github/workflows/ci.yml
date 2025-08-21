@@ -6,17 +6,18 @@ on:
   pull_request:
     branches:
       - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Lix
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf -L https://install.lix.systems/lix | \
-            sh -s -- install --no-confirm
-      - name: Add Lix to PATH
-        run: echo "/nix/var/nix/profiles/default/bin" >> $GITHUB_PATH
+      - name: Setup Lix
+        uses: ./.github/actions/setup-lix
       - name: Check lint
         run: nix flake check --all-systems
 
@@ -27,14 +28,14 @@ jobs:
         host: [strongbad, CW-HM9D4MQMW2-L]
     steps:
       - uses: actions/checkout@v4
-      - name: Install Lix
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf -L https://install.lix.systems/lix | \
-            sh -s -- install --no-confirm
-      - name: Add Lix to PATH
-        run: echo "/nix/var/nix/profiles/default/bin" >> $GITHUB_PATH
+      - name: Setup Lix
+        uses: ./.github/actions/setup-lix
       - name: Build nix-darwin configuration
-        run: nix build .#darwinConfigurations.${{ matrix.host }}.system
+        uses: ./.github/actions/nix-build
+        with:
+          build-target: .#darwinConfigurations.${{ matrix.host }}.system
+          job-name: "Darwin (${{ matrix.host }})"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   hm-ubuntu:
     runs-on: ubuntu-latest
@@ -43,11 +44,11 @@ jobs:
         host: ["bbennett@bbennett-1"]
     steps:
       - uses: actions/checkout@v4
-      - name: Install Lix
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf -L https://install.lix.systems/lix | \
-            sh -s -- install --no-confirm
-      - name: Add Lix to PATH
-        run: echo "/nix/var/nix/profiles/default/bin" >> $GITHUB_PATH
-      - name: Build nix-home-manager configuration
-        run: nix build .#homeConfigurations.${{ matrix.host }}.activationPackage
+      - name: Setup Lix
+        uses: ./.github/actions/setup-lix
+      - name: Build home-manager configuration
+        uses: ./.github/actions/nix-build
+        with:
+          build-target: .#homeConfigurations.${{ matrix.host }}.activationPackage
+          job-name: "Home Manager (${{ matrix.host }})"
+          github-token: ${{ secrets.GITHUB_TOKEN }}

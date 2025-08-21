@@ -1,0 +1,148 @@
+name: Update Nix Flakes
+on:
+  schedule:
+   - cron: '0 8 * * *'  # 8am UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-flakes:
+    runs-on: ubuntu-latest
+    env:
+      branch_name: flake-updates
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Lix
+        uses: ./.github/actions/setup-lix
+
+      - name: Check for existing update PR
+        id: check-pr
+        run: |
+          existing_pr=$(gh pr list --state open --label "flake-update" --json number --jq '.[0].number // empty')
+          echo "existing_pr_number=$existing_pr" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup branch
+        run: |
+          if [ -n "${{ steps.check-pr.outputs.existing_pr_number }}" ]; then
+            echo "Updating existing branch: $branch_name"
+            git fetch origin "$branch_name"
+            git switch "$branch_name"
+            git reset --hard origin/main  # Reset to latest main
+          else
+            echo "Creating new branch: $branch_name"
+            git switch -c "$branch_name"
+          fi
+
+      - name: Update flake inputs
+        id: update
+        run: |
+          nix flake update --commit-lock-file
+
+          # Check if anything actually changed
+          if git diff HEAD~1 --quiet flake.lock; then
+            echo "No updates available"
+            echo "updates_available=false" >> $GITHUB_OUTPUT
+          else
+            echo "updates_available=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate update summary
+        if: steps.update.outputs.updates_available == 'true'
+        run: |
+          echo "## Flake Input Updates" > update_summary.md
+          echo "" >> update_summary.md
+
+          # Get old and new metadata
+          nix flake metadata --json > new_metadata.json
+          git show HEAD~1:flake.lock > old_flake.lock
+          cp flake.lock new_flake.lock
+          cp old_flake.lock flake.lock
+          nix flake metadata --json > old_metadata.json
+          cp new_flake.lock flake.lock
+
+          # Compare with jq and generate markdown
+          jq -r --slurpfile old old_metadata.json '
+            .locks.nodes as $new |
+            $old[0].locks.nodes as $old_nodes |
+            $new | to_entries[] |
+            select(.key != "root") |
+            select(.value.locked.rev != $old_nodes[.key].locked.rev) |
+            .key as $name |
+            .value.locked.rev[:8] as $new_rev |
+            ($old_nodes[.key].locked.rev // "unknown")[:8] as $old_rev |
+            .value.original as $orig |
+            if ($orig.owner and $orig.repo) then
+              "- **\($name)**: [`\($old_rev)`](https://github.com/\($orig.owner)/\($orig.repo)/commit/\($old_rev)) → [`\($new_rev)`](https://github.com/\($orig.owner)/\($orig.repo)/commit/\($new_rev)) ([compare](https://github.com/\($orig.owner)/\($orig.repo)/compare/\($old_rev)...\($new_rev)))"
+            else
+              "- **\($name)**: `\($old_rev)` → `\($new_rev)`"
+            end
+          ' new_metadata.json >> update_summary.md
+
+          # Clean up
+          rm -f old_metadata.json new_metadata.json old_flake.lock new_flake.lock
+
+      - name: Push changes and update/create PR
+        if: steps.update.outputs.updates_available == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Commit the changes
+          git add flake.lock
+          git commit -m "chore: update Nix flake inputs" || {
+            echo "No changes to commit"
+            exit 0
+          }
+
+          git push origin "$branch_name" --force-with-lease
+
+          # Prepbody
+          pr_body=$(cat update_summary.md)
+          pr_title="chore: update Nix flake inputs ($(date +%Y-%m-%d))"
+
+          if [ -n "${{ steps.check-pr.outputs.existing_pr_number }}" ]; then
+            # Update existing PR
+            pr_number="${{ steps.check-pr.outputs.existing_pr_number }}"
+            echo "Updating existing PR #$pr_number"
+
+            # Update PR title and body
+            gh pr edit "$pr_number" \
+              --title "$pr_title" \
+              --body "$pr_body"
+
+            # Add a comment about the update
+            gh pr comment "$pr_number" --body "$(cat <<EOF
+            🔄 **Flake inputs updated** ($(date '+%Y-%m-%d %H:%M UTC'))
+
+            $pr_body
+            EOF
+            )"
+          else
+            # Create new PR
+            echo "Creating new PR"
+            gh pr create \
+              --title "$pr_title" \
+              --body "$pr_body" \
+              --label "flake-update" \
+              --label "dependencies"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean up if no updates
+        if: steps.update.outputs.updates_available == 'false'
+        run: |
+          echo "No flake updates available"
+          if [ -n "${{ steps.check-pr.outputs.existing_pr_number }}" ]; then
+            pr_number="${{ steps.check-pr.outputs.existing_pr_number }}"
+            gh pr comment "$pr_number" --body "✅ **No new updates available** (checked $(date '+%Y-%m-%d %H:%M UTC'))"
+          fi
