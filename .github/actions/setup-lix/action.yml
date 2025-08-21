@@ -1,0 +1,20 @@
+name: 'Setup Lix'
+description: 'Install Lix'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Lix
+      shell: bash
+      run: |
+        if ! command -v nix >/dev/null 2>&1; then
+          echo "Installing Lix..."
+          curl --proto '=https' --tlsv1.2 -sSf -L https://install.lix.systems/lix | \
+            sh -s -- install --no-confirm
+        else
+          echo "Nix/Lix already installed"
+        fi
+
+    - name: Add Lix to PATH
+      shell: bash
+      run: echo "/nix/var/nix/profiles/default/bin" >> $GITHUB_PATH
