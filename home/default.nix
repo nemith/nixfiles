@@ -9,6 +9,7 @@
 
   imports = [
     inputs.catppuccin.homeModules.catppuccin
+    ./darwin_apps.nix
     ./dev.nix
     ./ghostty.nix
     ./git.nix
@@ -18,10 +19,11 @@
     ./lemonade.nix
     ./litra.nix
     ./neovim.nix
+    ./python.nix
     ./shell.nix
     ./ssh.nix
+    ./vscode.nix
     ./zellij.nix
-    ./python.nix
   ];
 
   bbennett.neovim.enable = lib.mkDefault true;
@@ -36,8 +38,10 @@
   bbennett.go.enable = lib.mkDefault config.bbennett.dev.enable;
   bbennett.python.enable = lib.mkDefault config.bbennett.dev.enable;
 
+  bbennett.darwin-apps.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.litra.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.ghostty.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
+  bbennett.vscode.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
 
   catppuccin.enable = true;
 
