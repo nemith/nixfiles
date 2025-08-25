@@ -15,7 +15,7 @@
 
       # Don't install the package on Darwin since it is broken.  This assumes
       # it has been installed via homebrew.
-      package = lib.mkIf pkgs.stdenv.isDarwin null;
+      package = lib.mkIf pkgs.stdenv.isDarwin pkgs.ghostty-bin;
 
       settings = {
         font-size = 12;
