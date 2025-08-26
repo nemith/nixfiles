@@ -6,7 +6,7 @@
 }: {
   options.bbennett.vscode.enable = lib.mkEnableOption "vscode";
 
-  config = lib.mkIf config.bbennett.ghostty.enable {
+  config = lib.mkIf config.bbennett.vscode.enable {
     # make sure our desired font is installed
     home.packages = with pkgs; [maple-mono.NF];
 
