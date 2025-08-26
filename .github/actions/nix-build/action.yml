@@ -73,7 +73,7 @@ runs:
           echo "**Build target:** \`${{ inputs.build-target }}\`" >> nvd_output.md
           echo "" >> nvd_output.md
 
-          if nix run nixpkgs#nvd -- diff old-result new-result 2>&1 | tee nvd_diff.txt; then
+          if nix run nixpkgs#nvd -- diff old-result new-result | tee nvd_diff.txt; then
             if [ -s nvd_diff.txt ]; then
               echo "<details><summary>Package differences</summary>" >> nvd_output.md
               echo "" >> nvd_output.md
