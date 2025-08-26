@@ -1,6 +1,12 @@
 name: 'Setup Lix'
 description: 'Install Lix'
 
+inputs:
+  github-token:
+    description: 'GitHub token'
+    required: false
+    default: ${{ github.token }}
+
 runs:
   using: 'composite'
   steps:
@@ -13,6 +19,16 @@ runs:
             sh -s -- install --no-confirm
         else
           echo "Nix/Lix already installed"
+        fi
+
+    - name: Configure Lix
+      shell: bash
+      run: |
+        mkdir -p ~/.config/nix
+
+        # Add access token to get around rate-limiting
+        if [ -n "${{ inputs.github-token }}" ]; then
+          echo "access-tokens = github.com=${{ inputs.github-token }}" >> ~/.config/nix/nix.conf
         fi
 
     - name: Add Lix to PATH
