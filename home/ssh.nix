@@ -37,13 +37,16 @@ in {
 
     programs.ssh = {
       enable = true;
-      addKeysToAgent = "yes";
-      extraConfig = lib.concatStringsSep "\n" (
-        lib.optional pkgs.stdenv.isDarwin "UseKeychain yes"
-      );
+      enableDefaultConfig = false;
+      matchBlocks = {
+        "*" = {
+          addKeysToAgent = "yes";
+          extraOptions = lib.optionalAttrs pkgs.stdenv.isDarwin {
+            UseKeychain = "yes";
+          };
+        };
 
-      matchBlocks = lib.mkIf cfg.defaultTermEnv.enable {
-        "* ${cfg.defaultTermEnv.excludePatterns}".setEnv = {
+        "* ${cfg.defaultTermEnv.excludePatterns}".setEnv = lib.optionalAttrs cfg.defaultTermEnv.enable {
           TERM = cfg.defaultTermEnv.termEnv;
         };
       };
