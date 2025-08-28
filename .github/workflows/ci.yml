@@ -16,8 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Lix
-        uses: ./.github/actions/setup-lix
+      - name: Setup Nix
+        uses: ./.github/actions/setup-nix
       - name: Check lint
         run: nix flake check --all-systems
 
@@ -29,8 +29,8 @@ jobs:
         host: [strongbad, CW-HM9D4MQMW2-L]
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Lix
-        uses: ./.github/actions/setup-lix
+      - name: Setup Nix
+        uses: ./.github/actions/setup-nix
       - name: Build nix-darwin configuration
         uses: ./.github/actions/nix-build
         with:
@@ -46,8 +46,8 @@ jobs:
         host: ["bbennett@bbennett-1"]
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Lix
-        uses: ./.github/actions/setup-lix
+      - name: Setup Nix
+        uses: ./.github/actions/setup-nix
       - name: Build home-manager configuration
         uses: ./.github/actions/nix-build
         with:

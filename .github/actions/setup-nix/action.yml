@@ -1,0 +1,25 @@
+name: 'Setup Nix'
+description: 'Install Nix'
+
+inputs:
+  github-token:
+    description: 'GitHub token'
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: nixbuild/nix-quick-install-action@v33
+      with:
+        nix_conf: |
+          keep-env-derivations = true
+          keep-outputs = true
+          access-tokens = github.com=${{ inputs.github-token }}
+
+    - name: Restore and save Nix store
+      uses: nix-community/cache-nix-action@v6
+      with:
+        primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
+        restore-prefixes-first-match: nix-${{ runner.os }}-
+        gc-max-store-size: 5G
