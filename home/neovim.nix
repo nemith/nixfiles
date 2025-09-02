@@ -2,6 +2,7 @@
   inputs,
   lib,
   config,
+  pkgs,
   ...
 }: let
   inherit (inputs.nixCats) utils;
@@ -15,6 +16,12 @@ in {
   config = lib.mkIf config.bbennett.neovim.enable {
     home.sessionVariables = {
       EDITOR = "nvim";
+    };
+
+    home.shellAliases = {
+      # nixCats takes over the regular nvim command which will overwrite things
+      # like NVIM_APPNAME.  So for testing config it's nice to have direct access.
+      nvim-base = "${pkgs.neovim-unwrapped}/bin/nvim";
     };
 
     nixCats = {
