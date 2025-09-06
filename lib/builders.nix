@@ -8,6 +8,26 @@
     inputs.nur.overlays.default
   ];
 in {
+  mkNixosConfig = {
+    system,
+    hostname,
+  }:
+    nixpkgs.lib.nixosSystem {
+      inherit system;
+      specialArgs = {inherit inputs;};
+      modules = [
+        ../machines/${hostname}/configuration.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = {inherit inputs;};
+          };
+        }
+      ];
+    };
+
   mkDarwinConfig = hostname:
     nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
@@ -15,7 +35,7 @@ in {
       modules = [
         {nixpkgs.overlays = nixpkgOverlays;}
         ../darwin
-        ../hosts/${hostname}/darwin.nix
+        ../machines/${hostname}/darwin.nix
       ];
     };
 
@@ -32,7 +52,7 @@ in {
       extraSpecialArgs = {inherit inputs;};
       modules = [
         ../home
-        ../hosts/${hostname}/home.nix
+        ../machines/${hostname}/home.nix
       ];
     };
 }
