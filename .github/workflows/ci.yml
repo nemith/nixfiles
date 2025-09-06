@@ -16,10 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
       - name: Setup Lix
         uses: ./.github/actions/setup-lix
       - name: Check lint
-        run: nix flake check --all-systems
+        run: nix build .#checks.x86_64-linux.pre-commit-check
 
   darwin:
     needs: lint # delay until we know the lint is ok
@@ -38,7 +39,7 @@ jobs:
           job-name: "Darwin (${{ matrix.host }})"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-  hm-ubuntu:
+  hm:
     needs: lint # delay until we know the lint is ok
     runs-on: ubuntu-latest
     strategy:
@@ -53,4 +54,21 @@ jobs:
         with:
           build-target: .#homeConfigurations.${{ matrix.host }}.activationPackage
           job-name: "Home Manager (${{ matrix.host }})"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  nixos-arm:
+    needs: lint # delay until we know the lint is ok
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        host: [devvm]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Lix
+        uses: ./.github/actions/setup-lix
+      - name: Build nixos configuration
+        uses: ./.github/actions/nix-build
+        with:
+          build-target: .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
+          job-name: "NixOS (${{ matrix.host }})"
           github-token: ${{ secrets.GITHUB_TOKEN }}

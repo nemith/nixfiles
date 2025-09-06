@@ -3,6 +3,6 @@
   builders = import ./builders.nix {inherit inputs overlays;};
 in {
   inherit overlays builders;
-  inherit (builders) mkDarwinConfig mkHomeConfig;
+  inherit (builders) mkNixosConfig mkDarwinConfig mkHomeConfig;
   inherit (overlays) myPackages;
 }

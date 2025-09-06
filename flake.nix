@@ -32,9 +32,16 @@
     ...
   } @ inputs: let
     lib = import ./lib {inherit inputs;};
-    supportedSystems = ["x86_64-linux" "aarch64-darwin"];
+    supportedSystems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
   in {
+    nixosConfigurations = {
+      devvm = lib.mkNixosConfig {
+        hostname = "cw-laptop-devvm";
+        system = "aarch64-linux";
+      };
+    };
+
     darwinConfigurations = {
       strongbad = lib.mkDarwinConfig "strongbad";
       CW-HM9D4MQMW2-L = lib.mkDarwinConfig "cw-laptop";

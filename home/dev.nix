@@ -35,7 +35,7 @@
 
       opencode
       claude-code
-      nur.repos.charmbracelet.crush
+      #      nur.repos.charmbracelet.crush
 
       bazel-buildtools
       bazelisk
