@@ -81,11 +81,27 @@
             type = "prompt";
             alignment = "left";
             segments = [
+              # OS
+              {
+                type = "os";
+                foreground = "lightGreen";
+                template = "{{ if .WSL }}[WSL]{{ end }}{{.Icon}} ";
+              }
               # USER
               {
                 type = "session";
                 foreground = "lightYellow";
-                template = " {{ .UserName }}{{ if .SSHSession }}@{{ .HostName }}{{ end }} ";
+                foreground_templates = [
+                  ''
+                    {{- $colors := list "f38ba8" "ff6b35" "fab387" "d4af37" "f9e2af" "a6e3a1" "40a02b" "20b2aa"
+                                        "94e2d5" "6bcae2" "89b4fa" "4682b4" "1e66f5" "8839ef" "9370db" "cba6f7"
+                                        "f5c2e7" "ff8fab" "dc8a78" "8b4513" "696969" "a9a9a9" "c0c0c0" "2f3349"
+                                        "b8860b" "87ceeb" "32cd32" "ff1493" "8fbc8f" "dda0dd" "f0e68c" "cd853f" -}}
+                    {{- $hostnameHash := mod (printf "0x%s" ( .HostName | sha1sum | trunc 8) | int ) (len $colors) -}}
+                    {{ printf "#%s" (index $colors $hostnameHash) -}}
+                  ''
+                ];
+                template = "{{ if .SSHSession }} {{ else }} {{end }}{{ .UserName }}{{ if .SSHSession }}@{{ .HostName }}{{ end }} ";
               }
               # PATH
               {
@@ -99,7 +115,7 @@
               # K8S
               {
                 type = "kubectl";
-                foreground = "lightCyan";
+                foreground = "lightYellow";
                 template = "󱇶 {{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}} ";
               }
               # JUJUTSU
