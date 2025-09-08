@@ -40,8 +40,6 @@
       bazel-buildtools
       bazelisk
 
-      zig
-
       nodePackages.prettier
       nodejs # LTS
 

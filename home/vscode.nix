@@ -36,7 +36,6 @@
           timonwong.shellcheck
           visualjj.visualjj
           vscodevim.vim
-          ziglang.vscode-zig
         ];
         userSettings = {
           "github.copilot.nextEditSuggestions.enabled" = true;
