@@ -21,6 +21,7 @@
     ./ssh.nix
     ./vscode.nix
     ./zellij.nix
+    ./zig.nix
   ];
 
   bbennett.neovim.enable = lib.mkDefault true;
@@ -34,6 +35,7 @@
   bbennett.git.enable = lib.mkDefault config.bbennett.dev.enable;
   bbennett.go.enable = lib.mkDefault config.bbennett.dev.enable;
   bbennett.python.enable = lib.mkDefault config.bbennett.dev.enable;
+  bbennett.zig.enable = lib.mkDefault config.bbennett.dev.enable;
 
   bbennett.litra.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.ghostty.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
