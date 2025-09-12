@@ -4,7 +4,7 @@
   ...
 }: {
   nix = {
-    package = pkgs.lix;
+    package = pkgs.lixPackageSets.stable.lix;
 
     gc.automatic = true;
     optimise.automatic = true;
