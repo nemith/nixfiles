@@ -4,6 +4,8 @@
   ...
 }: {
   targets.genericLinux.enable = true;
+  nix.package = pkgs.lixPackageSets.stable.lix;
+
   home.packages = with pkgs; [
     _1password-cli
     go-task
