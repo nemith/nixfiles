@@ -15,10 +15,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-qemu-action@v3
-      - name: Setup Lix
-        uses: ./.github/actions/setup-lix
+      - uses: actions/checkout@v5
+      - name: Setup Nix
+        uses: ./.github/actions/setup-nix
+        with:
+          skip-space-reclaimation: 'true'
       - name: Check lint
         run: nix build .#checks.x86_64-linux.pre-commit-check
 
@@ -29,9 +30,9 @@ jobs:
       matrix:
         host: [strongbad, CW-HM9D4MQMW2-L]
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Lix
-        uses: ./.github/actions/setup-lix
+      - uses: actions/checkout@v5
+      - name: Setup Nix
+        uses: ./.github/actions/setup-nix
       - name: Build nix-darwin configuration
         uses: ./.github/actions/nix-build
         with:
@@ -46,9 +47,9 @@ jobs:
       matrix:
         host: ["bbennett@bbennett-1"]
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Lix
-        uses: ./.github/actions/setup-lix
+      - uses: actions/checkout@v5
+      - name: Setup Nix
+        uses: ./.github/actions/setup-nix
       - name: Build home-manager configuration
         uses: ./.github/actions/nix-build
         with:
@@ -63,9 +64,9 @@ jobs:
       matrix:
         host: [devvm]
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Lix
-        uses: ./.github/actions/setup-lix
+      - uses: actions/checkout@v5
+      - name: Setup Nix
+        uses: ./.github/actions/setup-nix
       - name: Build nixos configuration
         uses: ./.github/actions/nix-build
         with:
