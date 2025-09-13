@@ -12,7 +12,6 @@
 
   nixpkgs.config.allowUnfree = true;
   nix = {
-    package = pkgs.lixPackageSets.stable.lix;
     settings.experimental-features = [
       "nix-command"
       "flakes"
