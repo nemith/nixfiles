@@ -72,21 +72,27 @@ jobs:
       - name: Generate update summary
         if: steps.update.outputs.updates_available == 'true'
         run: |
+          TMP_DIR=$(mktemp -d)
+          git show HEAD~1:flake.lock > "$TMP_DIR/old_flake.lock"
+
+          echo "::group::Old flake.lock"
+          cat "$TMP_DIR/old_flake.lock"
+          echo "::endgroup::"
+
+          echo "::group::New flake.lock"
+          cat flake.lock
+          echo "::endgroup::"
+
           echo "## Flake Input Updates" | tee update_summary.md
-          echo "" | tee -a  update_summary.md
+          echo "" | tee -a update_summary.md
 
-          # Get old and new metadata
-          nix flake metadata --no-update-lock-file --json | tee new_metadata.json
-          git show HEAD~1:flake.lock | tee old_flake.lock
-          nix flake metadata --no-update-lock-file --json --reference-lock-file ./old_flake.lock | tee old_metadata.json
-
-          # Compare with jq and generate markdown
-          jq -r --slurpfile old old_metadata.json '
-            .locks.nodes as $new |
-            $old[0].locks.nodes as $old_nodes |
+          # Compare old lock file with the current one and generate markdown
+          jq -r --slurpfile old "$TMP_DIR/old_flake.lock" '
+            .nodes as $new |
+            $old[0].nodes as $old_nodes |
             $new | to_entries[] |
             select(.key != "root") |
-            select(.value.locked.rev != $old_nodes[.key].locked.rev) |
+            select(.value.locked.rev != ($old_nodes[.key].locked.rev // "unknown")) |
             .key as $name |
             .value.locked.rev[:8] as $new_rev |
             ($old_nodes[.key].locked.rev // "unknown")[:8] as $old_rev |
@@ -96,10 +102,10 @@ jobs:
             else
               "- **\($name)**: `\($old_rev)` → `\($new_rev)`"
             end
-          ' new_metadata.json | tee -a update_summary.md
+          ' flake.lock | tee -a update_summary.md
 
-          # Clean up
-          rm -f old_metadata.json new_metadata.json old_flake.lock
+          # Clean up the temporary directory and its contents
+          rm -rf "$TMP_DIR"
 
       - name: Push changes and update/create PR
         if: steps.update.outputs.updates_available == 'true'
