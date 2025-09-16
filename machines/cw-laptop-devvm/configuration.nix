@@ -34,6 +34,7 @@
   home-manager.users.bbennett = {
     imports = [
       ../../home
+      ../../home/personalities/cw.nix
     ];
     home.stateVersion = "25.05";
   };

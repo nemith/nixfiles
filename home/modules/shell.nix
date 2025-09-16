@@ -207,7 +207,7 @@
       };
 
       historySubstringSearch.enable = true;
-      initContent = builtins.readFile ./configs/extra.zshrc;
+      initContent = builtins.readFile ./../configs/extra.zshrc;
     };
   };
 }

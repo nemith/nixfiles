@@ -38,8 +38,9 @@ in {
     ];
 
     programs.go = {
-      inherit (cfg) package goPath;
+      inherit (cfg) package;
       enable = true;
+      env.GOPATH = cfg.goPath;
       telemetry.mode = "off";
     };
   };

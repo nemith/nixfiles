@@ -1,24 +1,11 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }: let
   vdiHostname = "bbennett-1.tenant-coreweave-vdi.coreweave.cloud";
 in {
-  home.packages = with pkgs; [
-    _1password-cli
-    go-task
-    teleport_16
-  ];
-
-  bbennett.jujutsu = {
-    enable = true;
-    user = {
-      email = "bbennett@coreweave.com";
-      name = "Brandon Bennett";
-    };
-  };
+  imports = [../../home/personalities/cw.nix];
 
   bbennett.lemonade = {
     enable = true;
@@ -30,10 +17,6 @@ in {
   bbennett.ssh = {
     defaultTermEnv.excludePatterns = "!dev !vdi";
   };
-
-  programs.go.goPrivate = [
-    "github.com/coreweave/*"
-  ];
 
   programs.ssh = {
     matchBlocks = {

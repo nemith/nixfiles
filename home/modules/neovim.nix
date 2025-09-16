@@ -21,7 +21,7 @@ in {
     home.shellAliases = {
       # nixCats takes over the regular nvim command which will overwrite things
       # like NVIM_APPNAME.  So for testing config it's nice to have direct access.
-      nvim-base = "${pkgs.neovim-unwrapped}/bin/nvim";
+      nvim-unwrapped = "${pkgs.neovim-unwrapped}/bin/nvim";
     };
 
     nixCats = {
@@ -37,7 +37,7 @@ in {
 
       packageNames = ["bbennettNeovim"];
 
-      luaPath = ./configs/nvim;
+      luaPath = ../configs/nvim;
 
       categoryDefinitions.replace = {pkgs, ...}: {
         lspsAndRuntimeDeps = {

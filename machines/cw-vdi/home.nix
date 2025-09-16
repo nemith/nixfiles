@@ -1,27 +1,10 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{lib, ...}: {
+  imports = [../../home/personalities/cw.nix];
   targets.genericLinux.enable = true;
-
-  home.packages = with pkgs; [
-    _1password-cli
-    go-task
-    teleport_16
-  ];
 
   home = {
     username = "bbennett";
     homeDirectory = "/home/bbennett";
-  };
-
-  bbennett.jujutsu = {
-    enable = true;
-    user = {
-      email = "bbennett@coreweave.com";
-      name = "Brandon Bennett";
-    };
   };
 
   bbennett.lemonade = {
@@ -29,10 +12,6 @@
     pbAliases = true;
     browserEnv = true;
   };
-
-  programs.go.goPrivate = [
-    "github.com/coreweave/*"
-  ];
 
   programs.ssh = {
     extraConfig = lib.concatStringsSep "\n" [
@@ -43,10 +22,6 @@
     matchBlocks = {
       "10.* *.cwint.ai" = {
         forwardAgent = true;
-      };
-
-      "metal-ztp*" = {
-        user = "acc";
       };
     };
   };
