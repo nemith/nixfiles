@@ -7,21 +7,21 @@
 }: {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
-    ./dev.nix
-    ./ghostty.nix
-    ./git.nix
-    ./go.nix
-    ./jujutsu.nix
-    ./k8s.nix
-    ./lemonade.nix
-    ./litra.nix
-    ./neovim.nix
-    ./python.nix
-    ./shell.nix
-    ./ssh.nix
-    ./vscode.nix
-    ./zellij.nix
-    ./zig.nix
+    ./modules/dev.nix
+    ./modules/ghostty.nix
+    ./modules/git.nix
+    ./modules/go.nix
+    ./modules/jujutsu.nix
+    ./modules/k8s.nix
+    ./modules/lemonade.nix
+    ./modules/litra.nix
+    ./modules/neovim.nix
+    ./modules/python.nix
+    ./modules/shell.nix
+    ./modules/ssh.nix
+    ./modules/vscode.nix
+    ./modules/zellij.nix
+    ./modules/zig.nix
   ];
 
   bbennett.neovim.enable = lib.mkDefault true;
