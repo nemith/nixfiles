@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     _1password-cli
+    cloudsmith-cli
     doppler
     go-task
     teleport_16
