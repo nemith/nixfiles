@@ -70,124 +70,231 @@
       enable = true;
     };
 
-    programs.oh-my-posh = {
+    programs.starship = {
       enable = true;
+      settings = let
+        mkGitModule = name: moduleConfig: {
+          "${name}" =
+            {
+              disabled = true;
+            }
+            // moduleConfig;
 
-      settings = {
-        version = 3;
-        final_space = true;
-        blocks = [
-          {
-            type = "prompt";
-            alignment = "left";
-            segments = [
-              # OS
-              {
-                type = "os";
-                foreground = "lightGreen";
-                template = "{{ if .WSL }}[WSL]{{ end }}{{.Icon}} ";
-              }
-              # USER
-              {
-                type = "session";
-                foreground = "lightYellow";
-                foreground_templates = [
-                  ''
-                    {{- $colors := list "#f38ba8" "#ff6b35" "#fab387" "#d4af37" "#f9e2af" "#a6e3a1" "#40a02b" "#20b2aa"
-                                        "#94e2d5" "#6bcae2" "#89b4fa" "#4682b4" "#1e66f5" "#8839ef" "#9370db" "#cba6f7"
-                                        "#f5c2e7" "#ff8fab" "#dc8a78" "#696969" "#a9a9a9" "#c0c0c0" "#2f3349"
-                                        "#87ceeb" "#32cd32" "#ff1493" "#8fbc8f" "#dda0dd" "#f0e68c" "#cd853f" -}}
-                    {{- $hostnameHash := mod (printf "0x%s" ( .HostName | sha1sum | trunc 8) | int ) (len $colors) -}}
-                    {{ index $colors $hostnameHash -}}
-                  ''
-                ];
-                template = "{{ if .SSHSession }} {{ else }} {{end }}{{ .UserName }}{{ if .SSHSession }}@{{ .HostName }}{{ end }} ";
-              }
-              # PATH
-              {
-                type = "path";
-                foreground = "lightCyan";
-                template = " {{ .Path }} ";
-                properties = {
-                  style = "agnoster";
-                };
-              }
-              # K8S
-              {
-                type = "kubectl";
-                foreground = "lightYellow";
-                template = "󱇶 {{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}} ";
-              }
-              # JUJUTSU
-              {
-                type = "jujutsu";
-                foreground = "lightMagenta";
-                template = " {{.ChangeID}}{{if .Working.Changed}}  {{ .Working.String }}{{ end }} ";
-                properties = {
-                  fetch_status = true;
-                  #log_templates = {
-                  #  change_id_prefix =  "change_id.shortest(8).prefix()";
-                  #  change_id_rest =  "change_id.shortest(8).rest()";
-                  #};
-                };
-              }
-              # GIT
-              {
-                type = "git";
-                foreground = "lightMagenta";
-                template = "{{ if not (.Segments.Contains \"Jujutsu\") }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }} {{ end }}";
-                properties = {
-                  branch_icon = " ";
-                  fetch_status = true;
-                };
-              }
-            ];
-          }
-          # RIGHT SEGMENT
-          {
-            type = "prompt";
-            alignment = "right";
-            segments = [
-              # BATTERY
-              {
-                type = "battery";
-                template = "{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}% ";
-                foreground = "lightGreen";
-                foreground_templates = [
-                  "{{if lt 10 .Percentage}lightRed{{end}}"
-                  "{{if lt 30 .Percentage}lightYellow{{end}}"
-                ];
-                properties = {
-                  charged_icon = "󰁹 ";
-                  charging_icon = " ";
-                  discharging_icon = "󰂃 ";
-                };
-              }
-              # TIME
-              {
-                type = "time";
-                foreground = "lightYellow";
-                template = " {{ .CurrentDate | date .Format }}";
-              }
-            ];
-          }
-          {
-            type = "prompt";
-            alignment = "left";
-            newline = true;
-            segments = [
-              {
-                type = "text";
-                foreground = "lightWhite";
-                template = "❯";
-              }
-            ];
-          }
-        ];
-        transient_prompt = {
-          template = "{{ .Folder }}> ";
+          custom."${name}" = {
+            when = "! jj --ignore-working-copy root";
+            command = "starship module ${name}";
+            style = "";
+          };
         };
-      };
+      in
+        lib.mkMerge [
+          {
+            format = lib.concatStrings [
+              # Left
+              "$username"
+              "$hostname"
+              "$directory"
+              "$\{custom.git_branch\}"
+              "$\{custom.git_commit\}"
+              "$\{custom.git_state\}"
+              "$\{custom.git_metrics\}"
+              "$\{custom.git_status\}"
+              "$\{custom.jj\}"
+
+              "$fill"
+
+              # Right
+              "$docker_context"
+              "$kubernetes"
+              "$memory_usage"
+              "$battery"
+              "$os"
+              "\n"
+              "$character"
+            ];
+            os = {
+              disabled = false;
+              style = "bold green";
+              symbols = {
+                Alpaquita = " ";
+                Alpine = " ";
+                AlmaLinux = " ";
+                Amazon = " ";
+                Android = " ";
+                Arch = " ";
+                Artix = " ";
+                CachyOS = " ";
+                CentOS = " ";
+                Debian = " ";
+                DragonFly = " ";
+                Emscripten = " ";
+                EndeavourOS = " ";
+                Fedora = " ";
+                FreeBSD = " ";
+                Garuda = "󰛓 ";
+                Gentoo = " ";
+                HardenedBSD = "󰞌 ";
+                Illumos = "󰈸 ";
+                Kali = " ";
+                Linux = " ";
+                Mabox = " ";
+                Macos = " ";
+                Manjaro = " ";
+                Mariner = " ";
+                MidnightBSD = " ";
+                Mint = " ";
+                NetBSD = " ";
+                NixOS = " ";
+                Nobara = " ";
+                OpenBSD = "󰈺 ";
+                openSUSE = " ";
+                OracleLinux = "󰌷 ";
+                Pop = " ";
+                Raspbian = " ";
+                Redhat = " ";
+                RedHatEnterprise = " ";
+                RockyLinux = " ";
+                Redox = "󰀘 ";
+                Solus = "󰠳 ";
+                SUSE = " ";
+                Ubuntu = " ";
+                Unknown = " ";
+                Void = " ";
+                Windows = "󰍲 ";
+              };
+            };
+
+            fill = {
+              symbol = " ";
+            };
+
+            username = {
+              format = "[ $user]($style) ";
+              style_user = "bold green";
+              disabled = false;
+            };
+
+            hostname = {
+              ssh_symbol = " ";
+            };
+
+            directory = {
+              format = "[ $path]($style)[$read_only]($read_only_style) ";
+              read_only = " 󰌾";
+            };
+
+            # Re-enable once a new version of starship ships with https://github.com/starship/starship/pull/6861
+            custom.jj = {
+              command = "prompt";
+              format = "$output";
+              ignore_timeout = true;
+              shell = ["${pkgs.starship-jj}/bin/starship-jj" "--ignore-working-copy" "starship"];
+              use_stdin = false;
+              when = true;
+            };
+
+            docker_context = {
+              symbol = " ";
+            };
+
+            kubernetes = {
+              disabled = false;
+              format = "[$symbol$context( \($namespace\))]($style) ";
+              symbol = "󱇶 ";
+              style = "bold yellow";
+            };
+
+            hg_branch = {
+              symbol = " ";
+            };
+
+            battery = {
+              disabled = false;
+            };
+          }
+          (mkGitModule "git_branch" {
+            format = "[$symbol$branch(:$remote_branch)]($style) ";
+            symbol = " ";
+          })
+          (mkGitModule "git_commit" {
+            tag_symbol = "  ";
+          })
+          (mkGitModule "git_state" {})
+          (mkGitModule "git_metrics" {})
+          (mkGitModule "git_status" {})
+        ];
+    };
+
+    home.file.".config/starship-jj/starship-jj.toml".source = (pkgs.formats.toml {}).generate "starship-jj.toml" {
+      module = [
+        {
+          type = "Symbol";
+          symbol = " ";
+          color = "Magenta";
+        }
+        #{
+        #  type = "Commit";
+        #  max_length = 24;
+        #  empty_text = "(no description set)";
+        #  surround_with_quotes = true;
+        #}
+        {
+          type = "Bookmarks";
+          separator = " ";
+          color = "Magenta";
+          behind_symbol = "⇡";
+          surround_with_quotes = false;
+        }
+        {
+          type = "State";
+          separator = " ";
+          conflict = {
+            disabled = false;
+            text = "󰰲 ";
+            color = "Red";
+          };
+          divergent = {
+            disabled = false;
+            text = "󰵌 ";
+            color = "Cyan";
+          };
+          empty = {
+            disabled = false;
+            text = "󰟼 ";
+            color = "Yellow";
+          };
+          immutable = {
+            disabled = false;
+            text = "󰍁 ";
+            color = "Yellow";
+          };
+          hidden = {
+            disabled = false;
+            text = "󰊠 ";
+            color = "Yellow";
+          };
+        }
+        {
+          type = "Metrics";
+          template = " {changed} {added} {removed}";
+          color = "Magenta";
+          changed_files = {
+            prefix = "~";
+            suffix = "";
+            color = "Yellow";
+          };
+          added_lines = {
+            prefix = "+";
+            suffix = "";
+            color = "Green";
+          };
+          removed_lines = {
+            prefix = "-";
+            suffix = "";
+            color = "Red";
+          };
+        }
+      ];
     };
 
     programs.zoxide = {
