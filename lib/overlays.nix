@@ -3,6 +3,14 @@ _: {
     litra-autotoggle = prev.callPackage ../pkgs/litra-autotoggle.nix {};
     starship-jj = prev.callPackage ../pkgs/starship-jj.nix {};
 
+    python3Packages = prev.python3Packages.override {
+      overrides = _: pyPrev: {
+        dulwich = pyPrev.dulwich.overrideAttrs (_: {
+          doCheck = !prev.stdenv.isDarwin;
+        });
+      };
+    };
+
     # Build from master until 0.24.0 is released
     starship = prev.starship.overrideAttrs (_: rec {
       version = "0.24.0-prerelease1";
