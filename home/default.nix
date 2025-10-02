@@ -7,6 +7,7 @@
 }: {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
+    ./modules/aerospace.nix
     ./modules/dev.nix
     ./modules/ghostty.nix
     ./modules/git.nix
@@ -37,6 +38,7 @@
   bbennett.python.enable = lib.mkDefault config.bbennett.dev.enable;
   bbennett.zig.enable = lib.mkDefault config.bbennett.dev.enable;
 
+  bbennett.aerospace.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.litra.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.ghostty.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.vscode.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
