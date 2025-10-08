@@ -5,6 +5,7 @@
     doppler
     go-task
     teleport_16
+    backblaze-b2
   ];
 
   bbennett.jujutsu = {
