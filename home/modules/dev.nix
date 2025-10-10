@@ -40,18 +40,17 @@
       bazel-buildtools
       bazelisk
 
+      yarn
       nodePackages.prettier
       nodejs # LTS
 
       elixir
       gleam
-      rustup
-      lldb
-    ];
 
-    programs.lazygit = {
-      enable = true;
-    };
+      lldb
+
+      rustup
+    ];
 
     home.shellAliases = {
       bazel = "bazelisk";
