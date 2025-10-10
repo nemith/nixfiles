@@ -41,5 +41,10 @@
         co = "checkout";
       };
     };
+
+    programs.lazygit = {
+      enable = true;
+    };
+
   };
 }
