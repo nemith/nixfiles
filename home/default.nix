@@ -16,6 +16,7 @@
     ./modules/lemonade.nix
     ./modules/litra.nix
     ./modules/neovim.nix
+    ./modules/pkl.nix
     ./modules/python.nix
     ./modules/shell.nix
     ./modules/ssh.nix
@@ -30,16 +31,18 @@
   bbennett.zellij.enable = lib.mkDefault true;
 
   bbennett.dev.enable = lib.mkDefault true;
-  bbennett.k8s.enable = lib.mkDefault config.bbennett.dev.enable;
-  bbennett.jujutsu.enable = lib.mkDefault config.bbennett.dev.enable;
   bbennett.git.enable = lib.mkDefault config.bbennett.dev.enable;
   bbennett.go.enable = lib.mkDefault config.bbennett.dev.enable;
+  bbennett.jujutsu.enable = lib.mkDefault config.bbennett.dev.enable;
+  bbennett.k8s.enable = lib.mkDefault config.bbennett.dev.enable;
+  bbennett.pkl.enable = lib.mkDefault config.bbennett.dev.enable;
   bbennett.python.enable = lib.mkDefault config.bbennett.dev.enable;
   bbennett.zig.enable = lib.mkDefault config.bbennett.dev.enable;
 
   bbennett.litra.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.ghostty.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.vscode.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
+
 
   catppuccin.enable = true;
 
