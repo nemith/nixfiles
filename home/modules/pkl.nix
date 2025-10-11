@@ -3,8 +3,8 @@
   lib,
   config,
   ...
-}: let 
-    pkl-vscode = pkgs.vscode-utils.buildVscodeExtension {
+}: let
+  pkl-vscode = pkgs.vscode-utils.buildVscodeExtension {
     pname = "pkl-vscode";
     version = "0.20.0";
 
@@ -32,7 +32,7 @@ in {
 
     programs.vscode = {
       profiles.default = {
-        extensions =  [
+        extensions = [
           pkl-vscode
         ];
         userSettings = {

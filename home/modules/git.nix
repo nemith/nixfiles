@@ -45,6 +45,5 @@
     programs.lazygit = {
       enable = true;
     };
-
   };
 }

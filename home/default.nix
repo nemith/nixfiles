@@ -43,7 +43,6 @@
   bbennett.ghostty.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.vscode.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
 
-
   catppuccin.enable = true;
 
   home.packages = with pkgs; [
