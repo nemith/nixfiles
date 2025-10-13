@@ -27,7 +27,7 @@ in {
   config = lib.mkIf config.bbennett.pkl.enable {
     home.packages = with pkgs; [
       pkl
-      jdk24 # Needs jdk22 or higher
+      jdk25 # Needs jdk22 or higher
     ];
 
     programs.vscode = {
@@ -36,7 +36,7 @@ in {
           pkl-vscode
         ];
         userSettings = {
-          "pkl.javaHome" = "${pkgs.jdk24}";
+          "pkl.javaHome" = "${pkgs.jdk25}";
         };
       };
     };
