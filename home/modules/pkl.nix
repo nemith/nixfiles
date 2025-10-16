@@ -19,6 +19,7 @@
     vscodeExtName = "pkl-vscode";
     vscodeExtUniqueId = "apple.pkl-vscode";
   };
+  jdk = pkgs.jdk24 or pkgs.jdk25;
 in {
   options = {
     bbennett.pkl.enable = lib.mkEnableOption "pkl configuraiton language";
@@ -27,7 +28,7 @@ in {
   config = lib.mkIf config.bbennett.pkl.enable {
     home.packages = with pkgs; [
       pkl
-      jdk25 # Needs jdk22 or higher
+      jdk
     ];
 
     programs.vscode = {
@@ -36,7 +37,7 @@ in {
           pkl-vscode
         ];
         userSettings = {
-          "pkl.javaHome" = "${pkgs.jdk25}";
+          "pkl.javaHome" = "${jdk}";
         };
       };
     };
