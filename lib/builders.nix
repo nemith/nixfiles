@@ -4,7 +4,7 @@
 }: let
   inherit (inputs) nixpkgs home-manager nix-darwin;
   nixpkgOverlays = [
-    overlays.myPackages
+    overlays
     inputs.nur.overlays.default
   ];
 in {
