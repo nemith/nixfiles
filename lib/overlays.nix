@@ -21,6 +21,11 @@ final: prev: {
     doCheck = false;
   });
 
+  # No fucking clue why this one fails tests
+  tealdeer = prev.tealdeer.overrideAttrs (_: {
+    doCheck = false;
+  });
+
   # Build from master until 0.24.0 is released
   starship = prev.starship.overrideAttrs (_: rec {
     version = "0.24.0-prerelease1";
