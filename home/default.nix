@@ -51,7 +51,6 @@
     curl
     curlie
     cyme
-    delta
     duf
     dust
     fastfetch
