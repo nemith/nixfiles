@@ -48,9 +48,11 @@ in {
         };
         aliases = {
           d = ["diff"];
-          n = ["new" "trunk()"];
+          n = ["new"];
+          nt = ["new" "trunk()"];
           s = ["status"];
           sq = ["squash"];
+          amend = ["squash"];
 
           hide = ["abandon"];
           blame = ["file" "annotate"];
