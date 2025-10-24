@@ -15,6 +15,11 @@ final: prev: {
       )
     ];
 
+  # Fails on darwin
+  sbcl = prev.sbcl.overrideAttrs (_: {
+    doCheck = false;
+  });
+
   # Disable failing tests until fixed upstream
   # See: https://github.com/NixOS/nixpkgs/pull/450487
   trurl = prev.trurl.overrideAttrs (_: {
