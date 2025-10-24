@@ -28,6 +28,7 @@ in {
     home.packages = with pkgs; [
       delta
       git
+      uv # needed for uvx
     ];
 
     programs.jujutsu = {
@@ -60,8 +61,9 @@ in {
           tug = ["bookmark" "move" "--from" "heads(::@- & bookmarks())" "--to" "@-"];
 
           clone = ["git" "clone" "--colocate"];
-          push = ["git" "push"];
           fetch = ["git" "fetch"];
+          push = ["util" "exec" "--" "uvx" "--with" "pre-commit" "jj-pre-push" "push"];
+          check = ["util" "exec" "--" "uvx" "--with" "pre-commit" "jj-pre-push" "check"];
 
           up = ["edit" "@-"];
           down = ["edit" "@+"];
