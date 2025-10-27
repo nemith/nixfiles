@@ -16,7 +16,6 @@
   };
 
   imports = [
-    inputs.mac-app-util.darwinModules.default
     inputs.home-manager.darwinModules.home-manager
     ./system.nix
     ./homebrew.nix
@@ -29,9 +28,6 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = {inherit inputs;};
-    sharedModules = [
-      inputs.mac-app-util.homeManagerModules.default
-    ];
   };
 
   programs.fish.enable = true;
