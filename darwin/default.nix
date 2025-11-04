@@ -1,8 +1,4 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{inputs, ...}: {
   nix = {
     gc.automatic = true;
     optimise.automatic = true;
@@ -29,8 +25,4 @@
     useUserPackages = true;
     extraSpecialArgs = {inherit inputs;};
   };
-
-  programs.fish.enable = true;
-  #TODO: remove from default config for user specific settings
-  users.users.bbennett.shell = pkgs.fish;
 }
