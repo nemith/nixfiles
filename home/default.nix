@@ -23,6 +23,7 @@
     ./modules/vscode.nix
     ./modules/zellij.nix
     ./modules/zig.nix
+    ./modules/zen.nix
   ];
 
   bbennett.neovim.enable = lib.mkDefault true;
@@ -42,6 +43,7 @@
   bbennett.litra.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.ghostty.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
   bbennett.vscode.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
+  bbennett.zen.enable = lib.mkIf pkgs.stdenv.isDarwin (lib.mkDefault true);
 
   catppuccin.enable = true;
 
