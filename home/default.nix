@@ -45,6 +45,11 @@
 
   catppuccin.enable = true;
 
+  targets.darwin = lib.mkIf pkgs.stdenv.isDarwin {
+    copyApps.enable = true;
+    linkApps.enable = false;
+  };
+
   home.packages = with pkgs; [
     bandwhich
     bottom
