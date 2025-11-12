@@ -1,10 +1,15 @@
-_: {
+{pkgs, ...}: {
   system.primaryUser = "bbennett";
-  users.users.bbennett.home = "/Users/bbennett";
   home-manager.users.bbennett.imports = [
     ./home.nix
     ../../home
   ];
+
+  programs.fish.enable = true;
+  users.users.bbennett = {
+    home = "/Users/bbennett";
+    shell = pkgs.fish;
+  };
 
   homebrew = {
     casks = [
