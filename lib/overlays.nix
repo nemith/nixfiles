@@ -2,6 +2,12 @@ _: prev: {
   litra-autotoggle = prev.callPackage ../pkgs/litra-autotoggle.nix {};
   starship-jj = prev.callPackage ../pkgs/starship-jj.nix {};
 
+  # temp disable checks for fish
+  # https://github.com/NixOS/nixpkgs/pull/462589
+  fish = prev.fish.overrideAttrs (_: {
+    doCheck = false;
+  });
+
   # Click API changed for version 8.2, causing test failures
   cloudsmith-cli = prev.cloudsmith-cli.overrideAttrs (oldAttrs: {
     postPatch =
