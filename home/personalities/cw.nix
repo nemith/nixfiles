@@ -4,7 +4,7 @@
     cloudsmith-cli
     doppler
     go-task
-    teleport_16
+    teleport_17
     backblaze-b2
   ];
 
