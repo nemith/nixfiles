@@ -33,7 +33,7 @@
       protobuf
       buf
 
-      opencode
+      #opencode # Disabled temporarily
       claude-code
       #      nur.repos.charmbracelet.crush
 
