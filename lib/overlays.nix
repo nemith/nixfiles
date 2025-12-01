@@ -30,6 +30,14 @@ _: prev: {
           dulwich = python-prev.dulwich.overridePythonAttrs (_: {
             doCheck = false;
           });
+
+          # fix hash  https://github.com/NixOS/nixpkgs/pull/466184
+          mitmproxy-macos = python-prev.mitmproxy-macos.overridePythonAttrs (oldAttrs: rec {
+            src = oldAttrs.src.override {
+              hash = "sha256-baAfEY4hEN3wOEicgE53gY71IX003JYFyyZaNJ7U8UA=";
+            };
+          });
+
         }
       )
     ];
