@@ -18,15 +18,14 @@ in {
 
     goPath = lib.mkOption {
       type = lib.types.str;
-      default = ".local/go";
-      description = "The Go workspace path relative to HOME";
+      default = "${config.home.homeDirectory}/.local/go";
       example = "go";
     };
   };
 
   config = lib.mkIf cfg.enable {
     home.sessionPath = [
-      "$HOME/${cfg.goPath}/bin"
+      "${cfg.goPath}/bin"
     ];
 
     home.packages = with pkgs; [
