@@ -2,6 +2,9 @@
   lib,
   fetchFromGitHub,
   rustPlatform,
+  udev,
+  pkg-config,
+  stdenv,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "litra-autotoggle";
@@ -15,6 +18,13 @@ rustPlatform.buildRustPackage rec {
   };
 
   cargoHash = "sha256-MCabivlj8ye8WKMFJ9oP5+J72D8Ib0xlYEOjLCUKjYg=";
+
+  nativeBuildInputs = [pkg-config];
+  buildInputs = lib.optionals stdenv.isLinux [udev];
+
+  postInstall = lib.optionalString stdenv.isLinux ''
+    install -Dm644 ${./litra-autotoggle.rules} $out/lib/udev/rules.d/99-litra-autotoggle.rules
+  '';
 
   meta = with lib; {
     description = "Automatically controls Logitech Litra Glow lights based on webcam usage";
