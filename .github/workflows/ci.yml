@@ -19,7 +19,7 @@ jobs:
       - name: Setup Nix
         uses: ./.github/actions/setup-nix
         with:
-          skip-space-reclaimation: 'true'
+          skip-space-reclaimation: "true"
       - name: Check lint
         run: nix build .#checks.x86_64-linux.pre-commit-check
 
@@ -28,7 +28,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        host: [strongbad, CW-HM9D4MQMW2-L]
+        host: [CW-HM9D4MQMW2-L]
     steps:
       - uses: actions/checkout@v5
       - name: Setup Nix
@@ -55,6 +55,23 @@ jobs:
         with:
           build-target: .#homeConfigurations.${{ matrix.host }}.activationPackage
           job-name: "Home Manager (${{ matrix.host }})"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  nixos-x86_64:
+    needs: lint # delay until we know the lint is ok
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        host: [strongbad]
+    steps:
+      - uses: actions/checkout@v5
+      - name: Setup Nix
+        uses: ./.github/actions/setup-nix
+      - name: Build nixos configuration
+        uses: ./.github/actions/nix-build
+        with:
+          build-target: .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
+          job-name: "NixOS (${{ matrix.host }})"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
   nixos-arm:
