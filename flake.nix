@@ -33,6 +33,13 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
   outputs = {
     self,
@@ -44,6 +51,10 @@
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
   in {
     nixosConfigurations = {
+      strongbad = lib.mkNixosConfig {
+        hostname = "strongbad";
+        system = "x86_64-linux";
+      };
       devvm = lib.mkNixosConfig {
         hostname = "cw-laptop-devvm";
         system = "aarch64-linux";

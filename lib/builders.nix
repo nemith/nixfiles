@@ -17,6 +17,7 @@ in {
       specialArgs = {inherit inputs;};
       modules = [
         {nixpkgs.overlays = nixpkgOverlays;}
+        ../nixos
         ../machines/${hostname}/configuration.nix
         home-manager.nixosModules.home-manager
         {

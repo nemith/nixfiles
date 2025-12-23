@@ -8,6 +8,15 @@ _: prev: {
     doCheck = false;
   });
 
+  cosmic-session = prev.cosmic-session.overrideAttrs (old: {
+    postPatch =
+      (old.postPatch or "")
+      + ''
+        substituteInPlace data/start-cosmic \
+          --replace-fail 'export SSH_AUTH_SOCK="/run/user/$(id -u)/keyring/ssh"' ""
+      '';
+  });
+
   # Click API changed for version 8.2, causing test failures
   cloudsmith-cli = prev.cloudsmith-cli.overrideAttrs (oldAttrs: {
     postPatch =

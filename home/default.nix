@@ -14,7 +14,9 @@
     ./modules/jujutsu.nix
     ./modules/k8s.nix
     ./modules/lemonade.nix
+    ./modules/librewolf.nix
     ./modules/litra.nix
+    ./modules/logseq.nix
     ./modules/neovim.nix
     ./modules/pkl.nix
     ./modules/python.nix
@@ -22,8 +24,8 @@
     ./modules/ssh.nix
     ./modules/vscode.nix
     ./modules/zellij.nix
-    ./modules/zig.nix
     ./modules/zen.nix
+    ./modules/zig.nix
   ];
 
   bbennett.neovim.enable = lib.mkDefault true;
@@ -51,6 +53,12 @@
     copyApps.enable = true;
     linkApps.enable = false;
   };
+
+  xdg.configFile."nixpkgs/config.nix".text = ''
+    {
+       allowUnfree = true;
+    }
+  '';
 
   home.packages = with pkgs; [
     bandwhich
@@ -103,7 +111,6 @@
 
     # fonts
     dosis
-    fira-go
     maple-mono.NF
     nerd-fonts.blex-mono
     nerd-fonts.fira-code

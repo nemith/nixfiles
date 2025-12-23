@@ -1,0 +1,212 @@
+[32m>[39m Building NixOS configuration
+[?25l[?2026h[35;1mwarning:[0m Git tree '/home/bbennett/nixfiles' is dirty
+[1m⏱ 0s[0m[?2026l[?2026h[1G[2K[1m⏱ 1s[0m[?2026l[?2026h[1G[2K[1m⏱ 1s[0m[?2026l[?2026h[1G[2K[1m[32mFinished at 15:58:13 after 1s[0m[0m[?2026l[?25h
+[1m<<<[0m /run/current-system
+[1m>>>[0m /nix/store/6palkwhhhnyjbh9aw6h29c920bh554xd-nixos-system-thecheat-26.05.20251221.306ea70
+
+[1mCHANGED[0m
+[[1;35mD[0m.] python3                                         [33m3[0m.[33m1[0m[33m3[0m.[33m9[0m-[33me[0m[33mn[0m[33mv[0m ×[31m6[0m -> [33m3[0m.[33m1[0m[33m3[0m.[33m9[0m-[33me[0m[33mn[0m[33mv[0m ×[32m5[0m
+[[1;96mU[0m.] sdl3                                            [33m3[0m.[33m2[0m.[33m2[0m[33m6[0m-[33ml[0m[33mi[0m[33mb[0m -> [33m3[0m.[33m2[0m.[33m2[0m[33m6[0m-[33ml[0m[33mi[0m[33mb[0m ×[32m2[0m
+
+[1mADDED[0m
+[[1;32mA[0m.] aml                                             [32m0[0m.[32m3[0m.[32m0[0m
+[[1;32mA[0m.] apache-httpd                                    [32m2[0m.[32m4[0m.[32m66[0m
+[[1;32mA[0m.] apr                                             [32m1[0m.[32m7[0m.[32m6[0m
+[[1;32mA[0m.] apr-util                                        [32m1[0m.[32m6[0m.[32m3[0m
+[[1;32mA[0m.] atkmm                                           [32m2[0m.[32m28[0m.[32m4[0m
+[[1;32mA[0m.] cairomm                                         [32m1[0m.[32m14[0m.[32m5[0m
+[[1;32mA[0m.] etc-xdg-xdg-desktop-portal-niri-portals.conf    [32m<none>[0m
+[[1;32mA[0m.] exempi                                          [32m2[0m.[32m6[0m.[32m6[0m
+[[1;32mA[0m.] exiv2                                           [32m0[0m.[32m28[0m.[32m7[0m-[32mlib[0m
+[[1;32mA[0m.] freerdp                                         [32m3[0m.[32m20[0m.[32m0[0m
+[[1;32mA[0m.] gdk-pixbuf-loaders.cache                        [32m<none>[0m
+[[1;32mA[0m.] gexiv2                                          [32m0[0m.[32m14[0m.[32m6[0m
+[[1;32mA[0m.] gnome-autoar                                    [32m0[0m.[32m4[0m.[32m5[0m
+[[1;32mA[0m.] gnome-user-share                                [32m48[0m.[32m2[0m
+[[1;32mA[0m.] gpsd                                            [32m3[0m.[32m27[0m
+[[1;32mA[0m.] gtk-layer-shell                                 [32m0[0m.[32m9[0m.[32m2[0m
+[[1;32mA[0m.] gtkmm                                           [32m3[0m.[32m24[0m.[32m10[0m
+[[1;32mA[0m.] jsoncpp                                         [32m1[0m.[32m9[0m.[32m6[0m
+[[1;32mA[0m.] libcloudproviders                               [32m0[0m.[32m3[0m.[32m6[0m
+[[1;32mA[0m.] libgsf                                          [32m1[0m.[32m14[0m.[32m53[0m
+[[1;32mA[0m.] libgxps                                         [32m0[0m.[32m3[0m.[32m2[0m
+[[1;32mA[0m.] libiptcdata                                     [32m1[0m.[32m0[0m.[32m5[0m
+[[1;32mA[0m.] libmpdclient                                    [32m2[0m.[32m24[0m
+[[1;32mA[0m.] libosinfo                                       [32m1[0m.[32m12[0m.[32m0[0m
+[[1;32mA[0m.] libportal-gtk4                                  [32m0[0m.[32m9[0m.[32m1[0m
+[[1;32mA[0m.] localsearch                                     [32m3[0m.[32m10[0m.[32m1[0m
+[[1;32mA[0m.] lynx                                            [32m2[0m.[32m9[0m.[32m2[0m
+[[1;32mA[0m[1m+[0m] [1mmako                                           [0m [32m1[0m.[32m10[0m.[32m0[0m
+[[1;32mA[0m.] mod_dnssd                                       [32m0[0m.[32m6[0m
+[[1;32mA[0m.] nautilus                                        [32m49[0m.[32m2[0m
+[[1;32mA[0m.] neatvnc                                         [32m0[0m.[32m9[0m.[32m5[0m
+[[1;32mA[0m[1m+[0m] [1mniri                                           [0m [32m25[0m.[32m11[0m, [32m25[0m.[32m11[0m-[32mdoc[0m
+[[1;32mA[0m.] osinfo-db                                       [32m20251212[0m
+[[1;32mA[0m.] pangomm                                         [32m2[0m.[32m46[0m.[32m4[0m
+[[1;32mA[0m.] plutosvg                                        [32m0[0m.[32m0[0m.[32m7[0m
+[[1;32mA[0m.] plutovg                                         [32m1[0m.[32m3[0m.[32m2[0m
+[[1;32mA[0m.] poppler-data                                    [32m0[0m.[32m4[0m.[32m12[0m
+[[1;32mA[0m.] poppler-glib                                    [32m25[0m.[32m10[0m.[32m0[0m
+[[1;32mA[0m.] portaudio                                       [32m190700[0m_[32m20210406[0m
+[[1;32mA[0m.] sddm-autologin.pam                              [32m<none>[0m
+[[1;32mA[0m.] sddm-greeter.pam                                [32m<none>[0m
+[[1;32mA[0m.] sddm-unwrapped                                  [32m0[0m.[32m21[0m.[32m0[0m, [32m0[0m.[32m21[0m.[32m0[0m-[32mman[0m
+[[1;32mA[0m[1m+[0m] [1msddm-wrapped                                   [0m [32m<none>[0m
+[[1;32mA[0m[1m+[0m] [1msddm-wrapped-man                               [0m [32m<none>[0m
+[[1;32mA[0m.] sddm.conf                                       [32m<none>[0m
+[[1;32mA[0m.] sddm.pam                                        [32m<none>[0m
+[[1;32mA[0m.] sdl3-ttf                                        [32m3[0m.[32m2[0m.[32m2[0m
+[[1;32mA[0m.] spdlog                                          [32m1[0m.[32m15[0m.[32m3[0m
+[[1;32mA[0m.] swaylock.pam                                    [32m<none>[0m
+[[1;32mA[0m.] totem-pl-parser                                 [32m3[0m.[32m26[0m.[32m6[0m
+[[1;32mA[0m.] unit-display-manager.service                    [32m<none>[0m
+[[1;32mA[0m.] unit-script-display-manager-start               [32m<none>[0m
+[[1;32mA[0m.] unit-xdg-autostart-if-no-desktop-manager.target [32m<none>[0m
+[[1;32mA[0m.] uriparser                                       [32m0[0m.[32m9[0m.[32m9[0m
+[[1;32mA[0m[1m+[0m] [1mwaybar                                         [0m [32m0[0m.[32m14[0m.[32m0[0m
+[[1;32mA[0m.] webp-pixbuf-loader                              [32m0[0m.[32m2[0m.[32m7[0m
+[[1;32mA[0m.] weston                                          [32m14[0m.[32m0[0m.[32m1[0m
+[[1;32mA[0m.] weston.ini                                      [32m<none>[0m
+[[1;32mA[0m[1m+[0m] [1mxdg-desktop-portal-gnome                       [0m [32m49[0m.[32m0[0m
+[[1;32mA[0m[1m+[0m] [1mxwayland-satellite                             [0m [32m0[0m.[32m8[0m
+
+[1mREMOVED[0m
+[[1;31mR[0m.] X-Restart-Triggers-geoclue                      [31m<none>[0m
+[[1;31mR[0m.] acEvent.sh                                      [31m<none>[0m
+[[1;31mR[0m-] accountsservice                                 [31m23[0m.[31m13[0m.[31m9[0m
+[[1;31mR[0m.] acpi-events                                     [31m<none>[0m
+[[1;31mR[0m.] acpid                                           [31m2[0m.[31m0[0m.[31m34[0m
+[[1;31mR[0m.] adw-gtk3                                        [31m6[0m.[31m4[0m
+[[1;31mR[0m.] all-plugins                                     [31m<none>[0m
+[[1;31mR[0m-] alsa-utils                                      [31m1[0m.[31m2[0m.[31m14[0m
+[[1;31mR[0m.] ayatana-ido                                     [31m0[0m.[31m10[0m.[31m4[0m
+[[1;31mR[0m.] brltty                                          [31m6[0m.[31m8[0m
+[[1;31mR[0m-] cosmic-applets                                  [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-applibrary                               [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-bg                                       [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-comp                                     [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-edit                                     [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m.] cosmic-fallback-themes                          [31m<none>[0m
+[[1;31mR[0m-] cosmic-files                                    [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-greeter                                  [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m.] cosmic-greeter.conf                             [31m<none>[0m
+[[1;31mR[0m.] cosmic-greeter.pam                              [31m<none>[0m
+[[1;31mR[0m-] cosmic-icons                                    [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-idle                                     [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-initial-setup                            [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-launcher                                 [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-notifications                            [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-osd                                      [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-panel                                    [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-player                                   [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-randr                                    [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-reader                                   [31m0[0m-[31munstable[0m-[31m2025[0m-[31m12[0m-[31m10[0m
+[[1;31mR[0m-] cosmic-screenshot                               [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-session                                  [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-settings                                 [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-settings-daemon                          [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-term                                     [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-wallpapers                               [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] cosmic-workspaces-epoch                         [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m.] dconf-system-config                             [31m<none>[0m
+[[1;31mR[0m.] etc-UPower-UPower.conf                          [31m<none>[0m
+[[1;31mR[0m.] etc-geoclue-geoclue.conf                        [31m<none>[0m
+[[1;31mR[0m-] fallback-cursor-theme                           [31m<none>[0m
+[[1;31mR[0m.] fira                                            [31m4[0m.[31m301[0m
+[[1;31mR[0m.] fira-mono                                       [31m3[0m.[31m2[0m
+[[1;31mR[0m.] fira-sans                                       [31m4[0m.[31m301[0m
+[[1;31mR[0m-] glib                                            [31m2[0m.[31m86[0m.[31m1[0m-[31mdev[0m
+[[1;31mR[0m.] glibc-iconv                                     [31m2[0m.[31m40[0m
+[[1;31mR[0m.] gnome-online-accounts                           [31m3[0m.[31m56[0m.[31m2[0m
+[[1;31mR[0m.] gobject-introspection                           [31m1[0m.[31m86[0m.[31m0[0m-[31mdev[0m
+[[1;31mR[0m.] gobject-introspection-wrapped                   [31m1[0m.[31m86[0m.[31m0[0m-[31mdev[0m
+[[1;31mR[0m.] greetd                                          [31m0[0m.[31m10[0m.[31m3[0m
+[[1;31mR[0m.] greetd.pam                                      [31m<none>[0m
+[[1;31mR[0m.] greetd.toml                                     [31m<none>[0m
+[[1;31mR[0m.] gtk+                                            [31m2[0m.[31m24[0m.[31m33[0m
+[[1;31mR[0m.] gtk-engine-murrine                              [31m0[0m.[31m98[0m.[31m2[0m
+[[1;31mR[0m.] gumbo                                           [31m0[0m.[31m13[0m.[31m2[0m
+[[1;31mR[0m-] gvfs                                            [31m1[0m.[31m58[0m.[31m0[0m ×[31m2[0m
+[[1;31mR[0m.] jbig2dec                                        [31m0[0m.[31m20[0m
+[[1;31mR[0m.] killall-psmisc                                  [31m23[0m.[31m7[0m
+[[1;31mR[0m.] libasyncns                                      [31m0[0m.[31m8[0m
+[[1;31mR[0m.] libayatana-appindicator                         [31m0[0m.[31m5[0m.[31m92[0m
+[[1;31mR[0m.] libayatana-indicator                            [31m0[0m.[31m9[0m.[31m4[0m
+[[1;31mR[0m.] libcdio-paranoia                                [31m2[0m.[31m0[0m.[31m2[0m
+[[1;31mR[0m.] libffi                                          [31m3[0m.[31m5[0m.[31m2[0m-[31mdev[0m
+[[1;31mR[0m.] libgphoto2                                      [31m2[0m.[31m5[0m.[31m32[0m
+[[1;31mR[0m.] liblouis                                        [31m3[0m.[31m33[0m.[31m0[0m
+[[1;31mR[0m.] libmsgraph                                      [31m0[0m.[31m3[0m.[31m3[0m
+[[1;31mR[0m.] libmtp                                          [31m1[0m.[31m1[0m.[31m22[0m
+[[1;31mR[0m.] libnfs                                          [31m5[0m.[31m0[0m.[31m2[0m
+[[1;31mR[0m.] libnma                                          [31m1[0m.[31m10[0m.[31m6[0m
+[[1;31mR[0m.] librest                                         [31m0[0m.[31m10[0m.[31m2[0m
+[[1;31mR[0m.] liburing                                        [31m2[0m.[31m12[0m
+[[1;31mR[0m.] lidEvent.sh                                     [31m<none>[0m
+[[1;31mR[0m.] lmdb                                            [31m0[0m.[31m9[0m.[31m33[0m
+[[1;31mR[0m-] network-manager-applet                          [31m1[0m.[31m36[0m.[31m0[0m, [31m1[0m.[31m36[0m.[31m0[0m-[31mman[0m
+[[1;31mR[0m.] noto-fonts                                      [31m2025[0m.[31m12[0m.[31m01[0m
+[[1;31mR[0m.] open-sans                                       [31m1[0m.[31m11[0m
+[[1;31mR[0m-] orca                                            [31m49[0m.[31m5[0m
+[[1;31mR[0m.] pop-gtk-theme                                   [31m2021[0m-[31m08[0m-[31m19[0m
+[[1;31mR[0m-] pop-icon-theme                                  [31m3[0m.[31m5[0m.[31m0[0m
+[[1;31mR[0m-] pop-launcher                                    [31m1[0m.[31m2[0m.[31m7[0m
+[[1;31mR[0m.] powerEvent.sh                                   [31m<none>[0m
+[[1;31mR[0m.] psmisc                                          [31m23[0m.[31m7[0m
+[[1;31mR[0m-] pulseaudio                                      [31m17[0m.[31m0[0m
+[[1;31mR[0m.] python3.13-dasbus-unstable                      [31m11[0m-[31m10[0m-[31m2022[0m
+[[1;31mR[0m.] python3.13-dnspython                            [31m2[0m.[31m8[0m.[31m0[0m
+[[1;31mR[0m.] python3.13-gst-python                           [31m1[0m.[31m26[0m.[31m0[0m
+[[1;31mR[0m.] python3.13-mako                                 [31m1[0m.[31m3[0m.[31m10[0m
+[[1;31mR[0m.] python3.13-markdown                             [31m3[0m.[31m9[0m.[31m0[0m
+[[1;31mR[0m.] python3.13-pygobject                            [31m3[0m.[31m54[0m.[31m5[0m-[31mdev[0m
+[[1;31mR[0m.] python3.13-setproctitle                         [31m1[0m.[31m3[0m.[31m7[0m
+[[1;31mR[0m-] rtkit                                           [31m0[0m.[31m13[0m
+[[1;31mR[0m.] samba                                           [31m4[0m.[31m22[0m.[31m6[0m
+[[1;31mR[0m.] talloc                                          [31m2[0m.[31m4[0m.[31m3[0m
+[[1;31mR[0m.] tdb                                             [31m1[0m.[31m4[0m.[31m14[0m
+[[1;31mR[0m.] tevent                                          [31m0[0m.[31m17[0m.[31m1[0m
+[[1;31mR[0m.] unit-accounts-daemon.service                    [31m<none>[0m
+[[1;31mR[0m.] unit-acpid.service                              [31m<none>[0m
+[[1;31mR[0m.] unit-autovt-tty1.service-disabled               [31m<none>[0m
+[[1;31mR[0m.] unit-cosmic-greeter-daemon.service              [31m<none>[0m
+[[1;31mR[0m.] unit-cosmic-session.target                      [31m<none>[0m
+[[1;31mR[0m.] unit-geoclue.service                            [31m<none>[0m
+[[1;31mR[0m.] unit-greetd.service                             [31m<none>[0m
+[[1;31mR[0m.] unit-rtkit-daemon.service                       [31m<none>[0m
+[[1;31mR[0m-] xdg-desktop-portal-cosmic                       [31m1[0m.[31m0[0m.[31m0[0m
+[[1;31mR[0m-] xf86-input-libinput                             [31m1[0m.[31m5[0m.[31m0[0m
+
+[1mSIZE[0m: [31m22.4 GiB[0m -> [32m21.3 GiB[0m
+[1mDIFF[0m: [31m-1.04 GiB[0m
+[32m>[39m Activating configuration
+stopping the following units: accounts-daemon.service, acpid.service, cosmic-greeter-daemon.service, greetd.service, rtkit-daemon.service, upower.service
+activating the configuration...
+removing group ‘geoclue’
+removing group ‘greeter’
+removing group ‘rtkit’
+removing group ‘cosmic-greeter’
+removing user ‘greeter’
+removing user ‘geoclue’
+removing user ‘rtkit’
+removing user ‘cosmic-greeter’
+removing obsolete symlink ‘/etc/dconf’...
+removing obsolete symlink ‘/etc/UPower/UPower.conf’...
+removing obsolete symlink ‘/etc/X11/xorg.conf.d/40-libinput.conf’...
+removing obsolete symlink ‘/etc/geoclue/geoclue.conf’...
+removing obsolete symlink ‘/etc/pam.d/cosmic-greeter’...
+removing obsolete symlink ‘/etc/pam.d/greetd’...
+removing obsolete symlink ‘/etc/tmpfiles.d/cosmic-greeter.conf’...
+reloading user units for bbennett...
+restarting sysinit-reactivation.target
+reloading the following units: dbus.service
+restarting the following units: polkit.service, systemd-udevd.service
+the following new units were started: display-manager.service, NetworkManager-dispatcher.service, run-user-175.mount, sysinit-reactivation.target, system-systemd\x2dcoredump.slice, systemd-ask-password-console.path, systemd-tmpfiles-resetup.service, user-175.slice, user-runtime-dir@175.service, user@175.service
+sudo: a terminal is required to read the password; either use the -S option to read from standard input or configure an askpass helper
+sudo: a password is required
+Error: 
+   0: [91mFailed to set system profile[0m
+   1: [91mCommand failed (exit status Exited(1))[0m
+
+Location:
+   [35msrc/commands.rs[0m:[35m544[0m

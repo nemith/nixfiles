@@ -1,3 +1,5 @@
-_: {
-  home.stateVersion = "24.11";
+{
+  imports = [../../home/personalities/workstation.nix];
+
+  bbennett.librewolf.enable = true;
 }
