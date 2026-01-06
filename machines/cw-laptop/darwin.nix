@@ -2,7 +2,6 @@
   system.primaryUser = "bbennett";
   home-manager.users.bbennett.imports = [
     ./home.nix
-    ../../home
   ];
 
   programs.fish.enable = true;

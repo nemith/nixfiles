@@ -4,9 +4,9 @@
   config,
   ...
 }: {
-  options.bbennett.vscode.enable = lib.mkEnableOption "vscode";
+  options.bbennett.programs.vscode.enable = lib.mkEnableOption "vscode";
 
-  config = lib.mkIf config.bbennett.vscode.enable {
+  config = lib.mkIf config.bbennett.programs.vscode.enable {
     # make sure our desired font is installed
     home.packages = with pkgs; [maple-mono.NF];
 

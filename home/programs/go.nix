@@ -4,9 +4,9 @@
   config,
   ...
 }: let
-  cfg = config.bbennett.go;
+  cfg = config.bbennett.programs.go;
 in {
-  options.bbennett.go = {
+  options.bbennett.programs.go = {
     enable = lib.mkEnableOption "go dev environment";
 
     package = lib.mkOption {

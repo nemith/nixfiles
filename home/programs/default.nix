@@ -1,0 +1,23 @@
+{
+  imports = [
+    ./neovim
+    ./zsh
+    ./fish.nix
+    ./ghostty.nix
+    ./git.nix
+    ./go.nix
+    ./jujutsu.nix
+    ./k8s.nix
+    ./lemonade.nix
+    ./litra.nix
+    ./pkl.nix
+    ./python.nix
+    ./ssh.nix
+    ./starship.nix
+    ./vscode.nix
+    ./zed-editor.nix
+    ./zellij.nix
+    ./zen.nix
+    ./zig.nix
+  ];
+}

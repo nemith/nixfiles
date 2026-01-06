@@ -4,11 +4,11 @@
   config,
   ...
 }: {
-  options.bbennett.k8s = {
+  options.bbennett.programs.k8s = {
     enable = lib.mkEnableOption "k8s tools";
   };
 
-  config = lib.mkIf config.bbennett.k8s.enable {
+  config = lib.mkIf config.bbennett.programs.k8s.enable {
     home.packages = with pkgs; [
       kubectl
       kubectx

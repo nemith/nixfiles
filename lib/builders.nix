@@ -7,6 +7,20 @@
     overlays
     inputs.nur.overlays.default
   ];
+
+  homeManagerSharedModules = [
+    inputs.catppuccin.homeModules.catppuccin
+    inputs.nixCats.homeModule
+    inputs.zen-browser.homeModules.default
+    ../home
+  ];
+
+  homeManagerConfig = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = {inherit inputs;};
+    sharedModules = homeManagerSharedModules;
+  };
 in {
   mkNixosConfig = {
     system,
@@ -17,15 +31,9 @@ in {
       specialArgs = {inherit inputs;};
       modules = [
         {nixpkgs.overlays = nixpkgOverlays;}
+        {home-manager = homeManagerConfig;}
         ../machines/${hostname}/configuration.nix
         home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            extraSpecialArgs = {inherit inputs;};
-          };
-        }
       ];
     };
 
@@ -35,6 +43,8 @@ in {
       specialArgs = {inherit inputs;};
       modules = [
         {nixpkgs.overlays = nixpkgOverlays;}
+        home-manager.darwinModules.home-manager
+        {home-manager = homeManagerConfig;}
         ../darwin
         ../machines/${hostname}/darwin.nix
       ];
@@ -51,9 +61,10 @@ in {
         overlays = nixpkgOverlays;
       };
       extraSpecialArgs = {inherit inputs;};
-      modules = [
-        ../home
-        ../machines/${hostname}/home.nix
-      ];
+      modules =
+        homeManagerSharedModules
+        ++ [
+          ../machines/${hostname}/home.nix
+        ];
     };
 }

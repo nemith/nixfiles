@@ -32,10 +32,10 @@
   };
 
   home-manager.users.bbennett = {
-    imports = [
-      ../../home
-      ../../home/personalities/cw.nix
-    ];
+    bbennett.roles = {
+      cw.enable = true;
+      devel.enable = true;
+    };
     home.stateVersion = "25.05";
   };
 
