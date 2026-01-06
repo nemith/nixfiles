@@ -5,71 +5,10 @@
   ...
 }: {
   options = {
-    bbennett.shell.enable = lib.mkEnableOption "shell environment";
+    bbennett.programs.starship.enable = lib.mkEnableOption "starship prompt";
   };
 
-  config = lib.mkIf config.bbennett.shell.enable {
-    home.shell = {
-      enableZshIntegration = true;
-      enableFishIntegration = true;
-    };
-
-    home.packages = with pkgs; [
-      moreutils
-      most
-      osc
-    ];
-
-    home.shellAliases =
-      {
-        cd = "z";
-        egrep = "egrep --color=auto";
-        fgrep = "fgrep --color=auto";
-        grep = "grep --color=auto";
-        ip = "ip -color";
-        ll = "eza -la";
-        ls = "eza";
-        now = "date +\"%T\"";
-        nowdate = "date +\"%d-%m-%Y\"";
-        nowtime = "now";
-      }
-      // lib.optionalAttrs pkgs.stdenv.isDarwin {
-        mosh = "mosh --ssh=/usr/bin/ssh";
-      };
-
-    home.sessionVariables = {
-      COLORTERM = "truecolor";
-      LESS = "--quit-if-one-screen";
-      PAGER = "most";
-      MANROFFOPT = "-c";
-      GIT_FEATURE_BRANCH_PREFIX = "brb/";
-    };
-
-    home.sessionPath = [
-      "$HOME/.local/bin"
-    ];
-
-    programs.eza = {
-      enable = true;
-      colors = "auto";
-      git = true;
-      extraOptions = [
-        "--group-directories-first"
-      ];
-    };
-
-    programs.fd = {
-      enable = true;
-    };
-
-    programs.fish = {
-      enable = true;
-    };
-
-    programs.fzf = {
-      enable = true;
-    };
-
+  config = lib.mkIf config.bbennett.programs.starship.enable {
     programs.starship = {
       enable = true;
       settings = let
@@ -295,26 +234,6 @@
           };
         }
       ];
-    };
-
-    programs.zoxide = {
-      enable = true;
-    };
-
-    programs.zsh = {
-      enable = true;
-      enableVteIntegration = true;
-      autosuggestion.enable = true;
-      history = {
-        append = true;
-        extended = true;
-      };
-      shellAliases = {
-        path = "echo -e \${PATH//:/\\n}";
-      };
-
-      historySubstringSearch.enable = true;
-      initContent = builtins.readFile ./../configs/extra.zshrc;
     };
   };
 }

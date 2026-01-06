@@ -4,9 +4,9 @@
   config,
   ...
 }: let
-  cfg = config.bbennett.jujutsu;
+  cfg = config.bbennett.programs.jujutsu;
 in {
-  options.bbennett.jujutsu = {
+  options.bbennett.programs.jujutsu = {
     enable = lib.mkEnableOption "jujutsu";
 
     user = {

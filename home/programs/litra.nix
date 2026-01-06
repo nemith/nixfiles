@@ -5,10 +5,10 @@
   ...
 }: {
   options = {
-    bbennett.litra.enable = lib.mkEnableOption "litra autotoggle";
+    bbennett.programs.litra.enable = lib.mkEnableOption "litra autotoggle";
   };
 
-  config = lib.mkIf config.bbennett.litra.enable {
+  config = lib.mkIf config.bbennett.programs.litra.enable {
     home.packages = with pkgs; [
       litra-autotoggle
     ];

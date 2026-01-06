@@ -4,10 +4,10 @@
   ...
 }: {
   options = {
-    bbennett.git.enable = lib.mkEnableOption "git";
+    bbennett.programs.git.enable = lib.mkEnableOption "git";
   };
 
-  config = lib.mkIf config.bbennett.git.enable {
+  config = lib.mkIf config.bbennett.programs.git.enable {
     programs.gh = {
       enable = true;
       gitCredentialHelper.enable = true;

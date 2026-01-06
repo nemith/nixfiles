@@ -5,16 +5,21 @@
 }: let
   vdiHostname = "bbennett-1.tenant-coreweave-vdi.coreweave.cloud";
 in {
-  imports = [../../home/personalities/cw.nix];
+  bbennett.roles = {
+    cw.enable = true;
+    base-gui.enable = true;
+    devel-gui.enable = true;
+    devel.enable = true;
+  };
 
-  bbennett.lemonade = {
+  bbennett.programs.lemonade = {
     enable = true;
     server = {
       enable = true;
     };
   };
 
-  bbennett.ssh = {
+  bbennett.programs.ssh = {
     defaultTermEnv.excludePatterns = "!dev !vdi";
   };
 
@@ -35,7 +40,7 @@ in {
       "dev" = {
         hostname = vdiHostname;
         forwardAgent = true;
-        remoteForwards = lib.optionals config.bbennett.lemonade.server.enable [
+        remoteForwards = lib.optionals config.bbennett.programs.lemonade.server.enable [
           {
             bind.port = 2489;
             host.address = "localhost";

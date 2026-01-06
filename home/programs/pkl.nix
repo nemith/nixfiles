@@ -22,10 +22,10 @@
   jdk = pkgs.jdk25 or pkgs.jdk24;
 in {
   options = {
-    bbennett.pkl.enable = lib.mkEnableOption "pkl configuraiton language";
+    bbennett.programs.pkl.enable = lib.mkEnableOption "pkl configuraiton language";
   };
 
-  config = lib.mkIf config.bbennett.pkl.enable {
+  config = lib.mkIf config.bbennett.programs.pkl.enable {
     home.packages = with pkgs; [
       pkl
       jdk

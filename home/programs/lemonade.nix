@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  cfg = config.bbennett.lemonade;
+  cfg = config.bbennett.programs.lemonade;
 
   lemonadeServerArgs = let
     baseArgs = ["${cfg.package}/bin/lemonade" "server"];
@@ -15,7 +15,7 @@
   in
     baseArgs ++ portArgs ++ hostArgs ++ allowArgs ++ logArgs ++ cfg.server.settings.extraArgs;
 in {
-  options.bbennett.lemonade = {
+  options.bbennett.programs.lemonade = {
     enable = lib.mkEnableOption "lemonade";
 
     package = lib.mkOption {
@@ -65,7 +65,7 @@ in {
       };
     };
   };
-  config = lib.mkIf config.bbennett.lemonade.enable {
+  config = lib.mkIf config.bbennett.programs.lemonade.enable {
     home.packages = [cfg.package];
 
     home.shellAliases = lib.mkIf cfg.pbAliases {

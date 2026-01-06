@@ -7,13 +7,9 @@
 }: let
   inherit (inputs.nixCats) utils;
 in {
-  imports = [
-    inputs.nixCats.homeModule
-  ];
+  options.bbennett.programs.neovim.enable = lib.mkEnableOption "Neovim configuration for bbennett";
 
-  options.bbennett.neovim.enable = lib.mkEnableOption "Neovim configuration for bbennett";
-
-  config = lib.mkIf config.bbennett.neovim.enable {
+  config = lib.mkIf config.bbennett.programs.neovim.enable {
     home.sessionVariables = {
       EDITOR = "nvim";
     };
@@ -37,7 +33,7 @@ in {
 
       packageNames = ["bbennettNeovim"];
 
-      luaPath = ../configs/nvim;
+      luaPath = ./lua;
 
       categoryDefinitions.replace = {pkgs, ...}: {
         lspsAndRuntimeDeps = {

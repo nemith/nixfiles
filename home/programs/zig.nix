@@ -5,10 +5,10 @@
   ...
 }: {
   options = {
-    bbennett.zig.enable = lib.mkEnableOption "zig language";
+    bbennett.programs.zig.enable = lib.mkEnableOption "zig language";
   };
 
-  config = lib.mkIf config.bbennett.zig.enable {
+  config = lib.mkIf config.bbennett.programs.zig.enable {
     home.packages = with pkgs; [
       zig
       zls

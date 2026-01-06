@@ -1,13 +1,17 @@
 {lib, ...}: {
-  imports = [../../home/personalities/cw.nix];
   targets.genericLinux.enable = true;
+
+  bbennett.roles = {
+    cw.enable = true;
+    devel.enable = true;
+  };
 
   home = {
     username = "bbennett";
     homeDirectory = "/home/bbennett";
   };
 
-  bbennett.lemonade = {
+  bbennett.programs.lemonade = {
     enable = true;
     pbAliases = true;
     browserEnv = true;

@@ -4,9 +4,9 @@
   config,
   ...
 }: let
-  cfg = config.bbennett.ssh;
+  cfg = config.bbennett.programs.ssh;
 in {
-  options.bbennett.ssh = {
+  options.bbennett.programs.ssh = {
     enable = lib.mkEnableOption "ssh client";
 
     defaultTermEnv = {

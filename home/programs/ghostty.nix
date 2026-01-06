@@ -4,17 +4,16 @@
   config,
   ...
 }: {
-  options.bbennett.ghostty.enable = lib.mkEnableOption "ghostty";
+  options.bbennett.programs.ghostty.enable = lib.mkEnableOption "ghostty";
 
-  config = lib.mkIf config.bbennett.ghostty.enable {
+  config = lib.mkIf config.bbennett.programs.ghostty.enable {
     # make sure our desired font is installed
     home.packages = with pkgs; [maple-mono.NF];
 
     programs.ghostty = {
       enable = true;
 
-      # Don't install the package on Darwin since it is broken.  This assumes
-      # it has been installed via homebrew.
+      # This uses the precompiled version on darwin
       package = lib.mkIf pkgs.stdenv.isDarwin pkgs.ghostty-bin;
 
       settings = {
