@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
 }: {
   options = {
@@ -9,14 +10,17 @@
   };
 
   config = lib.mkIf config.bbennett.roles.cw.enable {
-    home.packages = with pkgs; [
-      _1password-cli
-      cloudsmith-cli
-      doppler
-      go-task
-      teleport_17
-      backblaze-b2
-    ];
+    home.packages = with pkgs;
+      [
+        _1password-cli
+        cloudsmith-cli
+        doppler
+        go-task
+        backblaze-b2
+      ]
+      ++ [
+        inputs.nixpkgs-bcb6da.legacyPackages.${system}.teleport_15
+      ];
 
     bbennett.programs.jujutsu = {
       user = {

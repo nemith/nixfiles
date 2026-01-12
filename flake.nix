@@ -2,6 +2,9 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # reference for teleport_15
+    nixpkgs-bcb6da.url = "github:nixos/nixpkgs/f3a2a0601e9669a6e38af25b46ce6c4563bcb6da";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
