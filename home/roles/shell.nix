@@ -16,58 +16,62 @@
       zsh.enable = lib.mkDefault true;
     };
 
-    home.packages = with pkgs; [
-      moreutils
-      most
-      osc
-      bandwhich
-      bottom
-      curl
-      curlie
-      cyme
-      duf
-      dust
-      fastfetch
-      fend
-      file
-      glances
-      gnutar
-      graphviz
-      gron
-      htop
-      hyperfine
-      iperf
-      mitmproxy
-      moreutils
-      mosh
-      mtr
-      ncdu
-      nix-search-cli
-      nixfmt-rfc-style
-      nmap
-      picocom
-      procs
-      psutils
-      sd
-      socat
-      sqlite
-      tcpdump
-      tree
-      trurl
-      unar
-      unrar-wrapper
-      unzip
-      uutils-coreutils-noprefix
-      viddy
-      watch
-      wget
-      xan # active fork of xsv
-      xh # clone of httpie
-      xz
-      yq-go
-      yt-dlp
-      zstd
-    ];
+    home.packages = with pkgs;
+      [
+        moreutils
+        most
+        osc
+        bandwhich
+        bottom
+        curl
+        curlie
+        cyme
+        duf
+        dust
+        fastfetch
+        fend
+        file
+        glances
+        gnutar
+        graphviz
+        gron
+        htop
+        hyperfine
+        iperf
+        mitmproxy
+        moreutils
+        mosh
+        mtr
+        ncdu
+        nix-search-cli
+        nixfmt
+        nmap
+        picocom
+        procs
+        psutils
+        sd
+        socat
+        sqlite
+        tcpdump
+        tree
+        trurl
+        unar
+        unrar-wrapper
+        unzip
+        uutils-coreutils-noprefix
+        viddy
+        watch
+        wget
+        xan # active fork of xsv
+        xh # clone of httpie
+        xz
+        yq-go
+        yt-dlp
+        zstd
+      ]
+      ++ lib.optionals stdenv.isLinux [
+        xclip
+      ];
 
     home.shellAliases =
       {

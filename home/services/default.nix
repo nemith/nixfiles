@@ -1,0 +1,5 @@
+{
+  imports = [
+    ./litra-autotoggle.nix
+  ];
+}
