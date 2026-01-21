@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   vdiHostname = "bbennett-1.tenant-coreweave-vdi.coreweave.cloud";
@@ -22,6 +23,16 @@ in {
   bbennett.programs.ssh = {
     defaultTermEnv.excludePatterns = "!dev !vdi";
   };
+
+  # VSCode is managed by some MDM shit
+  # Work around to set a null package
+  # https://github.com/nix-community/home-manager/issues/3375
+  programs.vscode.package =
+    pkgs.runCommand "dummy" {} "mkdir $out"
+    // {
+      inherit (pkgs.vscode) pname;
+      version = "0.0.0";
+    };
 
   programs.ssh = {
     matchBlocks = {
