@@ -17,6 +17,7 @@
     bbennett.programs.pkl.enable = lib.mkDefault true;
     bbennett.programs.python.enable = lib.mkDefault true;
     bbennett.programs.zig.enable = lib.mkDefault true;
+    bbennett.programs.jule.enable = lib.mkDefault true;
 
     home.packages = with pkgs; [
       ast-grep

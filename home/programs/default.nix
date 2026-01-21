@@ -1,15 +1,17 @@
 {
   imports = [
+    ./neovim
+    ./zsh
     ./fish.nix
     ./ghostty.nix
     ./git.nix
     ./go.nix
     ./jujutsu.nix
+    ./jule.nix
     ./k8s.nix
     ./lemonade.nix
     ./librewolf.nix
     ./logseq.nix
-    ./neovim
     ./pkl.nix
     ./python.nix
     ./ssh.nix
@@ -20,6 +22,5 @@
     ./zellij.nix
     ./zen.nix
     ./zig.nix
-    ./zsh
   ];
 }
