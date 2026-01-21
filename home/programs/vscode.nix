@@ -3,10 +3,14 @@
   lib,
   config,
   ...
-}: {
-  options.bbennett.programs.vscode.enable = lib.mkEnableOption "vscode";
+}: let
+  cfg = config.bbennett.programs.vscode;
+in {
+  options.bbennett.programs.vscode = {
+    enable = lib.mkEnableOption "vscode";
+  };
 
-  config = lib.mkIf config.bbennett.programs.vscode.enable {
+  config = lib.mkIf cfg.enable {
     # make sure our desired font is installed
     home.packages = with pkgs; [maple-mono.NF];
 
@@ -45,6 +49,7 @@
             "editor.formatOnSave" = true;
             "editor.defaultFormatter" = "charliermarsh.ruff";
           };
+          "claudeCode.useTerminal" = true;
         };
       };
     };
