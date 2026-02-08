@@ -34,7 +34,11 @@
         wireshark
       ]
       ++ lib.optionals pkgs.stdenv.isLinux [
-        bambu-studio
+        # Source build of bambu-studio is badly broken
+        # See https://github.com/NixOS/nixpkgs/issues/440951
+        #bambu-studio
+        nur.repos.xddxdd.bambu-studio-bin
+
         bazecor
         cider-2
         orca-slicer
