@@ -2,6 +2,17 @@ final: prev: {
   litra-autotoggle = prev.callPackage ../pkgs/litra-autotoggle {};
   starship-jj = prev.callPackage ../pkgs/starship-jj {};
 
+  # https://github.com/NixOS/nixpkgs/pull/486335/
+  gdb = prev.gdb.overrideAttrs (oldAttrs: {
+    configureFlags =
+      map
+      (flag:
+        if flag == "--enable-werror"
+        then "--disable-werror"
+        else flag)
+      oldAttrs.configureFlags;
+  });
+
   pythonPackagesExtensions =
     prev.pythonPackagesExtensions
     ++ [
