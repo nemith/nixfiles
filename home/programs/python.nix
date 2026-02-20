@@ -25,7 +25,7 @@ in {
 
     other_packages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
-      default = with pkgs; [python315 python313 python312 python311 ];
+      default = with pkgs; [python315 python313 python312 python311];
       description = "Other Python versions to install (lower priority)";
       example = "with pkgs; [ python314 python312 python311 ]";
     };

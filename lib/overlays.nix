@@ -1,4 +1,4 @@
-final: prev: {
+_: prev: {
   litra-autotoggle = prev.callPackage ../pkgs/litra-autotoggle {};
   starship-jj = prev.callPackage ../pkgs/starship-jj {};
 
