@@ -17,21 +17,6 @@ final: prev: {
       })
     else prev.gdb;
 
-  pythonPackagesExtensions =
-    prev.pythonPackagesExtensions
-    ++ prev.lib.optionals prev.stdenv.isDarwin [
-      (_: python-prev: {
-        # https://github.com/NixOS/nixpkgs/pull/490176
-        rapidfuzz = python-prev.rapidfuzz.overridePythonAttrs (old: {
-          nativeBuildInputs =
-            (old.nativeBuildInputs or [])
-            ++ final.lib.optionals final.stdenv.cc.isClang [
-              final.clang-tools
-            ];
-        });
-      })
-    ];
-
   cloudsmith-cli = prev.cloudsmith-cli.overrideAttrs (oldAttrs: {
     postPatch =
       (oldAttrs.postPatch or "")
