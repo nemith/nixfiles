@@ -65,15 +65,5 @@
     home.shellAliases = {
       bazel = "bazelisk";
     };
-
-    programs.zed-editor = {
-      enable = true;
-      userSettings = {
-        vim_mode = true;
-
-        buffer_font_size = 12;
-        buffer_font_family = "Maple Mono NF";
-      };
-    };
   };
 }

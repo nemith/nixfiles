@@ -8,9 +8,13 @@ _: {
     };
 
     casks = [
+      "autodesk-fusion"
+      "bambu-studio"
       "bambu-studio"
       "bazecor" # Dygma keyboard utility (https://dygma.com/pages/programmable-keyboard)
       "bettermouse"
+      "cockroachdb/tap/cockroach"
+      "cockroachdb/tap/cockroach-sql"
       "discord"
       "logseq"
       "monodraw"
