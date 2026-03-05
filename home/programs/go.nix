@@ -11,7 +11,7 @@ in {
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.go_1_25;
+      default = pkgs.go_1_26;
       description = "The go package to install";
       example = "pkgs.go_1_25";
     };
