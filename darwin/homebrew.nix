@@ -7,14 +7,21 @@ _: {
       cleanup = "uninstall";
     };
 
+    taps = [
+      "cockroachdb/tap"
+    ];
+
+    brews = [
+      "cockroachdb/tap/cockroach"
+      "cockroachdb/tap/cockroach-sql"
+    ];
+
     casks = [
       "autodesk-fusion"
       "bambu-studio"
       "bambu-studio"
       "bazecor" # Dygma keyboard utility (https://dygma.com/pages/programmable-keyboard)
       "bettermouse"
-      "cockroachdb/tap/cockroach"
-      "cockroachdb/tap/cockroach-sql"
       "discord"
       "logseq"
       "monodraw"
@@ -23,7 +30,7 @@ _: {
       "rectangle"
       "utm"
       "visual-studio-code"
-      "wireshark"
+      "wireshark-app"
     ];
 
     #masApps = {
