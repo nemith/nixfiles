@@ -51,8 +51,8 @@
       bazelisk
 
       yarn
-      nodePackages.prettier
       nodejs # LTS
+      prettier
 
       elixir
       gleam
