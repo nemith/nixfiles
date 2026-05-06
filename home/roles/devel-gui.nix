@@ -9,5 +9,6 @@
 
   config = lib.mkIf config.bbennett.roles.devel-gui.enable {
     bbennett.programs.vscode.enable = lib.mkDefault true;
+    bbennett.programs.zed.enable = lib.mkDefault true;
   };
 }

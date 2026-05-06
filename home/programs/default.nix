@@ -18,6 +18,7 @@
     ./starship.nix
     ./vesktop.nix
     ./vscode.nix
+    ./zed.nix
     ./zellij.nix
     ./zen.nix
     ./zig.nix
