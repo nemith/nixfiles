@@ -2,6 +2,10 @@ _: prev: {
   litra-autotoggle = prev.callPackage ../pkgs/litra-autotoggle {};
   starship-jj = prev.callPackage ../pkgs/starship-jj {};
 
+  openldap = prev.openldap.overrideAttrs {
+    doCheck = !prev.stdenv.hostPlatform.isi686;
+  };
+
   cloudsmith-cli = prev.cloudsmith-cli.overrideAttrs (oldAttrs: {
     postPatch =
       (oldAttrs.postPatch or "")
