@@ -1,13 +1,11 @@
 name: Update Nix Flakes
 on:
   schedule:
-   - cron: '0 8 * * *'  # 8am UTC daily
+    - cron: '0 8 * * *' # 8am UTC daily
   workflow_dispatch:
-
 permissions:
   contents: write
   pull-requests: write
-
 jobs:
   update-flakes:
     runs-on: ubuntu-latest
@@ -20,22 +18,17 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
-
       - name: Checkout
         uses: actions/checkout@v5
         with:
           token: ${{ steps.app-token.outputs.token }}
           fetch-depth: '2' # We need the previous commit for history
-
-
       - name: Setup Git user
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Setup Nix
         uses: ./.github/actions/setup-nix
-
       - name: Check for existing update PR
         id: check-pr
         run: |
@@ -43,7 +36,6 @@ jobs:
           echo "existing_pr_number=$existing_pr" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-
       - name: Setup branch
         run: |
           if [ -n "${{ steps.check-pr.outputs.existing_pr_number }}" ]; then
@@ -55,7 +47,6 @@ jobs:
             echo "Creating new branch: $branch_name"
             git switch -c "$branch_name"
           fi
-
       - name: Update flake inputs
         id: update
         run: |
@@ -68,7 +59,6 @@ jobs:
           else
             echo "updates_available=true" >> $GITHUB_OUTPUT
           fi
-
       - name: Generate update summary
         if: steps.update.outputs.updates_available == 'true'
         run: |
@@ -106,7 +96,6 @@ jobs:
 
           # Clean up the temporary directory and its contents
           rm -rf "$TMP_DIR"
-
       - name: Push changes and update/create PR
         if: steps.update.outputs.updates_available == 'true'
         run: |
@@ -148,7 +137,6 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-
       - name: Clean up if no updates
         if: steps.update.outputs.updates_available == 'false'
         run: |
