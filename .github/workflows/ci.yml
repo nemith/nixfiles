@@ -6,11 +6,9 @@ on:
   pull_request:
     branches:
       - main
-
 permissions:
   contents: read
   pull-requests: write
-
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -21,14 +19,56 @@ jobs:
         with:
           skip-space-reclaimation: "true"
       - name: Check lint
-        run: nix build .#checks.x86_64-linux.pre-commit-check
+        run: nix fmt -- --fail-on-change
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      darwin: ${{ steps.hosts.outputs.darwin }}
+      nixos-x86_64: ${{ steps.hosts.outputs.nixos-x86_64 }}
+      nixos-arm: ${{ steps.hosts.outputs.nixos-arm }}
+      hm: ${{ steps.hosts.outputs.hm }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Setup Nix
+        uses: ./.github/actions/setup-nix
+        with:
+          skip-space-reclaimation: "true"
+      - name: Discover hosts
+        id: hosts
+        run: |
+          darwin=$(nix eval .#darwinConfigurations --apply 'builtins.attrNames' --json 2>/dev/null || echo '[]')
+          echo "darwin=$darwin" >> "$GITHUB_OUTPUT"
 
+          nixos_all=$(nix eval .#nixosConfigurations --apply 'builtins.attrNames' --json 2>/dev/null || echo '[]')
+
+          if [ "$nixos_all" != "[]" ]; then
+            nixos_x86_64=$(nix eval --json --expr "
+              builtins.filter (name:
+                (builtins.getFlake (toString ./.)).nixosConfigurations.\${name}.config.nixpkgs.hostPlatform.system == \"x86_64-linux\"
+              ) $nixos_all
+            ")
+            nixos_arm=$(nix eval --json --expr "
+              builtins.filter (name:
+                (builtins.getFlake (toString ./.)).nixosConfigurations.\${name}.config.nixpkgs.hostPlatform.system == \"aarch64-linux\"
+              ) $nixos_all
+            ")
+          else
+            nixos_x86_64="[]"
+            nixos_arm="[]"
+          fi
+
+          echo "nixos-x86_64=$nixos_x86_64" >> "$GITHUB_OUTPUT"
+          echo "nixos-arm=$nixos_arm" >> "$GITHUB_OUTPUT"
+
+          hm=$(nix eval .#homeConfigurations --apply 'builtins.attrNames' --json 2>/dev/null || echo '[]')
+          echo "hm=$hm" >> "$GITHUB_OUTPUT"
   darwin:
-    needs: lint # delay until we know the lint is ok
+    needs: [lint, discover]
+    if: needs.discover.outputs.darwin != '[]'
     runs-on: macos-latest
     strategy:
       matrix:
-        host: [CW-HM9D4MQMW2-L]
+        host: ${{ fromJson(needs.discover.outputs.darwin) }}
     steps:
       - uses: actions/checkout@v5
       - name: Setup Nix
@@ -39,13 +79,13 @@ jobs:
           build-target: .#darwinConfigurations.${{ matrix.host }}.system
           job-name: "Darwin (${{ matrix.host }})"
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
   hm:
-    needs: lint # delay until we know the lint is ok
+    needs: [lint, discover]
+    if: needs.discover.outputs.hm != '[]'
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        host: ["bbennett@bbennett-1"]
+        host: ${{ fromJson(needs.discover.outputs.hm) }}
     steps:
       - uses: actions/checkout@v5
       - name: Setup Nix
@@ -56,13 +96,13 @@ jobs:
           build-target: .#homeConfigurations.${{ matrix.host }}.activationPackage
           job-name: "Home Manager (${{ matrix.host }})"
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
   nixos-x86_64:
-    needs: lint # delay until we know the lint is ok
+    needs: [lint, discover]
+    if: needs.discover.outputs.nixos-x86_64 != '[]'
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        host: [strongbad]
+        host: ${{ fromJson(needs.discover.outputs.nixos-x86_64) }}
     steps:
       - uses: actions/checkout@v5
       - name: Setup Nix
@@ -73,13 +113,13 @@ jobs:
           build-target: .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
           job-name: "NixOS (${{ matrix.host }})"
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
   nixos-arm:
-    needs: lint # delay until we know the lint is ok
+    needs: [lint, discover]
+    if: needs.discover.outputs.nixos-arm != '[]'
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
-        host: [devvm]
+        host: ${{ fromJson(needs.discover.outputs.nixos-arm) }}
     steps:
       - uses: actions/checkout@v5
       - name: Setup Nix

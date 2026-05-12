@@ -1,7 +1,0 @@
-{
-  imports = [
-    ./roles
-    ./programs
-    ./services
-  ];
-}

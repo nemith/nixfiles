@@ -1,12 +1,10 @@
 name: 'Setup Nix'
 description: 'Install Nix'
-
 inputs:
   skip-space-reclaimation:
     description: 'Skip the reclaiming space for nix'
     required: false
     default: 'false'
-
 runs:
   using: 'composite'
   steps:
@@ -14,7 +12,6 @@ runs:
       if: github.event.inputs.skip-space-reclaimation != 'true' && runner.os == 'Linux'
       with:
         nix-permission-edict: true
-
     - name: Install Nix
       uses: nixbuild/nix-quick-install-action@v33
       with:
@@ -22,14 +19,12 @@ runs:
         nix_conf: |
           keep-env-derivations = true
           keep-outputs = true
-
     - name: Restore and save Nix store
       uses: nix-community/cache-nix-action@v6
       with:
         primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
         restore-prefixes-first-match: nix-${{ runner.os }}-
         gc-max-store-size-linux: 1G
-
         purge: true
         purge-prefixes: nix-${{ runner.os }}-
         purge-created: 0

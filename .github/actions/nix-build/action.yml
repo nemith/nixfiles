@@ -1,7 +1,6 @@
 # .github/actions/nvd-comment/action.yml
 name: 'Nix Build and compare'
 description: 'Build packages, compare with nvd'
-
 inputs:
   build-target:
     description: 'Nix build target (e.g., .#darwinConfigurations.host.system)'
@@ -13,7 +12,6 @@ inputs:
     description: 'GitHub token for commenting'
     required: true
     default: ${{ github.token }}
-
 runs:
   using: 'composite'
   steps:
@@ -27,7 +25,6 @@ runs:
           # For push events, compare with previous commit
           echo "base_sha=${{ github.event.before }}" >> $GITHUB_OUTPUT
         fi
-
     - name: Build old version
       shell: bash
       run: |
@@ -48,7 +45,6 @@ runs:
         git checkout $current_commit
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
-
     - name: Build new version
       shell: bash
       run: |
@@ -62,7 +58,6 @@ runs:
         fi
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
-
     - name: Generate nvd comparison
       shell: bash
       run: |
@@ -97,7 +92,6 @@ runs:
         rm -f old-result new-result nvd_diff.txt
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
-
     - name: Comment on PR
       if: github.event_name == 'pull_request'
       shell: bash

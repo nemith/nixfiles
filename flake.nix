@@ -1,9 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    # reference for teleport_15
-    nixpkgs-bcb6da.url = "github:nixos/nixpkgs/f3a2a0601e9669a6e38af25b46ce6c4563bcb6da";
+    nixpkgs_teleport_16.url = "github:nixos/nixpkgs/e1ebeec86b771e9d387dd02d82ffdc77ac753abc";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -15,13 +13,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
+    nur = {
+      url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nur = {
-      url = "github:nix-community/NUR";
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    jj-lsp = {
+      url = "github:nilskch/jj-lsp";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -30,78 +33,31 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixCats.url = "github:BirdeeHub/nixCats-nvim";
-
-    zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
+    wrappers = {
+      url = "github:BirdeeHub/nix-wrapper-modules";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
   };
-  outputs = {
-    self,
-    nixpkgs,
-    ...
-  } @ inputs: let
-    lib = import ./lib {inherit inputs;};
-    supportedSystems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
-    forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-  in {
-    nixosConfigurations = {
-      strongbad = lib.mkNixosConfig {
-        hostname = "strongbad";
-        system = "x86_64-linux";
-      };
-      devvm = lib.mkNixosConfig {
-        hostname = "cw-laptop-devvm";
-        system = "aarch64-linux";
-      };
+
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        inputs.flake-parts.flakeModules.modules
+        (inputs.import-tree ./modules)
+      ];
+
+      systems = [
+        "aarch64-darwin"
+        "x86_64-darwin"
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
     };
-
-    darwinConfigurations = {
-      strongbad = lib.mkDarwinConfig "strongbad";
-      CW-HM9D4MQMW2-L = lib.mkDarwinConfig "cw-laptop";
-    };
-
-    homeConfigurations = {
-      "bbennett@bbennett-1" = lib.mkHomeConfig {
-        hostname = "cw-vdi";
-        system = "x86_64-linux";
-      };
-    };
-
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-
-    checks = forAllSystems (system: {
-      pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-        src = ./.;
-        hooks = {
-          alejandra.enable = true;
-          deadnix.enable = true;
-          statix.enable = true;
-          end-of-file-fixer.enable = true;
-          trim-trailing-whitespace.enable = true;
-        };
-      };
-    });
-
-    devShells = forAllSystems (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      default = pkgs.mkShell {
-        inherit (self.checks.${system}.pre-commit-check) shellHook;
-        buildInputs =
-          (with pkgs; [
-            statix
-          ])
-          ++ self.checks.${system}.pre-commit-check.enabledPackages;
-      };
-    });
-  };
 }
