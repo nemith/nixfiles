@@ -8,19 +8,16 @@
         {
           inherit pkgs;
 
-          settings.config_directory = ./lua;
+          settings.config_directory = ./.;
           settings.aliases = [
             "vim"
             "vi"
           ];
 
           specs.startup = with pkgs.vimPlugins; [
-            catppuccin-nvim
             lze
             lzextras
-            snacks-nvim
-            onedark-nvim
-            vim-sleuth
+            catppuccin-nvim
           ];
 
           specs.general = {
@@ -28,36 +25,50 @@
             after = [ "startup" ];
 
             extraPackages = with pkgs; [
-              lazygit
               lua-language-server
               stylua
               nixd
-              alejandra
               gopls
-              delve
-              golangci-lint
-              gotools
-              go-tools
-              go
+              rust-analyzer
+              claude-code
+              imagemagick
             ];
 
             data = with pkgs.vimPlugins; [
-              mini-nvim
-              nvim-lspconfig
-              vim-startuptime
-              blink-cmp
-              nvim-treesitter.withAllGrammars
-              lualine-nvim
-              lualine-lsp-progress
+              # Core UI
+              guess-indent-nvim
               gitsigns-nvim
               which-key-nvim
-              nvim-lint
-              conform-nvim
-              nvim-dap
-              nvim-dap-ui
-              nvim-dap-virtual-text
+              todo-comments-nvim
+              mini-nvim
+              snacks-nvim
+              bufferline-nvim
+              diffview-nvim
+              persistence-nvim
+              multicursor-nvim
+
+              # LSP
+              nvim-lspconfig
               lazydev-nvim
-              nvim-dap-go
+
+              # Formatting
+              conform-nvim
+
+              # Completion & Snippets
+              blink-cmp
+              luasnip
+
+              # Treesitter (used for grammars only)
+              nvim-treesitter.withAllGrammars
+
+              # neo tree
+              neo-tree-nvim
+              nui-nvim
+              nvim-web-devicons
+
+              # ai
+              claudecode-nvim
+              copilot-lua
             ];
           };
 
