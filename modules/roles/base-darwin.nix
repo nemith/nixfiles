@@ -3,7 +3,10 @@
   flake.modules.darwin.base =
     { inputs, ... }:
     {
-      imports = [ self.modules.darwin.logseq ];
+      imports = [
+        self.modules.darwin.nixpkgs
+        self.modules.darwin.logseq
+      ];
 
       nix = {
         gc.automatic = true;
@@ -59,8 +62,6 @@
       };
 
       security.pam.services.sudo_local.touchIdAuth = true;
-
-      nixpkgs.config.allowUnfree = true;
 
       home-manager = {
         useGlobalPkgs = true;
