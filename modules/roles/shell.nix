@@ -12,7 +12,10 @@
         self.modules.homeManager.zellij
       ];
 
-      catppuccin.enable = true;
+      catppuccin = {
+        enable = true;
+        autoEnable = true;
+      };
 
       home.packages =
         with pkgs;
