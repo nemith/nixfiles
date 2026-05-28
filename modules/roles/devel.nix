@@ -4,6 +4,7 @@
     { pkgs, ... }:
     {
       imports = [
+        self.modules.homeManager.atlas
         self.modules.homeManager.cockroachdb
         self.modules.homeManager.git
         self.modules.homeManager.go
