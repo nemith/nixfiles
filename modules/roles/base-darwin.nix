@@ -75,6 +75,9 @@
           autoUpdate = true;
           upgrade = true;
           cleanup = "uninstall";
+          extraFlags = [
+             "--force-cleanup"  # Workaround for https://github.com/nix-darwin/nix-darwin/issues/1787
+          ];
         };
 
         casks = [
