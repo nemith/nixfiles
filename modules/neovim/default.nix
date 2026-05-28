@@ -24,7 +24,7 @@
             lazy = true;
             after = [ "startup" ];
 
-            extraPackages = with pkgs; [
+            runtimePkgs = with pkgs; [
               lua-language-server
               stylua
               nixd
@@ -73,12 +73,12 @@
           };
 
           specMods = _: {
-            options.extraPackages = lib.mkOption {
+            options.runtimePkgs = lib.mkOption {
               type = lib.types.listOf wlib.types.stringable;
               default = [ ];
             };
           };
-          extraPackages = config.specCollect (acc: v: acc ++ (v.extraPackages or [ ])) [ ];
+          runtimePkgs = config.specCollect (acc: v: acc ++ (v.runtimePkgs or [ ])) [ ];
         }
       );
     };
