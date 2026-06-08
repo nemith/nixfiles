@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake.modules.homeManager.zed =
     { pkgs, lib, ... }:
     let
@@ -38,9 +37,7 @@
           # zed 1.5.x's final binary is large enough that inter-section branches
           # exceed the ARM64 ±128 MB range. nixpkgs' cctools ld64 errors out;
           # lld inserts branch islands automatically.
-          nativeBuildInputs = (prev.nativeBuildInputs or [ ]) ++ [
-            pkgs.llvmPackages.bintools
-          ];
+          nativeBuildInputs = (prev.nativeBuildInputs or [ ]) ++ [ pkgs.llvmPackages.bintools ];
           env = (prev.env or { }) // {
             NIX_CFLAGS_LINK = "-fuse-ld=lld";
           };
@@ -60,7 +57,7 @@
 
       programs.zed-editor = {
         enable = true;
-        package = package;
+        inherit package;
 
         enableMcpIntegration = true;
         installRemoteServer = true;

@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake.lib.mkFirefoxConfig =
     pkgs:
     let

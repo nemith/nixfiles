@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake.modules.homeManager.teleport =
     { pkgs, ... }:
     let
