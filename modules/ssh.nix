@@ -1,18 +1,16 @@
 _: {
-  flake.modules.homeManager.ssh =
-    { pkgs, lib, ... }:
-    {
-      home.packages = with pkgs; [ sshpass ];
+  flake.modules.homeManager.ssh = { pkgs, lib, ... }: {
+    home.packages = with pkgs; [ sshpass ];
 
-      programs.ssh = {
-        enable = true;
-        enableDefaultConfig = false;
-        settings = {
-          "*" = {
-            AddKeysToAgent = "yes";
-          }
-          // lib.optionalAttrs pkgs.stdenv.isDarwin { UseKeychain = "yes"; };
-        };
+    programs.ssh = {
+      enable = true;
+      enableDefaultConfig = false;
+      settings = {
+        "*" = {
+          AddKeysToAgent = "yes";
+        }
+        // lib.optionalAttrs pkgs.stdenv.isDarwin { UseKeychain = "yes"; };
       };
     };
+  };
 }
