@@ -2,6 +2,7 @@
   flake.modules.homeManager.devel = { pkgs, ... }: {
     imports = [
       self.modules.homeManager.atlas
+      self.modules.homeManager.claude
       self.modules.homeManager.cockroachdb
       self.modules.homeManager.git
       self.modules.homeManager.go
@@ -38,7 +39,7 @@
       buf
 
       opencode
-      claude-code
+      antigravity-cli
 
       bazel-buildtools
       bazelisk

@@ -171,15 +171,6 @@
             edit_predictions_provider = "copilot";
           };
 
-          agent_servers = {
-            "claude-acp" = {
-              env = {
-                ACP_PERMISSION_MODE = "acceptEdits";
-                ACP_PATH_TO_CLAUDE_CODE_EXECUTABLE = "${pkgs.claude-code}/bin/claude";
-              };
-            };
-          };
-
           file_types = {
             "GitHub Actions" = [
               ".github/workflows/*.yml"
@@ -412,10 +403,7 @@
         userKeymaps = [
           {
             bindings = {
-              "cmd-alt-c" = [
-                "agent::NewExternalAgentThread"
-                { agent.custom.name = "claude-acp"; }
-              ];
+              "cmd-alt-c" = "agent::NewTerminalThread";
             };
           }
         ];
