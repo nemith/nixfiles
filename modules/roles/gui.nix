@@ -1,5 +1,5 @@
-{ self, ... }: {
-  flake.modules.homeManager.gui = { pkgs, ... }: {
+{self, ...}: {
+  flake.modules.homeManager.gui = {pkgs, ...}: {
     imports = [
       self.modules.homeManager.fonts
       self.modules.homeManager.ghostty
@@ -9,9 +9,8 @@
       self.modules.homeManager.litra-autotoggle
     ];
 
-    home.packages =
-      with pkgs;
-      [ wireshark ]
+    home.packages = with pkgs;
+      [wireshark]
       ++ lib.optionals pkgs.stdenv.isLinux [
         bambu-studio
         bazecor

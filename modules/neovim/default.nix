@@ -1,7 +1,19 @@
-{ self, inputs, ... }: {
-  perSystem = { pkgs, lib, ... }: {
+{
+  self,
+  inputs,
+  ...
+}: {
+  perSystem = {
+    pkgs,
+    lib,
+    ...
+  }: {
     packages.neovim = inputs.wrappers.wrappers.neovim.wrap (
-      { wlib, config, ... }: {
+      {
+        wlib,
+        config,
+        ...
+      }: {
         inherit pkgs;
 
         settings.config_directory = ./.;
@@ -18,7 +30,7 @@
 
         specs.general = {
           lazy = true;
-          after = [ "startup" ];
+          after = ["startup"];
 
           runtimePkgs = with pkgs; [
             lua-language-server
@@ -71,17 +83,17 @@
         specMods = _: {
           options.runtimePkgs = lib.mkOption {
             type = lib.types.listOf wlib.types.stringable;
-            default = [ ];
+            default = [];
           };
         };
-        runtimePkgs = config.specCollect (acc: v: acc ++ (v.runtimePkgs or [ ])) [ ];
+        runtimePkgs = config.specCollect (acc: v: acc ++ (v.runtimePkgs or [])) [];
       }
     );
   };
 
-  flake.modules.homeManager.neovim = { pkgs, ... }: {
+  flake.modules.homeManager.neovim = {pkgs, ...}: {
     home.sessionVariables.EDITOR = "nvim";
     home.shellAliases.nvim-unwrapped = "${pkgs.neovim-unwrapped}/bin/nvim";
-    home.packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.neovim ];
+    home.packages = [self.packages.${pkgs.stdenv.hostPlatform.system}.neovim];
   };
 }

@@ -1,5 +1,9 @@
 _: {
-  flake.modules.homeManager.jujutsu = { lib, pkgs, ... }: {
+  flake.modules.homeManager.jujutsu = {
+    lib,
+    pkgs,
+    ...
+  }: {
     home.packages = with pkgs; [
       git
       uv # needed for uvx
@@ -29,17 +33,17 @@ _: {
         };
 
         aliases = {
-          d = [ "diff" ];
-          n = [ "new" ];
+          d = ["diff"];
+          n = ["new"];
           nt = [
             "new"
             "trunk()"
           ];
-          s = [ "status" ];
-          sq = [ "squash" ];
-          amend = [ "squash" ];
+          s = ["status"];
+          sq = ["squash"];
+          amend = ["squash"];
 
-          hide = [ "abandon" ];
+          hide = ["abandon"];
           blame = [
             "file"
             "annotate"
@@ -103,6 +107,46 @@ _: {
               gh pr create --head $(jj log -r 'closest_bookmark(@)' -T 'bookmarks' --no-graph | cut -d ' ' -f 1)
             ''
           ];
+          submit = [
+            "util"
+            "exec"
+            "--"
+            "bash"
+            "-c"
+            ''
+              set -euo pipefail
+              # Stack = non-empty, described commits between trunk and the target (defaults to @).
+              target="''${1:-@}"
+              revset="trunk()..$target & ~empty() & ~description(exact:\"\")"
+
+              # Auto-create push bookmarks (git_push_bookmark template) and push the whole stack.
+              jj git push -c "$revset"
+
+              # Collect bookmark names oldest-first, the order gh stack link expects (base -> top).
+              bookmarks=$(jj log -r "$revset" --reversed --no-graph \
+                -T 'local_bookmarks.map(|b| b.name()).join("\n") ++ "\n"' | grep -v '^$')
+              if [ -z "$bookmarks" ]; then
+                echo "no bookmarks to submit in: $revset" >&2
+                exit 1
+              fi
+
+              # Create (draft) PRs and chain their bases; existing PRs are reused.
+              gh stack link $bookmarks
+
+              # Sync each PR's title/body from its commit description (covers create + update).
+              for b in $bookmarks; do
+                desc=$(jj log -r "$b" --no-graph -T description)
+                title=$(printf '%s\n' "$desc" | head -n1)
+                body=$(printf '%s\n' "$desc" | tail -n +2 | sed '/./,$!d')
+                if [ -n "$body" ]; then
+                  gh pr edit "$b" --title "$title" --body "$body"
+                else
+                  gh pr edit "$b" --title "$title"
+                fi
+              done
+            ''
+            "submit"
+          ];
 
           up = [
             "edit"
@@ -116,8 +160,7 @@ _: {
 
         revset-aliases = {
           "closest_bookmark(to)" = "heads(::to & bookmarks())";
-          "closest_pushable(to)" =
-            ''heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'';
+          "closest_pushable(to)" = ''heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'';
         };
 
         templates = {

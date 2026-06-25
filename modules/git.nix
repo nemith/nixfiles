@@ -1,8 +1,13 @@
 _: {
-  flake.modules.homeManager.git = { lib, ... }: {
+  flake.modules.homeManager.git = {
+    lib,
+    pkgs,
+    ...
+  }: {
     programs.gh = {
       enable = true;
       gitCredentialHelper.enable = true;
+      extensions = [pkgs.gh-stack];
     };
 
     programs.gh-dash = {

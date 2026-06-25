@@ -1,4 +1,4 @@
-{ self, ... }: {
+{self, ...}: {
   flake.modules = {
     darwin.cw = _: {
       homebrew.casks = [
@@ -8,8 +8,8 @@
       ];
     };
 
-    homeManager.cw = { pkgs, ... }: {
-      imports = [ self.modules.homeManager.teleport ];
+    homeManager.cw = {pkgs, ...}: {
+      imports = [self.modules.homeManager.teleport];
 
       home.packages = with pkgs; [
         _1password-cli

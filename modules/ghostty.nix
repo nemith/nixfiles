@@ -1,6 +1,10 @@
 _: {
-  flake.modules.homeManager.ghostty = { pkgs, lib, ... }: {
-    home.packages = with pkgs; [ maple-mono.NF ];
+  flake.modules.homeManager.ghostty = {
+    pkgs,
+    lib,
+    ...
+  }: {
+    home.packages = with pkgs; [ioskeley-mono.normal-term-NF];
 
     programs.ghostty = {
       enable = true;
@@ -10,11 +14,11 @@ _: {
 
       settings = {
         font-size = 12;
-        font-family = "Maple Mono NF";
+        font-family = "IoskeleyMonoTerm Nerd Font";
         font-thicken = true;
         font-thicken-strength = 192;
         adjust-cell-width = -1;
-        keybind = [ "shift+enter=text:\n" ];
+        keybind = ["shift+enter=text:\\n"];
       };
     };
   };

@@ -1,6 +1,6 @@
 _: {
-  flake.modules.homeManager.vscode = { pkgs, ... }: {
-    home.packages = with pkgs; [ maple-mono.NF ];
+  flake.modules.homeManager.vscode = {pkgs, ...}: {
+    home.packages = with pkgs; [maple-mono.NF];
 
     programs.vscode = {
       enable = true;
@@ -30,8 +30,7 @@ _: {
         ];
         userSettings = {
           "github.copilot.nextEditSuggestions.enabled" = true;
-          "editor.fontFamily" =
-            "Maple Mono NF, MesloLGMDZ Nerd Font Mono, Menlo, Monaco, 'Courier New', monospace";
+          "editor.fontFamily" = "Maple Mono NF, MesloLGMDZ Nerd Font Mono, Menlo, Monaco, 'Courier New', monospace";
           "redhat.telemetry.enabled" = false;
           "[python]" = {
             "editor.formatOnSave" = true;

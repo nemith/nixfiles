@@ -1,5 +1,4 @@
-_:
-let
+_: let
   version = "26.2.1";
 
   sources = {
@@ -21,12 +20,10 @@ let
     };
   };
 
-  mkCockroachSql =
-    pkgs:
-    let
-      inherit (pkgs.stdenv.hostPlatform) system;
-      source = sources.${system} or (throw "cockroach-sql: unsupported platform ${system}");
-    in
+  mkCockroachSql = pkgs: let
+    inherit (pkgs.stdenv.hostPlatform) system;
+    source = sources.${system} or (throw "cockroach-sql: unsupported platform ${system}");
+  in
     pkgs.stdenv.mkDerivation {
       pname = "cockroach-sql";
       inherit version;
@@ -36,8 +33,8 @@ let
         inherit (source) hash;
       };
 
-      nativeBuildInputs = pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.autoPatchelfHook ];
-      buildInputs = pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.stdenv.cc.cc.lib ];
+      nativeBuildInputs = pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [pkgs.autoPatchelfHook];
+      buildInputs = pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [pkgs.stdenv.cc.cc.lib];
 
       dontConfigure = true;
       dontBuild = true;
@@ -58,14 +55,13 @@ let
         mainProgram = "cockroach-sql";
       };
     };
-in
-{
-  flake.overlays.cockroach-sql = final: _prev: { cockroach-sql = mkCockroachSql final; };
+in {
+  flake.overlays.cockroach-sql = final: _prev: {cockroach-sql = mkCockroachSql final;};
 
-  perSystem = { pkgs, ... }: { packages.cockroach-sql = pkgs.cockroach-sql; };
+  perSystem = {pkgs, ...}: {packages.cockroach-sql = pkgs.cockroach-sql;};
 
-  flake.modules.homeManager.cockroachdb = { pkgs, ... }: {
-    home.packages = [ pkgs.cockroach-sql ];
+  flake.modules.homeManager.cockroachdb = {pkgs, ...}: {
+    home.packages = [pkgs.cockroach-sql];
     home.shellAliases.csql = "cockroach-sql";
   };
 }

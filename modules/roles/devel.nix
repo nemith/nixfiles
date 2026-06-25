@@ -1,5 +1,5 @@
-{ self, ... }: {
-  flake.modules.homeManager.devel = { pkgs, ... }: {
+{self, ...}: {
+  flake.modules.homeManager.devel = {pkgs, ...}: {
     imports = [
       self.modules.homeManager.atlas
       self.modules.homeManager.claude

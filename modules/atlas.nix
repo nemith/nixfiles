@@ -1,5 +1,4 @@
-_:
-let
+_: let
   version = "1.2.1";
 
   sources = {
@@ -17,12 +16,10 @@ let
     };
   };
 
-  mkAtlas =
-    pkgs:
-    let
-      inherit (pkgs.stdenv.hostPlatform) system;
-      source = sources.${system} or (throw "atlas: unsupported platform ${system}");
-    in
+  mkAtlas = pkgs: let
+    inherit (pkgs.stdenv.hostPlatform) system;
+    source = sources.${system} or (throw "atlas: unsupported platform ${system}");
+  in
     pkgs.stdenv.mkDerivation {
       pname = "atlas";
       inherit version;
@@ -32,8 +29,8 @@ let
         inherit (source) hash;
       };
 
-      nativeBuildInputs = pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.autoPatchelfHook ];
-      buildInputs = pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.stdenv.cc.cc.lib ];
+      nativeBuildInputs = pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [pkgs.autoPatchelfHook];
+      buildInputs = pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [pkgs.stdenv.cc.cc.lib];
 
       dontUnpack = true;
       dontConfigure = true;
@@ -53,11 +50,10 @@ let
         mainProgram = "atlas";
       };
     };
-in
-{
-  flake.overlays.atlas = _final: _prev: { atlas = mkAtlas _final; };
+in {
+  flake.overlays.atlas = _final: _prev: {atlas = mkAtlas _final;};
 
-  perSystem = { pkgs, ... }: { packages.atlas = pkgs.atlas; };
+  perSystem = {pkgs, ...}: {packages.atlas = pkgs.atlas;};
 
-  flake.modules.homeManager.atlas = { pkgs, ... }: { home.packages = [ pkgs.atlas ]; };
+  flake.modules.homeManager.atlas = {pkgs, ...}: {home.packages = [pkgs.atlas];};
 }

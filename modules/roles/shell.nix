@@ -1,5 +1,13 @@
-{ self, inputs, ... }: {
-  flake.modules.homeManager.shell = { pkgs, lib, ... }: {
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.modules.homeManager.shell = {
+    pkgs,
+    lib,
+    ...
+  }: {
     imports = [
       inputs.catppuccin.homeModules.catppuccin
       self.modules.homeManager.zsh
@@ -14,8 +22,7 @@
       autoEnable = true;
     };
 
-    home.packages =
-      with pkgs;
+    home.packages = with pkgs;
       [
         moreutils
         most
@@ -68,21 +75,21 @@
         yt-dlp
         zstd
       ]
-      ++ lib.optionals stdenv.isLinux [ xclip ];
+      ++ lib.optionals stdenv.isLinux [xclip];
 
-    home.shellAliases = {
-      cd = "z";
-      egrep = "egrep --color=auto";
-      fgrep = "fgrep --color=auto";
-      grep = "grep --color=auto";
-      ip = "ip -color";
-      ll = "eza -la";
-      ls = "eza";
-      now = "date +\"%T\"";
-      nowdate = "date +\"%d-%m-%Y\"";
-      nowtime = "now";
-    }
-    // lib.optionalAttrs pkgs.stdenv.isDarwin { mosh = "mosh --ssh=/usr/bin/ssh"; };
+    home.shellAliases =
+      {
+        egrep = "egrep --color=auto";
+        fgrep = "fgrep --color=auto";
+        grep = "grep --color=auto";
+        ip = "ip -color";
+        ll = "eza -la";
+        ls = "eza";
+        now = "date +\"%T\"";
+        nowdate = "date +\"%d-%m-%Y\"";
+        nowtime = "now";
+      }
+      // lib.optionalAttrs pkgs.stdenv.isDarwin {mosh = "mosh --ssh=/usr/bin/ssh";};
 
     home.sessionVariables = {
       COLORTERM = "truecolor";
@@ -91,13 +98,13 @@
       MANROFFOPT = "-c";
     };
 
-    home.sessionPath = [ "$HOME/.local/bin" ];
+    home.sessionPath = ["$HOME/.local/bin"];
 
     programs.eza = {
       enable = true;
       colors = "auto";
       git = true;
-      extraOptions = [ "--group-directories-first" ];
+      extraOptions = ["--group-directories-first"];
     };
 
     programs.fd = {
@@ -110,6 +117,7 @@
 
     programs.zoxide = {
       enable = true;
+      options = ["--cmd cd"];
     };
 
     programs.bat = {

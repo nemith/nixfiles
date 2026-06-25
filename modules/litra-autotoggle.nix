@@ -1,5 +1,9 @@
-{ self, ... }: {
-  perSystem = { pkgs, lib, ... }: {
+{self, ...}: {
+  perSystem = {
+    pkgs,
+    lib,
+    ...
+  }: {
     packages.litra-autotoggle = pkgs.rustPlatform.buildRustPackage rec {
       pname = "litra-autotoggle";
       version = "1.4.0";
@@ -13,8 +17,8 @@
 
       cargoHash = "sha256-jCLUdPUGdhFTysKLCqE1JGfUVzzDdvQDFPnelyQcDSY=";
 
-      nativeBuildInputs = [ pkgs.pkg-config ];
-      buildInputs = lib.optionals pkgs.stdenv.isLinux [ pkgs.udev ];
+      nativeBuildInputs = [pkgs.pkg-config];
+      buildInputs = lib.optionals pkgs.stdenv.isLinux [pkgs.udev];
 
       #postInstall = lib.optionalString pkgs.stdenv.isLinux ''
       #  install -Dm644 ${./litra-autotoggle.rules} $out/lib/udev/rules.d/99-litra-autotoggle.rules
@@ -29,26 +33,23 @@
     };
   };
 
-  flake.modules.homeManager.litra-autotoggle =
-    {
-      lib,
-      pkgs,
-      config,
-      ...
-    }:
-    let
-      package = self.packages.${pkgs.stdenv.hostPlatform.system}.litra-autotoggle;
-    in
-    {
-      launchd.agents.litra-autotoggle = lib.mkIf pkgs.stdenv.isDarwin {
-        enable = true;
-        config = {
-          ProgramArguments = [ "${package}/bin/litra-autotoggle" ];
-          KeepAlive = true;
-          RunAtLoad = true;
-          StandardOutPath = "${config.home.homeDirectory}/.local/state/litra-autotoggle/log";
-          ThrottleInterval = 30;
-        };
+  flake.modules.homeManager.litra-autotoggle = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: let
+    package = self.packages.${pkgs.stdenv.hostPlatform.system}.litra-autotoggle;
+  in {
+    launchd.agents.litra-autotoggle = lib.mkIf pkgs.stdenv.isDarwin {
+      enable = true;
+      config = {
+        ProgramArguments = ["${package}/bin/litra-autotoggle"];
+        KeepAlive = true;
+        RunAtLoad = true;
+        StandardOutPath = "${config.home.homeDirectory}/.local/state/litra-autotoggle/log";
+        ThrottleInterval = 30;
       };
     };
+  };
 }

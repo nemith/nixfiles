@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.claude = { pkgs, ... }: {
+  flake.modules.homeManager.claude = {pkgs, ...}: {
     programs.mcp.enable = true;
 
     programs.claude-code = {
@@ -9,25 +9,25 @@ _: {
       lspServers = {
         go = {
           command = "${pkgs.gopls}/bin/gopls";
-          args = [ "serve" ];
+          args = ["serve"];
           extensionToLanguage.".go" = "go";
         };
 
         rust = {
           command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
-          args = [ ];
+          args = [];
           extensionToLanguage.".rs" = "rust";
         };
 
         nix = {
           command = "${pkgs.nixd}/bin/nixd";
-          args = [ ];
+          args = [];
           extensionToLanguage.".nix" = "nix";
         };
 
         python = {
           command = "${pkgs.pyright}/bin/pyright-langserver";
-          args = [ "--stdio" ];
+          args = ["--stdio"];
           extensionToLanguage = {
             ".py" = "python";
             ".pyi" = "python";
@@ -36,7 +36,7 @@ _: {
 
         bash = {
           command = "${pkgs.bash-language-server}/bin/bash-language-server";
-          args = [ "start" ];
+          args = ["start"];
           extensionToLanguage = {
             ".sh" = "shellscript";
             ".bash" = "shellscript";
@@ -45,13 +45,13 @@ _: {
 
         gleam = {
           command = "${pkgs.gleam}/bin/gleam";
-          args = [ "lsp" ];
+          args = ["lsp"];
           extensionToLanguage.".gleam" = "gleam";
         };
 
         yaml = {
           command = "${pkgs.yaml-language-server}/bin/yaml-language-server";
-          args = [ "--stdio" ];
+          args = ["--stdio"];
           extensionToLanguage = {
             ".yaml" = "yaml";
             ".yml" = "yaml";
@@ -60,22 +60,26 @@ _: {
 
         terraform = {
           command = "${pkgs.terraform-ls}/bin/terraform-ls";
-          args = [ "serve" ];
+          args = ["serve"];
           extensionToLanguage.".tf" = "terraform";
         };
 
         markdown = {
           command = "${pkgs.marksman}/bin/marksman";
-          args = [ "server" ];
+          args = ["server"];
           extensionToLanguage.".md" = "markdown";
         };
       };
 
       settings = {
+        # disabled to stop the recommendation; gopls is enabled in lspServers above
+        enabledPlugins."gopls-lsp@claude-plugins-official" = false;
+
         env = {
           DISABLE_AUTOUPDATER = "1";
           DISABLE_TELEMETRY = "1";
           DISABLE_ERROR_REPORTING = "1";
+          _ZO_DOCTOR = "0";
         };
         permissions.defaultMode = "acceptEdits";
         includeCoAuthoredBy = false;

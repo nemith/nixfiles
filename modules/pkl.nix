@@ -1,5 +1,5 @@
-{ self, ... }: {
-  perSystem = { pkgs, ... }: {
+{self, ...}: {
+  perSystem = {pkgs, ...}: {
     packages.pkl-vscode = pkgs.vscode-utils.buildVscodeExtension {
       pname = "pkl-vscode";
       version = "0.20.0";
@@ -17,23 +17,20 @@
     };
   };
 
-  flake.modules.homeManager.pkl =
-    { pkgs, ... }:
-    let
-      jdk = "${pkgs.pkl.passthru.jdk or pkgs.temurin-bin-21}";
-      inherit (pkgs.stdenv.hostPlatform) system;
-    in
-    {
-      home.packages = [
-        pkgs.pkl
-        jdk
-      ];
+  flake.modules.homeManager.pkl = {pkgs, ...}: let
+    jdk = "${pkgs.pkl.passthru.jdk or pkgs.temurin-bin-21}";
+    inherit (pkgs.stdenv.hostPlatform) system;
+  in {
+    home.packages = [
+      pkgs.pkl
+      jdk
+    ];
 
-      programs.vscode.profiles.default = {
-        extensions = [ self.packages.${system}.pkl-vscode ];
-        userSettings = {
-          "pkl.javaHome" = "${jdk}";
-        };
+    programs.vscode.profiles.default = {
+      extensions = [self.packages.${system}.pkl-vscode];
+      userSettings = {
+        "pkl.javaHome" = "${jdk}";
       };
     };
+  };
 }

@@ -1,22 +1,26 @@
 _: {
-  flake.modules.homeManager.starship = { pkgs, lib, ... }: {
+  flake.modules.homeManager.starship = {
+    pkgs,
+    lib,
+    ...
+  }: {
     programs.starship = {
       enable = true;
-      settings =
-        let
-          mkGitModule = name: moduleConfig: {
-            "${name}" = {
+      settings = let
+        mkGitModule = name: moduleConfig: {
+          "${name}" =
+            {
               disabled = true;
             }
             // moduleConfig;
 
-            custom."${name}" = {
-              when = "! jj --ignore-working-copy root";
-              command = "starship module ${name}";
-              style = "";
-            };
+          custom."${name}" = {
+            when = "! jj --ignore-working-copy root";
+            command = "starship module ${name}";
+            style = "";
           };
-        in
+        };
+      in
         lib.mkMerge [
           {
             format = lib.concatStrings [
@@ -150,85 +154,85 @@ _: {
             format = "[$symbol$branch(:$remote_branch)]($style) ";
             symbol = " ";
           })
-          (mkGitModule "git_commit" { tag_symbol = "  "; })
-          (mkGitModule "git_state" { })
-          (mkGitModule "git_metrics" { })
-          (mkGitModule "git_status" { })
+          (mkGitModule "git_commit" {tag_symbol = "  ";})
+          (mkGitModule "git_state" {})
+          (mkGitModule "git_metrics" {})
+          (mkGitModule "git_status" {})
         ];
     };
 
     home.file.".config/starship-jj/starship-jj.toml".source =
-      (pkgs.formats.toml { }).generate "starship-jj.toml"
-        {
-          module = [
-            {
-              type = "Symbol";
-              symbol = " ";
-              color = "Magenta";
-            }
-            #{
-            #  type = "Commit";
-            #  max_length = 24;
-            #  empty_text = "(no description set)";
-            #  surround_with_quotes = true;
-            #}
-            {
-              type = "Bookmarks";
-              separator = " ";
-              color = "Magenta";
-              behind_symbol = "⇡";
-              surround_with_quotes = false;
-            }
-            {
-              type = "State";
-              separator = " ";
-              conflict = {
-                disabled = false;
-                text = "󰰲 ";
-                color = "Red";
-              };
-              divergent = {
-                disabled = false;
-                text = "󰵌 ";
-                color = "Cyan";
-              };
-              empty = {
-                disabled = false;
-                text = "󰟼 ";
-                color = "Yellow";
-              };
-              immutable = {
-                disabled = false;
-                text = "󰍁 ";
-                color = "Yellow";
-              };
-              hidden = {
-                disabled = false;
-                text = "󰊠 ";
-                color = "Yellow";
-              };
-            }
-            {
-              type = "Metrics";
-              template = " {changed} {added} {removed}";
-              color = "Magenta";
-              changed_files = {
-                prefix = "~";
-                suffix = "";
-                color = "Yellow";
-              };
-              added_lines = {
-                prefix = "+";
-                suffix = "";
-                color = "Green";
-              };
-              removed_lines = {
-                prefix = "-";
-                suffix = "";
-                color = "Red";
-              };
-            }
-          ];
-        };
+      (pkgs.formats.toml {}).generate "starship-jj.toml"
+      {
+        module = [
+          {
+            type = "Symbol";
+            symbol = " ";
+            color = "Magenta";
+          }
+          #{
+          #  type = "Commit";
+          #  max_length = 24;
+          #  empty_text = "(no description set)";
+          #  surround_with_quotes = true;
+          #}
+          {
+            type = "Bookmarks";
+            separator = " ";
+            color = "Magenta";
+            behind_symbol = "⇡";
+            surround_with_quotes = false;
+          }
+          {
+            type = "State";
+            separator = " ";
+            conflict = {
+              disabled = false;
+              text = "󰰲 ";
+              color = "Red";
+            };
+            divergent = {
+              disabled = false;
+              text = "󰵌 ";
+              color = "Cyan";
+            };
+            empty = {
+              disabled = false;
+              text = "󰟼 ";
+              color = "Yellow";
+            };
+            immutable = {
+              disabled = false;
+              text = "󰍁 ";
+              color = "Yellow";
+            };
+            hidden = {
+              disabled = false;
+              text = "󰊠 ";
+              color = "Yellow";
+            };
+          }
+          {
+            type = "Metrics";
+            template = " {changed} {added} {removed}";
+            color = "Magenta";
+            changed_files = {
+              prefix = "~";
+              suffix = "";
+              color = "Yellow";
+            };
+            added_lines = {
+              prefix = "+";
+              suffix = "";
+              color = "Green";
+            };
+            removed_lines = {
+              prefix = "-";
+              suffix = "";
+              color = "Red";
+            };
+          }
+        ];
+      };
   };
 }

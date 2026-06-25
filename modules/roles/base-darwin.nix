@@ -1,5 +1,5 @@
-{ self, ... }: {
-  flake.modules.darwin.base = { inputs, ... }: {
+{self, ...}: {
+  flake.modules.darwin.base = {inputs, ...}: {
     imports = [
       self.modules.darwin.nixpkgs
       self.modules.darwin.logseq
@@ -12,7 +12,7 @@
       linux-builder.enable = true;
 
       settings = {
-        trusted-users = [ "@admin" ];
+        trusted-users = ["@admin"];
         "extra-experimental-features" = [
           "nix-command"
           "flakes"
@@ -63,7 +63,7 @@
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      extraSpecialArgs = { inherit inputs; };
+      extraSpecialArgs = {inherit inputs;};
     };
 
     homebrew = {

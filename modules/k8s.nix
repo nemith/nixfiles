@@ -1,9 +1,11 @@
 _: {
-  flake.modules.homeManager.k8s = { pkgs, ... }: {
+  flake.modules.homeManager.k8s = {pkgs, ...}: {
     home.packages = with pkgs; [
       kubectl
       kubectx
-      kubernetes-helm
+      # doCheck disabled: helm 4.2.0 moved test files to pkg/cmd/ but the
+      # darwin preCheck still patches the old cmd/helm/ paths (nixpkgs#532255).
+      (kubernetes-helm.overrideAttrs (_: {doCheck = false;}))
       kubeswitch
       kustomize
       stern

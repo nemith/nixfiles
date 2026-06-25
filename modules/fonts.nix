@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.fonts = { pkgs, ... }: {
+  flake.modules.homeManager.fonts = {pkgs, ...}: {
     home.packages = with pkgs; [
       dosis
       fira-go
