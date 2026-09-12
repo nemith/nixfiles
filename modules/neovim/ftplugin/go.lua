@@ -25,7 +25,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
--- override <leader>f for Go buffers
-vim.keymap.set({ "n", "v" }, "<leader>f", function()
+-- override <leader>lf for Go buffers
+vim.keymap.set({ "n", "v" }, "<leader>lf", function()
 	go_organize_and_format(true)
 end, { buffer = 0, desc = "[F]ormat buffer (Go: organize imports + format)" })

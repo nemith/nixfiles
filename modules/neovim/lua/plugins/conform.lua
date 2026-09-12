@@ -2,7 +2,7 @@ return {
 	"conform.nvim",
 	event = "BufWritePre",
 	keys = {
-		{ "<leader>f", desc = "[F]ormat buffer", mode = { "n", "v" } },
+		{ "<leader>lf", desc = "[F]ormat buffer", mode = { "n", "v" } },
 	},
 	after = function(_)
 		require("conform").setup({
@@ -27,7 +27,7 @@ return {
 			},
 		})
 
-		vim.keymap.set({ "n", "v" }, "<leader>f", function()
+		vim.keymap.set({ "n", "v" }, "<leader>lf", function()
 			require("conform").format({ async = true })
 		end, { desc = "[F]ormat buffer" })
 	end,

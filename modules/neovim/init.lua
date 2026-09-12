@@ -85,6 +85,11 @@ vim.keymap.set("t", "<C-w>j", [[<C-\><C-n><C-w>j]], { desc = "Window down from t
 vim.keymap.set("t", "<C-w>k", [[<C-\><C-n><C-w>k]], { desc = "Window up from terminal" })
 vim.keymap.set("t", "<C-w>l", [[<C-\><C-n><C-w>l]], { desc = "Window right from terminal" })
 
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Focus window left" })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Focus window down" })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Focus window up" })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Focus window right" })
+
 vim.keymap.set("n", "<leader>-", "<cmd>split<CR>", { desc = "Horizontal split" })
 vim.keymap.set("n", "<leader>|", "<cmd>vsplit<CR>", { desc = "Vertical split" })
 vim.keymap.set("n", "<leader>x", "<cmd>close<CR>", { desc = "Close split" })
@@ -109,7 +114,7 @@ vim.api.nvim_create_user_command("Q", function(opts)
 			return false
 		end
 		local ft = vim.bo[b].filetype
-		if ft == "neo-tree" or ft == "snacks_terminal" or ft == "ClaudeCode" then
+		if ft == "snacks_terminal" then
 			return false
 		end
 		return vim.api.nvim_buf_get_name(b) ~= ""

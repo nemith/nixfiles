@@ -27,10 +27,13 @@ return {
 				nowait = true,
 			},
 			spec = {
+				{ "<leader>a", group = "[A]gent", mode = { "n", "v" } },
+				{ "<leader>b", group = "[B]uffers" },
+				{ "<leader>f", group = "[F]ind" },
+				{ "<leader>l", group = "[L]SP", mode = { "n", "v" } },
+				{ "<leader>q", group = "[Q]uit/session" },
 				{ "<leader>s", group = "[S]earch", mode = { "n", "v" } },
-				{ "<leader>t", group = "[T]oggle" },
-				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
-				{ "<leader>a", group = "AI/Claude Code" },
+				{ "<leader>t", group = "[T]oggles" },
 				{ "gr", group = "LSP Actions", mode = { "n" } },
 			},
 		})
