@@ -16,7 +16,7 @@ _: {
       ];
 
       programs.go = {
-        package = pkgs.go_1_26;
+        package = pkgs.go_1_27;
         enable = true;
         env.GOPATH = goPath;
         telemetry.mode = "off";
