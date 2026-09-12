@@ -11,8 +11,11 @@
 
     home.packages =
       with pkgs;
-      [ wireshark ]
-      ++ lib.optionals pkgs.stdenv.isLinux [
+      [
+        audacity
+        wireshark
+      ]
+      ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
         bambu-studio
         bazecor
         cider-2
