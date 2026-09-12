@@ -3,61 +3,21 @@
     { pkgs, lib, ... }:
     let
       inherit (pkgs.stdenv.hostPlatform) system;
-      package =
-        let
-          version = "1.5.4";
-          src = pkgs.applyPatches {
-            name = "zed-${version}-patched-source";
-            src = pkgs.fetchFromGitHub {
-              owner = "zed-industries";
-              repo = "zed";
-              tag = "v${version}";
-              hash = "sha256-I9+v5qeubBA9bAS4OU7V/BsxxfP5rj9aS4xvopbF578=";
-            };
-            patches = [
-              # https://github.com/zed-industries/zed/pull/58300
-              (pkgs.fetchpatch {
-                name = "claude-code-ide-integration.patch";
-                url = "https://github.com/zed-industries/zed/pull/58300.patch";
-                hash = "sha256-rmINlWZjLaTev3WCo837Hgqg8U0/L0UfRwBfJtPwptc=";
-              })
-            ];
-          };
-        in
-        pkgs.zed-editor.overrideAttrs (prev: {
-          inherit version src;
-          cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
-            pname = "zed-editor";
-            inherit version src;
-            hash = "sha256-tpy7Axfsg/dvsgReDJEEBOdnxMeaC/3D4+CaHUvlTUk=";
-            postBuild = ''
-              rm -r $out/git/*/candle-book/
-            '';
-          };
-          # zed 1.5.x's final binary is large enough that inter-section branches
-          # exceed the ARM64 ±128 MB range. nixpkgs' cctools ld64 errors out;
-          # lld inserts branch islands automatically.
-          nativeBuildInputs = (prev.nativeBuildInputs or [ ]) ++ [ pkgs.llvmPackages.bintools ];
-          env = (prev.env or { }) // {
-            NIX_CFLAGS_LINK = "-fuse-ld=lld";
-          };
-        });
     in
     {
       home.packages =
         with pkgs;
-        [ maple-mono.NF ]
-        ++ lib.optionals stdenv.isDarwin [
+        [ ioskeley-mono.normal-NF ]
+        ++ lib.optionals stdenv.hostPlatform.isDarwin [
           (writeShellScriptBin "zed" ''
             exec zeditor --zed "$HOME/Applications/Home Manager Apps/Zed.app" "$@"
           '')
         ];
 
-      home.shellAliases = lib.mkIf pkgs.stdenv.isDarwin { zeditor = "zed"; };
+      home.shellAliases = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin { zeditor = "zed"; };
 
       programs.zed-editor = {
         enable = true;
-        inherit package;
 
         enableMcpIntegration = true;
         installRemoteServer = true;
@@ -146,14 +106,23 @@
           hour_format = "hour24";
           base_keymap = "VSCode";
           vim_mode = true;
+          which_key.enabled = true;
           format_on_save = "on";
           formatter = "language_server";
 
           bottom_dock_layout = "right_aligned";
-          buffer_font_family = "Maple Mono NF";
+          buffer_font_family = "IoskeleyMono Nerd Font";
           buffer_font_size = 12;
+          project_panel.dock = "left";
+          agent.dock = "right";
           terminal = {
-            font_family = "Maple Mono NF";
+            font_family = "IoskeleyMono Nerd Font";
+            dock = "bottom";
+            env = {
+              EDITOR = "zed --wait";
+              VISUAL = "zed --wait";
+              GIT_EDITOR = "zed --wait";
+            };
           };
           colorize_brackets = true;
           code_lens = "on";
@@ -164,21 +133,9 @@
           };
 
           auto_update = false;
-          relative_line_numbers = true;
+          relative_line_numbers = "enabled";
           git.inline_blame.enabled = true;
-
-          features = {
-            edit_predictions_provider = "copilot";
-          };
-
-          agent_servers = {
-            "claude-acp" = {
-              env = {
-                ACP_PERMISSION_MODE = "acceptEdits";
-                ACP_PATH_TO_CLAUDE_CODE_EXECUTABLE = "${pkgs.claude-code}/bin/claude";
-              };
-            };
-          };
+          edit_predictions.provider = "copilot";
 
           file_types = {
             "GitHub Actions" = [
@@ -313,6 +270,7 @@
               format_on_save = "on";
               tab_size = 4;
               hard_tabs = true;
+              inlay_hints.enabled = false;
             };
 
             Python = {
@@ -412,10 +370,7 @@
         userKeymaps = [
           {
             bindings = {
-              "cmd-alt-c" = [
-                "agent::NewExternalAgentThread"
-                { agent.custom.name = "claude-acp"; }
-              ];
+              "cmd-alt-c" = "agent::NewTerminalThread";
             };
           }
         ];
