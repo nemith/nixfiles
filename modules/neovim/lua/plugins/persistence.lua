@@ -7,28 +7,28 @@ return {
 			function()
 				require("persistence").load()
 			end,
-			desc = "Restore Session",
+			desc = "Restore [S]ession",
 		},
 		{
 			"<leader>qS",
 			function()
 				require("persistence").select()
 			end,
-			desc = "Select Session",
+			desc = "Select [S]ession",
 		},
 		{
 			"<leader>ql",
 			function()
 				require("persistence").load({ last = true })
 			end,
-			desc = "Restore Last Session",
+			desc = "Restore [L]ast session",
 		},
 		{
 			"<leader>qd",
 			function()
 				require("persistence").stop()
 			end,
-			desc = "Don't Save Current Session",
+			desc = "[D]on't save current session",
 		},
 	},
 	after = function(_)

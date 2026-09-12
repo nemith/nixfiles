@@ -19,25 +19,6 @@ return {
 		before = function(_)
 			vim.lsp.config("*", {
 				on_attach = function(client, bufnr)
-					local map = function(keys, func, desc, mode)
-						mode = mode or "n"
-						vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
-					end
-
-					map("grn", vim.lsp.buf.rename, "[R]e[n]ame")
-					map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
-					map("grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
-					local has_telescope, builtin = pcall(require, "telescope.builtin")
-					if has_telescope then
-						map("grr", builtin.lsp_references, "[G]oto [R]eferences")
-						map("gri", builtin.lsp_implementations, "[G]oto [I]mplementation")
-						map("grd", builtin.lsp_definitions, "[G]oto [D]efinition")
-						map("gO", builtin.lsp_document_symbols, "Open Document Symbols")
-						map("gW", builtin.lsp_dynamic_workspace_symbols, "Open Workspace Symbols")
-						map("grt", builtin.lsp_type_definitions, "[G]oto [T]ype Definition")
-					end
-
 					if client and client:supports_method("textDocument/documentHighlight", bufnr) then
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 							buffer = bufnr,
@@ -49,12 +30,6 @@ return {
 							group = hl_group,
 							callback = vim.lsp.buf.clear_references,
 						})
-					end
-
-					if client and client:supports_method("textDocument/inlayHint", bufnr) then
-						map("<leader>th", function()
-							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }))
-						end, "[T]oggle Inlay [H]ints")
 					end
 				end,
 			})

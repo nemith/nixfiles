@@ -2,7 +2,7 @@ return {
 	"bufferline.nvim",
 	lazy = false,
 	after = function(_)
-		require("bufferline").setup({
+		local config = {
 			options = {
 				diagnostics = "nvim_lsp",
 				always_show_bufferline = true,
@@ -16,13 +16,15 @@ return {
 					},
 				},
 			},
-		})
-		vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
-		vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
-		vim.keymap.set("n", "<leader>bo", "<cmd>BufferLineCloseOthers<CR>", { desc = "[B]uffer close [O]thers" })
+		}
 
 		if (vim.g.colors_name or ""):find("catppuccin") then
-			vim.opts.highlights = require("catppuccin.special.bufferline").get_theme()
+			config.highlights = require("catppuccin.special.bufferline").get_theme()
 		end
+
+		require("bufferline").setup(config)
+		vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
+		vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
+		vim.keymap.set("n", "<leader>bo", "<cmd>BufferLineCloseOthers<CR>", { desc = "Close [O]ther buffers" })
 	end,
 }
