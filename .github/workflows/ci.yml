@@ -17,7 +17,7 @@ jobs:
       - name: Setup Nix
         uses: ./.github/actions/setup-nix
         with:
-          skip-space-reclaimation: "true"
+          skip-space-reclamation: "true"
       - name: Check lint
         run: nix fmt -- --fail-on-change
   discover:
@@ -32,7 +32,7 @@ jobs:
       - name: Setup Nix
         uses: ./.github/actions/setup-nix
         with:
-          skip-space-reclaimation: "true"
+          skip-space-reclamation: "true"
       - name: Discover hosts
         id: hosts
         run: |
