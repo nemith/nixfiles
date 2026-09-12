@@ -1,8 +1,6 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs_teleport_16.url = "github:nixos/nixpkgs/e1ebeec86b771e9d387dd02d82ffdc77ac753abc";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,6 +23,11 @@
 
     jj-lsp = {
       url = "github:nilskch/jj-lsp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    jj-gh = {
+      url = "github:mrjones2014/jj-gh";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

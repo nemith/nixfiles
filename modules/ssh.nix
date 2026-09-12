@@ -9,7 +9,7 @@ _: {
         "*" = {
           AddKeysToAgent = "yes";
         }
-        // lib.optionalAttrs pkgs.stdenv.isDarwin { UseKeychain = "yes"; };
+        // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin { UseKeychain = "yes"; };
       };
     };
   };
