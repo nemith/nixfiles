@@ -1,8 +1,8 @@
-{ inputs, ... }: {
+_: {
   flake.lib.mkFirefoxConfig =
     pkgs:
     let
-      nur = inputs.nur.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+      addons = pkgs.nur.repos.rycee.firefox-addons;
     in
     {
       policies = {
@@ -23,9 +23,9 @@
         };
         extensions = {
           force = true;
-          packages = with nur.repos.rycee.firefox-addons; [
+          packages = with addons; [
             ublock-origin
-            bitwarden
+            addons."1password-x-password-manager"
             gnome-shell-integration
           ];
         };

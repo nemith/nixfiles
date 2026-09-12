@@ -14,9 +14,9 @@
       cargoHash = "sha256-jCLUdPUGdhFTysKLCqE1JGfUVzzDdvQDFPnelyQcDSY=";
 
       nativeBuildInputs = [ pkgs.pkg-config ];
-      buildInputs = lib.optionals pkgs.stdenv.isLinux [ pkgs.udev ];
+      buildInputs = lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.udev ];
 
-      #postInstall = lib.optionalString pkgs.stdenv.isLinux ''
+      #postInstall = lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
       #  install -Dm644 ${./litra-autotoggle.rules} $out/lib/udev/rules.d/99-litra-autotoggle.rules
       #'';
 
@@ -40,7 +40,7 @@
       package = self.packages.${pkgs.stdenv.hostPlatform.system}.litra-autotoggle;
     in
     {
-      launchd.agents.litra-autotoggle = lib.mkIf pkgs.stdenv.isDarwin {
+      launchd.agents.litra-autotoggle = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
         enable = true;
         config = {
           ProgramArguments = [ "${package}/bin/litra-autotoggle" ];

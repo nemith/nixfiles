@@ -3,7 +3,7 @@
     programs.librewolf = (self.lib.mkFirefoxConfig pkgs) // {
       enable = true;
       package =
-        if pkgs.stdenv.isLinux then
+        if pkgs.stdenv.hostPlatform.isLinux then
           pkgs.librewolf.override { nativeMessagingHosts = [ pkgs.gnome-browser-connector ]; }
         else
           pkgs.librewolf;

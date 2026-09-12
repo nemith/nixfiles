@@ -35,10 +35,14 @@
         CreateDesktop = false;
       };
 
+      # Disable Spotlight's Cmd-Space so Raycast can take it over.
+      # (Set Cmd-Space as Raycast's hotkey inside the Raycast app itself.)
+      CustomUserPreferences."com.apple.symbolichotkeys".AppleSymbolicHotKeys."64".enabled = false;
+
       NSGlobalDomain = {
         "com.apple.sound.beep.feedback" = 0; # Disable beep sound
         AppleInterfaceStyle = "Dark";
-        ApplePressAndHoldEnabled = false; # For key repeat in VSCode etc.
+        ApplePressAndHoldEnabled = false; # For key repeat in editors
         InitialKeyRepeat = 15; # Key repeat initial delay (15 = 225ms)
         KeyRepeat = 2; # Key repeat interval (2 = 30ms)
         NSAutomaticCapitalizationEnabled = false;
@@ -66,6 +70,13 @@
       extraSpecialArgs = { inherit inputs; };
     };
 
+    # nix-darwin manages Homebrew packages but doesn't add its bin dirs to the
+    # PATH; do it explicitly (Apple Silicon prefix).
+    environment.systemPath = [
+      "/opt/homebrew/bin"
+      "/opt/homebrew/sbin"
+    ];
+
     homebrew = {
       enable = true;
       onActivation = {
@@ -80,16 +91,18 @@
       casks = [
         "autodesk-fusion"
         "bambu-studio"
-        "bambu-studio"
         "bazecor" # Dygma keyboard utility (https://dygma.com/pages/programmable-keyboard)
         "bettermouse"
+        "chatgpt"
+        "claude"
         "discord"
+        "lm-studio"
         "monodraw"
         "orbstack"
         "raycast"
         "rectangle"
         "utm"
-        "visual-studio-code"
+        "whatsapp"
         "wireshark-app"
       ];
     };
