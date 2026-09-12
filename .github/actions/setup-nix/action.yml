@@ -1,7 +1,7 @@
 name: 'Setup Nix'
 description: 'Install Nix'
 inputs:
-  skip-space-reclaimation:
+  skip-space-reclamation:
     description: 'Skip the reclaiming space for nix'
     required: false
     default: 'false'
@@ -9,7 +9,7 @@ runs:
   using: 'composite'
   steps:
     - uses: wimpysworld/nothing-but-nix@main
-      if: github.event.inputs.skip-space-reclaimation != 'true' && runner.os == 'Linux'
+      if: inputs.skip-space-reclamation != 'true' && runner.os == 'Linux'
       with:
         nix-permission-edict: true
     - name: Install Nix

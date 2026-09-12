@@ -22,7 +22,6 @@ jobs:
         uses: actions/checkout@v5
         with:
           token: ${{ steps.app-token.outputs.token }}
-          fetch-depth: '2' # We need the previous commit for history
       - name: Setup Git user
         run: |
           git config user.name "github-actions[bot]"
@@ -33,7 +32,7 @@ jobs:
         id: check-pr
         run: |
           existing_pr=$(gh pr list --state open --label "flake-update" --json number --jq '.[0].number // empty')
-          echo "existing_pr_number=$existing_pr" >> $GITHUB_OUTPUT
+          echo "existing_pr_number=$existing_pr" >> "$GITHUB_OUTPUT"
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
       - name: Setup branch
@@ -53,17 +52,17 @@ jobs:
           nix flake update
 
           # Check if anything actually changed
-          if git diff HEAD~1 --quiet flake.lock; then
+          if git diff --quiet -- flake.lock; then
             echo "No updates available"
-            echo "updates_available=false" >> $GITHUB_OUTPUT
+            echo "updates_available=false" >> "$GITHUB_OUTPUT"
           else
-            echo "updates_available=true" >> $GITHUB_OUTPUT
+            echo "updates_available=true" >> "$GITHUB_OUTPUT"
           fi
       - name: Generate update summary
         if: steps.update.outputs.updates_available == 'true'
         run: |
           TMP_DIR=$(mktemp -d)
-          git show HEAD~1:flake.lock > "$TMP_DIR/old_flake.lock"
+          git show HEAD:flake.lock > "$TMP_DIR/old_flake.lock"
 
           echo "::group::Old flake.lock"
           cat "$TMP_DIR/old_flake.lock"
